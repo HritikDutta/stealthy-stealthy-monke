@@ -36,7 +36,7 @@ public class MonkeMove : MonoBehaviour
             targetPosition = bananaYumYum.position + new Vector3(3 * multiplier * Random.Range(-1f, 1f), 3 *  multiplier * Random.Range(-1f, 1f), 0f);
 
         actualPosition = Vector3.MoveTowards(actualPosition, targetPosition, multiplier * moveSpeed * Time.deltaTime);
-        bool facingLeft = targetPosition.x >= actualPosition.x;
+        bool facingLeft = bananaYumYum.position.x >= actualPosition.x;
 
         if (!isJumping && (Time.time - lastJumpTime) >= 0.15f && Random.Range(0f, 1f) <= hopchance)
         {
