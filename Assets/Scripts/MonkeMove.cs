@@ -12,6 +12,7 @@ public class MonkeMove : MonoBehaviour
     public float hopchance = 0.75f;
     public float multiplier = 0.04f;
 
+    private Vector3 targetPosition;
     private Vector3 actualPosition;
     private Vector3 offsetPosition;
     private float verticalVelocity;
@@ -29,12 +30,15 @@ public class MonkeMove : MonoBehaviour
         lastJumpTime = Time.time;
     }
 
-    void Update()
+    void LateUpdate()
     {
-        actualPosition = Vector3.MoveTowards(actualPosition, bananaYumYum.position, multiplier * moveSpeed * Time.deltaTime);
-        bool facingLeft = bananaYumYum.position.x >= actualPosition.x;
+        if (Input.GetMouseButton(0))
+            targetPosition = bananaYumYum.position + new Vector3(3 * multiplier * Random.Range(-1f, 1f), 3 *  multiplier * Random.Range(-1f, 1f), 0f);
 
-        if (!isJumping && (Time.time - lastJumpTime) >= 0.35f && Random.Range(0f, 1f) >= hopchance)
+        actualPosition = Vector3.MoveTowards(actualPosition, targetPosition, multiplier * moveSpeed * Time.deltaTime);
+        bool facingLeft = targetPosition.x >= actualPosition.x;
+
+        if (!isJumping && (Time.time - lastJumpTime) >= 0.15f && Random.Range(0f, 1f) <= hopchance)
         {
             verticalVelocity = hopSpeed;
             isJumping = true;

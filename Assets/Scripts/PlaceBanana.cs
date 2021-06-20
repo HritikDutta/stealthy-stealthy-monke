@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // @Watch: https://youtu.be/YnwOoxtgZQI
+// @Watch: https://learn.unity.com/tutorial/2d-roguelike-setup-and-assets?uv=5.x&projectId=5c514a00edbc2a0020694718#5c7f8528edbc2a002053b6f8
 
 public class PlaceBanana : MonoBehaviour
 {
