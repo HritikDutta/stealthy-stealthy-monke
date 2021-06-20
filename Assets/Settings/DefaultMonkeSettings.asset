@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: DefaultMonkeSettings
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  hopSpeed: 5
-  gravity: 20
-  hopchance: 0.075
+  hopSpeed: 8
+  gravity: 40
+  hopchance: 0.1

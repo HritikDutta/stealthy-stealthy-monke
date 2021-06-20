@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bananaYumYum: {fileID: 0}
   settings: {fileID: 11400000, guid: 12e1ee5ed218a9848a27cbb4869c45bc, type: 2}
+  finder: {fileID: 0}
   groundTilemap: {fileID: 0}
   levelTilemap: {fileID: 0}
 --- !u!50 &2318446326786956846
