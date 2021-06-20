@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Room Tileset
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 0
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 2
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
+    totalSpriteSurfaceArea: 1728
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 2403724249865808194, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
+  - {fileID: -3309781605116015348, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
+  - {fileID: -72156938504300551, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
+  - {fileID: -6056380807486736462, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
+  - {fileID: -8480404140891905064, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
+  - {fileID: -6108889420429456849, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
+  - {fileID: -8025435653959805260, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
+  - {fileID: 4938342473259674171, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
+  - {fileID: 5441223297315994465, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
+  - {fileID: 7769453424612927293, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
+  - {fileID: 8040196581939011165, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
+  - {fileID: 5682393469540925955, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - wall top
+  - banan
+  - wall right
+  - wall left
+  - floor
+  - demon
+  - wall bottom
+  - wall bottom right
+  - monke
+  - wall bottom left
+  - wall top right
+  - wall top left
+  m_RenderDataMap: {}
+  m_Tag: Room Tileset
+  m_IsVariant: 0
