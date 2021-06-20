@@ -12,7 +12,8 @@ public class PlaceBanana : MonoBehaviour
     public Tilemap levelTilemap;
 
     public Transform bananaTransform;
-    public Camera camera;
+
+    private Camera camera;
 
     void Start()
     {
