@@ -15,4 +15,4 @@ MonoBehaviour:
   moveSpeed: 5
   hopSpeed: 5
   gravity: 20
-  hopchance: 0.5
+  hopchance: 0.075
