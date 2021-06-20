@@ -5,10 +5,7 @@ using UnityEngine;
 public class MonkeHop : MonoBehaviour
 {
     public Transform bananaYumYum;
-
-    public float hopSpeed  = 5f;
-    public float gravity   = 20f;
-    public float hopchance = 0.5f;
+    public MonkeSettings settings;
 
     private float verticalVelocity;
     private bool isJumping = false;
@@ -30,9 +27,9 @@ public class MonkeHop : MonoBehaviour
     void FixedUpdate()
     {
         // Hopping
-        if (!isJumping && (Time.time - lastJumpTime) >= 0.15f && Random.Range(0f, 1f) <= hopchance)
+        if (!isJumping && (Time.time - lastJumpTime) >= 0.15f && Random.Range(0f, 1f) <= settings.hopchance)
         {
-            verticalVelocity = hopSpeed;
+            verticalVelocity = settings.hopSpeed;
             isJumping = true;
         }
 
@@ -41,7 +38,7 @@ public class MonkeHop : MonoBehaviour
             float height = transform.localPosition.y;
             height += (verticalVelocity * Time.fixedDeltaTime);
 
-            verticalVelocity -= gravity * Time.fixedDeltaTime;
+            verticalVelocity -= settings.gravity * Time.fixedDeltaTime;
 
             if (height <= 0f)
             {

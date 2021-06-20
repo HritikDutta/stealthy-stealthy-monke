@@ -6,8 +6,7 @@ using UnityEngine.Tilemaps;
 public class MonkeMove : MonoBehaviour
 {
     public Transform bananaYumYum;
-
-    public float moveSpeed = 5f;
+    public MonkeSettings settings;
 
     public Tilemap groundTilemap;
     public Tilemap levelTilemap;
@@ -33,7 +32,7 @@ public class MonkeMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 move = Vector3.MoveTowards(rb.position, targetPosition, moveSpeed * Time.deltaTime);
+        Vector3 move = Vector3.MoveTowards(rb.position, targetPosition, settings.moveSpeed * Time.deltaTime);
         rb.MovePosition(move);
     }
 

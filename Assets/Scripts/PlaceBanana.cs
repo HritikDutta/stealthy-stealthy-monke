@@ -18,6 +18,14 @@ public class PlaceBanana : MonoBehaviour
     void Start()
     {
         camera = Camera.main;
+
+        // @Temp: Bananas won't be visible from the start
+        Vector3Int gridPosition = groundTilemap.WorldToCell(bananaTransform.position);
+        Vector3 position = (Vector3) gridPosition;
+        position.x += 0.5f;
+        position.y += 0.5f;
+
+        bananaTransform.position = position;
     }
 
     void Update()
