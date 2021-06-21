@@ -144,7 +144,7 @@ public class MonkeBehaviour : MonoBehaviour
         {
             case MonkeRunMode.RunBack:
             {
-                if (currentPathIndex < 0)
+                if (currentPathIndex < 0)   // @Todo: What if the starting position was close by?? Maybe fall back to scatter? Or move-back more steps?? Soo many questions?????
                 {
                     mood = MonkeMood.Idle;
                     visual.SetTarget(guardTransform, true);
