@@ -3108,6 +3108,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1868454892760559443, guid: dc0d431c5179a1e48af733158748b8d6, type: 3}
+      propertyPath: hiveMind
+      value: 
+      objectReference: {fileID: 290008446}
+    - target: {fileID: 1868454892760559443, guid: dc0d431c5179a1e48af733158748b8d6, type: 3}
       propertyPath: settings
       value: 
       objectReference: {fileID: 11400000, guid: 1d774020d8d2a9348a89c870338326a2, type: 2}
@@ -3117,6 +3121,10 @@ PrefabInstance:
       objectReference: {fileID: 309945299}
     - target: {fileID: 1868454892760559443, guid: dc0d431c5179a1e48af733158748b8d6, type: 3}
       propertyPath: moves.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1868454892760559443, guid: dc0d431c5179a1e48af733158748b8d6, type: 3}
+      propertyPath: steps.Array.size
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1868454892760559443, guid: dc0d431c5179a1e48af733158748b8d6, type: 3}
@@ -3141,6 +3149,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1868454892760559443, guid: dc0d431c5179a1e48af733158748b8d6, type: 3}
       propertyPath: moves.Array.data[6]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1868454892760559443, guid: dc0d431c5179a1e48af733158748b8d6, type: 3}
+      propertyPath: steps.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1868454892760559443, guid: dc0d431c5179a1e48af733158748b8d6, type: 3}
+      propertyPath: steps.Array.data[2]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1868454892760559443, guid: dc0d431c5179a1e48af733158748b8d6, type: 3}
+      propertyPath: steps.Array.data[3]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1868454892760559443, guid: dc0d431c5179a1e48af733158748b8d6, type: 3}
+      propertyPath: steps.Array.data[4]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1868454892760559443, guid: dc0d431c5179a1e48af733158748b8d6, type: 3}
+      propertyPath: steps.Array.data[5]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1868454892760559443, guid: dc0d431c5179a1e48af733158748b8d6, type: 3}
+      propertyPath: steps.Array.data[6]
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1868454892760559444, guid: dc0d431c5179a1e48af733158748b8d6, type: 3}

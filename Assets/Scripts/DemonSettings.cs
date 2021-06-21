@@ -6,4 +6,5 @@ using UnityEngine;
 public class DemonSettings : ScriptableObject
 {
     public float moveSpeed = 2f;
+    public DemonState startState = DemonState.Patrolling;
 }

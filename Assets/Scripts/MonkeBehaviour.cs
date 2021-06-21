@@ -17,7 +17,7 @@ public enum MonkeRunMode
     Scatter,
 }
 
-public class MonkeMove : MonoBehaviour
+public class MonkeBehaviour : MonoBehaviour
 {
     [Header("Behaviour")]
     public MonkeMood mood;

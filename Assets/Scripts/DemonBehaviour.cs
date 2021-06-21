@@ -11,24 +11,27 @@ public enum DemonState
     Returning,
 }
 
-public class DemonMove : MonoBehaviour
+public class DemonBehaviour : MonoBehaviour
 {
+    [Header("Settings")]
     public DemonSettings settings;
 
     [Header("Level")]
     public Tilemap groundTilemap;
+    public MonkeHiveMind hiveMind;
 
     [Header("Movement")]
-    public List<int> moves = new List<int>();
+    public List<int> steps = new List<int>();
 
-    private static int[] stepsX = new int[] { -1,     0,   0,     1 };
-    private static int[] stepsY = new int[] {  0,     1,  -1,     0 };
+    [Header("Behaviour")]
+    public DemonState state;
+
+    private static int[] stepX = new int[] { -1,     0,   0,     1 };
+    private static int[] stepY = new int[] {  0,     1,  -1,     0 };
     //                                        ^Left  ^Up  ^Down  ^Right
 
     private int currentStepIndex = 0;
     private Vector3Int currentGridPosition;
-
-    public DemonState state;
 
     private Rigidbody2D rb;
 
@@ -39,7 +42,7 @@ public class DemonMove : MonoBehaviour
         currentGridPosition = groundTilemap.WorldToCell(rb.position);
         rb.position = (Vector3) currentGridPosition + new Vector3(0.5f, 0.5f, 0f);
 
-        state = DemonState.Patrolling;
+        state = settings.startState;
     }
 
     void Update()
@@ -64,18 +67,27 @@ public class DemonMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        int moveIndex = moves[currentStepIndex];
-
-        Vector3Int targetGridPosition = currentGridPosition + new Vector3Int(stepsX[moveIndex], stepsY[moveIndex], 0);
-        Vector2 targetPosition = (Vector2) ((Vector3) targetGridPosition) + new Vector2(0.5f, 0.5f);
-        
-        Vector2 move = Vector2.MoveTowards(rb.position, targetPosition, settings.moveSpeed * Time.fixedDeltaTime);
-        rb.MovePosition(move);
-
-        if ((rb.position - targetPosition).sqrMagnitude < 0.01f)
+        switch (state)
         {
-            currentGridPosition = targetGridPosition;
-            currentStepIndex = (currentStepIndex + 1) % moves.Count;
+            case DemonState.Patrolling:
+            {
+                if (steps.Count == 0)
+                    return;
+                
+                int moveIndex = steps[currentStepIndex];
+
+                Vector3Int targetGridPosition = currentGridPosition + new Vector3Int(stepX[moveIndex], stepY[moveIndex], 0);
+                Vector2 targetPosition = (Vector2) ((Vector3) targetGridPosition) + new Vector2(0.5f, 0.5f);
+                
+                Vector2 move = Vector2.MoveTowards(rb.position, targetPosition, settings.moveSpeed * Time.fixedDeltaTime);
+                rb.MovePosition(move);
+
+                if ((rb.position - targetPosition).sqrMagnitude < 0.01f)
+                {
+                    currentGridPosition = targetGridPosition;
+                    currentStepIndex = (currentStepIndex + 1) % steps.Count;
+                }
+            } break;
         }
     }
 }

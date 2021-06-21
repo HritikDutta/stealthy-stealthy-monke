@@ -15,7 +15,7 @@ public class MonkeHiveMind : MonoBehaviour
     public MonkeRunMode runMode;
 
     [Header("Units")]
-    public List<MonkeMove>   units = new List<MonkeMove>();
+    public List<MonkeBehaviour>   units = new List<MonkeBehaviour>();
 
     private Camera camera;
     private PathFinder finder;
