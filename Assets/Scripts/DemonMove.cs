@@ -18,9 +18,6 @@ public class DemonMove : MonoBehaviour
     [Header("Level")]
     public Tilemap groundTilemap;
 
-    [Header("REMOVE LATER")]
-    public GameObject debugDot;
-
     [Header("Movement")]
     public List<int> moves = new List<int>();
 
@@ -35,17 +32,12 @@ public class DemonMove : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    // @Todo: For debugging, remove later
-    private GameObject dot;
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
 
         currentGridPosition = groundTilemap.WorldToCell(rb.position);
         rb.position = (Vector3) currentGridPosition + new Vector3(0.5f, 0.5f, 0f);
-
-        dot = Instantiate(debugDot);
 
         state = DemonState.Patrolling;
     }
@@ -68,22 +60,15 @@ public class DemonMove : MonoBehaviour
         // Check surrounding tiles for monkeys
         // If monkey is found, start Chasing
         // If reached last grid cell, start Patrolling
-
-        // @Todo: For debugging, Remove Later
-        if (moves.Count == 0)
-            return;
-
-        int moveIndex = moves[currentStepIndex];
-        Vector3Int targetGridPosition = currentGridPosition + new Vector3Int(stepsX[moveIndex], stepsY[moveIndex], 0);
-        Vector3 targetPosition = (Vector3) targetGridPosition + new Vector3(0.5f, 0.5f, 0);
-        dot.transform.position = targetPosition;
     }
 
     void FixedUpdate()
     {
         int moveIndex = moves[currentStepIndex];
+
         Vector3Int targetGridPosition = currentGridPosition + new Vector3Int(stepsX[moveIndex], stepsY[moveIndex], 0);
         Vector2 targetPosition = (Vector2) ((Vector3) targetGridPosition) + new Vector2(0.5f, 0.5f);
+        
         Vector2 move = Vector2.MoveTowards(rb.position, targetPosition, settings.moveSpeed * Time.fixedDeltaTime);
         rb.MovePosition(move);
 

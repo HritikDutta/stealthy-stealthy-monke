@@ -149,7 +149,7 @@ public class MonkeMove : MonoBehaviour
             {
                 if (currentPathIndex < 0)
                 {
-                    StopRuningAway();
+                    StopRuningAway();   // @Todo: What if the starting position was close by?? Maybe fall back to scatter? Or move-back more steps?? Soo many questions?????
                     break;
                 }
 
@@ -204,7 +204,7 @@ public class MonkeMove : MonoBehaviour
                 }
 
                 // Give Up!
-                StopRuningAway();  // @Temp
+                StopRuningAway();  // @Temp: This phase should end when the guard stops chasing
             } break;
         }
     }
