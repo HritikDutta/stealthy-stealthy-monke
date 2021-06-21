@@ -11,11 +11,10 @@ public class MonkeHiveMind : MonoBehaviour
 
     [Header("Controls")]
     public Transform bananaTransform;
-    public Transform guardTransform;
     public MonkeRunMode runMode;
 
     [Header("Units")]
-    public List<MonkeBehaviour>   units = new List<MonkeBehaviour>();
+    public List<MonkeBehaviour> units = new List<MonkeBehaviour>();
 
     private Camera camera;
     private PathFinder finder;
@@ -59,11 +58,23 @@ public class MonkeHiveMind : MonoBehaviour
             for (int i = 0; i < units.Count; i++)
                 units[i].FindPathToBanana(finder, bananaTransform);
         }
+    }
 
-        if (Input.GetMouseButtonDown(1))
-        {
-            for (int i = 0; i < units.Count; i++)
-                units[i].StartRuningAway(guardTransform, runMode);
-        }
+    public void DemonStartedChasing(Transform guardTransform)
+    {
+        for (int i = 0; i < units.Count; i++)
+            units[i].StartRuningAway(guardTransform, runMode);
+    }
+
+    public void DemonStoppedChasing()
+    {
+        for (int i = 0; i < units.Count; i++)
+            units[i].StopRuningAway();
+    }
+
+    public void Captured(MonkeBehaviour monke)
+    {
+        monke.mood = MonkeMood.Captured;
+        units.Remove(monke);
     }
 }
