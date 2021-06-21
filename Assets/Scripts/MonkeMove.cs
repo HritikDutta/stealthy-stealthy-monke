@@ -15,7 +15,7 @@ public class MonkeMove : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    private List<Vector3Int> gridPath;
+    private List<Vector3> gridPath;
     private int currentPathIndex;
 
     // To find a spot on or around banana
@@ -26,7 +26,7 @@ public class MonkeMove : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
-        gridPath = new List<Vector3Int>();
+        gridPath = new List<Vector3>();
         currentPathIndex = 0;
 
         Vector3Int startPos = groundTilemap.WorldToCell(rb.position);
@@ -49,21 +49,32 @@ public class MonkeMove : MonoBehaviour
         if (currentPathIndex >= gridPath.Count)
             return;
 
-        Vector3 targetPosition = (Vector3) gridPath[currentPathIndex] + new Vector3(0.5f, 0.5f, 0f);
-        Vector3 move = Vector3.MoveTowards(rb.position, targetPosition, settings.moveSpeed * Time.deltaTime);
+        Vector3 move = Vector3.MoveTowards(rb.position, gridPath[currentPathIndex], settings.moveSpeed * Time.fixedDeltaTime);
         rb.MovePosition(move);
 
-        if (((Vector3) rb.position - targetPosition).sqrMagnitude < 0.01f)
+        if (((Vector3) rb.position - gridPath[currentPathIndex]).sqrMagnitude < 0.01f)
             currentPathIndex++;
     }
 
-    // @Todo: Change this to return Vector3Int for pathfinding
     Vector3Int FindPositionAroundBanana()
     {
         Vector3Int bananaGridPosition = groundTilemap.WorldToCell(bananaYumYum.position);
 
         int offsetIndex = Random.Range(0, gridYOffsets.Length);
-        for (int i = offsetIndex; i != offsetIndex - 1; i = (i + 1) % gridYOffsets.Length)
+
+        {   // Swap X Offsets
+            int temp = gridXOffsets[0];
+            gridXOffsets[0] = gridXOffsets[offsetIndex];
+            gridXOffsets[offsetIndex] = temp;
+        }
+
+        {   // Swap Y Offsets
+            int temp = gridYOffsets[0];
+            gridYOffsets[0] = gridYOffsets[offsetIndex];
+            gridYOffsets[offsetIndex] = temp;
+        }
+
+        for (int i = 0; i != gridYOffsets.Length; i++)
         {
             Vector3Int positionToCheck = bananaGridPosition + new Vector3Int(gridXOffsets[i], gridYOffsets[i], 0);
             if (groundTilemap.HasTile(positionToCheck) && !levelTilemap.HasTile(positionToCheck))

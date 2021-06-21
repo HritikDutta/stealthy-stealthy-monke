@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c5587b82163d214382d528385cfabec, type: 3}
-  m_Name: DefaultMonkeSettings
+  m_Script: {fileID: 11500000, guid: 60f11e2be57e0bc4797f603ccef7a03d, type: 3}
+  m_Name: DefaultDemonSettings
   m_EditorClassIdentifier: 
-  moveSpeed: 6.5
-  hopSpeed: 8
-  gravity: 40
-  hopchance: 0.1
+  moveSpeed: 2

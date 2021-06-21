@@ -27,8 +27,10 @@ public class PathFinder : MonoBehaviour
             position = _position;
         }
 
-        public int FullCost {
-            get {
+        public int FullCost
+        {
+            get
+            {
                 return distanceRemaining + distanceTravelled;
             }
         }
@@ -56,9 +58,9 @@ public class PathFinder : MonoBehaviour
         }
     }
 
-    public bool UpdatePath(Vector3Int startPosition, Vector3Int endPosition, ref List<Vector3Int> gridPath)
+    public bool UpdatePath(Vector3Int startPosition, Vector3Int endPosition, ref List<Vector3> gridPath)
     {
-        Heap<Node> openSet = new Heap<Node>(groundTilemap.size.x * groundTilemap.size.y);
+        Heap<Node> openSet = new Heap<Node>(10 * groundTilemap.size.x * groundTilemap.size.y);  // @Todo: Reduce this size
         closedSet.Clear();
 
         Node startNode = new Node(startPosition);
@@ -103,7 +105,7 @@ public class PathFinder : MonoBehaviour
         return false;
     }
 
-    void WalkBack(Node finalNode, ref List<Vector3Int> gridPath)
+    void WalkBack(Node finalNode, ref List<Vector3> gridPath)
     {
         gridPath.Clear();
 
@@ -111,7 +113,7 @@ public class PathFinder : MonoBehaviour
 
         while (currentNode != null)
         {
-            gridPath.Add(currentNode.position);
+            gridPath.Add((Vector3) currentNode.position + new Vector3(0.5f, 0.5f, 0f));
             currentNode = currentNode.parent;
         }
 
