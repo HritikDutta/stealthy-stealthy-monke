@@ -69,7 +69,7 @@ public class DemonMove : MonoBehaviour
         // If monkey is found, start Chasing
         // If reached last grid cell, start Patrolling
 
-        // @Todo: Remove Later
+        // @Todo: For debugging, Remove Later
         if (moves.Count == 0)
             return;
 

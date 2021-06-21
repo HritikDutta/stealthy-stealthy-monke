@@ -3,21 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-// @Watch: https://youtu.be/YnwOoxtgZQI
-// @Watch: https://learn.unity.com/tutorial/2d-roguelike-setup-and-assets?uv=5.x&projectId=5c514a00edbc2a0020694718#5c7f8528edbc2a002053b6f8
-
-public class PlaceBanana : MonoBehaviour
+public class MonkeHiveMind : MonoBehaviour
 {
+    [Header("Level")]
     public Tilemap groundTilemap;
     public Tilemap levelTilemap;
 
+    [Header("Controls")]
     public Transform bananaTransform;
+    public Transform guardTransform;
+    public MonkeRunMode runMode;
+
+    [Header("Units")]
+    public List<MonkeMove>   units = new List<MonkeMove>();
 
     private Camera camera;
+    private PathFinder finder;
 
     void Start()
     {
         camera = Camera.main;
+        finder = GetComponent<PathFinder>();
 
         // @Temp: Bananas won't be visible from the start
         Vector3Int gridPosition = groundTilemap.WorldToCell(bananaTransform.position);
@@ -26,6 +32,9 @@ public class PlaceBanana : MonoBehaviour
         position.y += 0.5f;
 
         bananaTransform.position = position;
+
+        for (int i = 0; i < units.Count; i++)
+            units[i].FindPathToBanana(finder, bananaTransform);
     }
 
     void Update()
@@ -46,6 +55,15 @@ public class PlaceBanana : MonoBehaviour
 
                 bananaTransform.position = position;
             }
+
+            for (int i = 0; i < units.Count; i++)
+                units[i].FindPathToBanana(finder, bananaTransform);
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            for (int i = 0; i < units.Count; i++)
+                units[i].StartRuningAway(guardTransform, runMode);
         }
     }
 }

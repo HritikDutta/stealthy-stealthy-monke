@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonkeHop : MonoBehaviour
+public class MonkeVisual : MonoBehaviour
 {
-    public Transform bananaYumYum;
+    [Header("Settings")]    
     public MonkeSettings settings;
+
+    [Header("Orientation")]
+    public Transform target;
+    public bool faceTowards;
 
     private float verticalVelocity;
     private bool isJumping = false;
@@ -19,8 +23,12 @@ public class MonkeHop : MonoBehaviour
     void LateUpdate()
     {
         // Face the banana
-        bool facingLeft = bananaYumYum.position.x <= transform.position.x;
+        bool facingLeft = target.position.x <= transform.position.x;
+
         float rotation = facingLeft ? 0 : 180;
+        if (!faceTowards)
+            rotation = 180 - rotation;
+
         transform.localRotation = Quaternion.Euler(0, rotation, 0);
     }
 
@@ -49,5 +57,11 @@ public class MonkeHop : MonoBehaviour
 
             transform.localPosition = new Vector3(0f, height, 0f);
         }
+    }
+
+    public void SetTarget(Transform _target, bool _faceTowards)
+    {
+        target = _target;
+        faceTowards = _faceTowards;
     }
 }
