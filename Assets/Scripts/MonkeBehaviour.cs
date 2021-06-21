@@ -131,6 +131,9 @@ public class MonkeBehaviour : MonoBehaviour
 
     public void StopRuningAway()
     {
+        if (runMode == MonkeRunMode.RunBack)
+            return;
+
         mood = MonkeMood.Idle;
         visual.SetTarget(guardTransform, true);
     }
@@ -143,7 +146,8 @@ public class MonkeBehaviour : MonoBehaviour
             {
                 if (currentPathIndex < 0)
                 {
-                    StopRuningAway();   // @Todo: What if the starting position was close by?? Maybe fall back to scatter? Or move-back more steps?? Soo many questions?????
+                    mood = MonkeMood.Idle;
+                    visual.SetTarget(guardTransform, true);
                     break;
                 }
 
