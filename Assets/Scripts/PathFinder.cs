@@ -11,8 +11,8 @@ public class PathFinder : MonoBehaviour
 
     private HashSet<Vector3Int> closedSet = new HashSet<Vector3Int>();
 
-    private static int[] neighboursX = new int[] { -1, -1, -1,   0, 0,   1, 1, 1 };
-    private static int[] neighboursY = new int[] { -1,  0,  1,  -1, 1,  -1, 0, 1 };
+    private static int[] neighboursX = new int[] { -1, 0,  0, 1 };
+    private static int[] neighboursY = new int[] {  0, 1, -1, 0 };
 
     public class Node : IHeapItem<Node>
     {

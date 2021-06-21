@@ -44,6 +44,10 @@ public class MonkeBehaviour : MonoBehaviour
     private static int[] gridYOffsets = new int[] { -1, -1, -1,   0, 0, 0,   1, 1, 1 };
     private static int[] gridXOffsets = new int[] { -1,  0,  1,  -1, 0, 1,  -1, 0, 1 };
 
+    private static int[] neighboursX = new int[] { -1, 0,  0, 1 };
+    private static int[] neighboursY = new int[] {  0, 1, -1, 0 };
+
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -82,6 +86,18 @@ public class MonkeBehaviour : MonoBehaviour
             case MonkeMood.OhNoGuard:
             {
                 RunAway();
+            } break;
+
+            case MonkeMood.Idle:
+            {
+                Vector3Int gridPosition = groundTilemap.WorldToCell(rb.position);
+                Vector3 dest = (Vector3) gridPosition + new Vector3(0.5f, 0.5f, 0f);
+
+                if (((Vector3) rb.position - dest).sqrMagnitude >= 0.01f)
+                {
+                    Vector3 move = Vector3.MoveTowards(rb.position, dest, settings.moveSpeed * Time.fixedDeltaTime);
+                    rb.MovePosition(move);
+                }
             } break;
         }
     }
@@ -139,31 +155,36 @@ public class MonkeBehaviour : MonoBehaviour
             } break;
 
             case MonkeRunMode.Scatter:
-            {
-                float maxDistSqr = -1f;
-                Vector3 bestOptionPosition = transform.position;
-                
-                float[] moveOptions = new float[gridXOffsets.Length];
+            {                
+                float[] moveOptions = new float[neighboursX.Length];
                 Vector3Int gridPosition = groundTilemap.WorldToCell(rb.position);
 
-                for (int i = 0; i < gridXOffsets.Length; i++)
+                Vector3 bestOptionPosition = transform.position;
+                float maxDistSqr = (((Vector3) gridPosition + new Vector3(0.5f, 0.5f, 0f)) - guardTransform.position).sqrMagnitude;
+                bool foundBetterOption = false;
+
+                for (int i = 0; i < neighboursX.Length; i++)
                 {
-                    Vector3Int optionGridPosition = gridPosition + new Vector3Int(gridXOffsets[i], gridYOffsets[i], 0);
+                    Vector3Int optionGridPosition = gridPosition + new Vector3Int(neighboursX[i], neighboursY[i], 0);
                     if (!groundTilemap.HasTile(optionGridPosition) || levelTilemap.HasTile(optionGridPosition))
                         continue;
                     
                     Vector3 dest = (Vector3) optionGridPosition + new Vector3(0.5f, 0.5f, 0f);
                     float distSqr = (dest - guardTransform.position).sqrMagnitude;
 
-                    if (distSqr > maxDistSqr)
+                    if ((maxDistSqr - distSqr) < -0.1f)
                     {
                         maxDistSqr = distSqr;
                         bestOptionPosition = dest;
+                        foundBetterOption = true;
                     }
                 }
 
-                Vector3 move = Vector3.MoveTowards(rb.position, bestOptionPosition, settings.moveSpeed * Time.fixedDeltaTime);
-                rb.MovePosition(move);
+                if (foundBetterOption)
+                {
+                    Vector3 move = Vector3.MoveTowards(rb.position, bestOptionPosition, settings.moveSpeed * Time.fixedDeltaTime);
+                    rb.MovePosition(move);
+                }
             } break;
         }
     }

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60f11e2be57e0bc4797f603ccef7a03d, type: 3}
   m_Name: DefaultDemonSettings
   m_EditorClassIdentifier: 
-  moveSpeed: 6
+  patrolSpeed: 3
+  chaseSpeed: 6
   startState: 0
-  maxStamina: 10
-  minStamina: 4
+  maxStamina: 15
+  minStamina: 5
