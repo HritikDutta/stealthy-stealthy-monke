@@ -26,6 +26,7 @@ public class MonkeBehaviour : MonoBehaviour
     public MonkeSettings settings;
 
     [Header("Level")]
+    public Tilemap itemTilemap;
     public Tilemap groundTilemap;
     public Tilemap levelTilemap;
 
@@ -47,12 +48,15 @@ public class MonkeBehaviour : MonoBehaviour
     private static int[] neighboursX = new int[] { -1, 0,  0, 1 };
     private static int[] neighboursY = new int[] {  0, 1, -1, 0 };
 
+    private bool checkedSurroundings = false;
+    private Vector3 restPosition;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         gridPath = new List<Vector3>();
         visual = transform.Find("visual").GetComponent<MonkeVisual>();
+        restPosition = (Vector3) groundTilemap.WorldToCell(rb.position) + new Vector3(0.5f, 0.5f, 0f);
     }
 
     void LateUpdate()
@@ -73,6 +77,8 @@ public class MonkeBehaviour : MonoBehaviour
                 if (currentPathIndex >= gridPath.Count)
                 {
                     mood = MonkeMood.Idle;
+                    checkedSurroundings = false;
+                    restPosition = gridPath[currentPathIndex - 1];
                     break;
                 }
 
@@ -90,14 +96,40 @@ public class MonkeBehaviour : MonoBehaviour
 
             case MonkeMood.Idle:
             {
-                Vector3Int gridPosition = groundTilemap.WorldToCell(rb.position);
-                Vector3 dest = (Vector3) gridPosition + new Vector3(0.5f, 0.5f, 0f);
-
-                if (((Vector3) rb.position - dest).sqrMagnitude >= 0.01f)
+                if (((Vector3) rb.position - restPosition).sqrMagnitude >= 0.01f)
                 {
-                    Vector3 move = Vector3.MoveTowards(rb.position, dest, settings.moveSpeed * Time.fixedDeltaTime);
+                    Vector3 move = Vector3.MoveTowards(rb.position, restPosition, settings.moveSpeed * Time.fixedDeltaTime);
                     rb.MovePosition(move);
                 }
+
+                if (checkedSurroundings)
+                    break;
+
+                Vector3Int gridPosition = groundTilemap.WorldToCell(rb.position);
+                for (int i = 0; i < gridXOffsets.Length; i++)
+                {
+                    Vector3Int probePosition = gridPosition + new Vector3Int(gridXOffsets[i], gridYOffsets[i], 0);
+                    if (itemTilemap.HasTile(probePosition))
+                    {
+                        GameObject item = itemTilemap.GetInstantiatedObject(probePosition);
+                        
+                        Shiny shiny = item.GetComponent<Shiny>();
+                        if (shiny != null)
+                        {
+                            if (shiny.broken)
+                                continue;
+
+                            itemTilemap.SetColor(probePosition, Color.red);
+                            itemTilemap.RefreshTile(probePosition);
+                            
+                            restPosition = (Vector3) probePosition + new Vector3(0.5f, 0.5f, 0f);
+                            shiny.Break();
+                            break;
+                        }
+                    }
+                }
+
+                checkedSurroundings = true;
             } break;
         }
     }
@@ -139,7 +171,20 @@ public class MonkeBehaviour : MonoBehaviour
             return;
 
         mood = MonkeMood.Idle;
+        restPosition = (Vector3) groundTilemap.WorldToCell(rb.position) + new Vector3(0.5f, 0.5f, 0f);
         visual.SetTarget(guardTransform, true);
+    }
+
+    public void Hide(Vector3Int barrelPosition)
+    {
+        gridPath.Clear();
+        currentPathIndex = 0;
+
+    }
+
+    public void UnHide()
+    {
+        
     }
 
     void RunAway()

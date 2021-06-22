@@ -117,6 +117,9 @@ public class DemonBehaviour : MonoBehaviour
 
                 if (((Vector3) rb.position - patrolPath[patrolPathIndex].position).sqrMagnitude < 0.01f)
                     patrolPathIndex = (patrolPathIndex + 1) % patrolPath.Count;
+                
+                if (stamina < settings.maxStamina)
+                    stamina++;
             } break;
 
             case DemonState.Chasing:
@@ -165,7 +168,6 @@ public class DemonBehaviour : MonoBehaviour
                 if (gridPathIndex >= gridPath.Count)
                 {
                     state = DemonState.Patrolling;
-                    stamina = settings.maxStamina;
                     break;
                 }
 

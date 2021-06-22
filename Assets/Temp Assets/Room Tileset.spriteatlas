@@ -44,12 +44,16 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 2800000, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
-    totalSpriteSurfaceArea: 1728
+    - {fileID: 2800000, guid: 615c104014413a847a0e83a08912a59c, type: 3}
+    totalSpriteSurfaceArea: 2160
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: -7895601659516305588, guid: 615c104014413a847a0e83a08912a59c, type: 3}
+  - {fileID: -2127513363236629315, guid: 615c104014413a847a0e83a08912a59c, type: 3}
+  - {fileID: -4511548498795517007, guid: 615c104014413a847a0e83a08912a59c, type: 3}
   - {fileID: 2403724249865808194, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
   - {fileID: -3309781605116015348, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
   - {fileID: -72156938504300551, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
@@ -63,6 +67,9 @@ SpriteAtlas:
   - {fileID: 8040196581939011165, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
   - {fileID: 5682393469540925955, guid: 0432892e360182f40bd7cad9fa0cd7b7, type: 3}
   m_PackedSpriteNamesToIndex:
+  - Shiny
+  - Barrel Open
+  - Barrel Closed
   - wall top
   - banan
   - wall right
