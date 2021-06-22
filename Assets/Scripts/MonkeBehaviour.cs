@@ -9,6 +9,7 @@ public enum MonkeMood
     BananaYumYum,
     OhNoGuard,
     Captured,
+    Hiding,
 }
 
 public enum MonkeRunMode
@@ -50,6 +51,9 @@ public class MonkeBehaviour : MonoBehaviour
 
     private bool checkedSurroundings = false;
     private Vector3 restPosition;
+    private bool lookForHidingSpot = true;
+
+    private HidingSpot currentHidingSpot;
 
     void Awake()
     {
@@ -66,6 +70,101 @@ public class MonkeBehaviour : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
+        // @Todo: Decide if you want the banana to be placed on the hiding spot
+        // @Todo: Look at the number of monkeys in the spot and select best option for better distribution
+        switch (mood)
+        {
+            case MonkeMood.OhNoGuard:
+            {
+                Vector3Int gridPosition = groundTilemap.WorldToCell(rb.position);
+                for (int i = 0; i < gridXOffsets.Length; i++)
+                {
+                    Vector3Int probePosition = gridPosition + new Vector3Int(gridXOffsets[i], gridYOffsets[i], 0);
+                    if (itemTilemap.HasTile(probePosition))
+                    {
+                        GameObject item = itemTilemap.GetInstantiatedObject(probePosition);
+
+                        int layer = 1 << item.layer;
+                        if (layer == LayerMask.GetMask("HidingSpot"))
+                        {
+                            currentHidingSpot = item.GetComponent<HidingSpot>();
+                            currentHidingSpot.HideMonkey();
+                            visual.Hide();
+                            mood = MonkeMood.Hiding;
+                            break;
+                        }
+                    }
+                }
+            } break;
+
+            case MonkeMood.BananaYumYum:
+            {
+                Vector3Int gridPosition = groundTilemap.WorldToCell(rb.position);
+                for (int i = 0; i < gridXOffsets.Length; i++)
+                {
+                    Vector3Int probePosition = gridPosition + new Vector3Int(gridXOffsets[i], gridYOffsets[i], 0);
+                    if (itemTilemap.HasTile(probePosition))
+                    {
+                        GameObject item = itemTilemap.GetInstantiatedObject(probePosition);
+                        int layer = 1 << item.layer;
+                        
+                        if (layer == LayerMask.GetMask("Shiny"))
+                        {
+                            Shiny shiny = item.GetComponent<Shiny>();
+                            gridPath[currentPathIndex] = (Vector3) probePosition + new Vector3(0.5f, 0.5f, 0f);
+                            shiny.Break();
+                            break;
+                        }
+
+                        if (lookForHidingSpot && layer == LayerMask.GetMask("HidingSpot"))
+                        {
+                            currentHidingSpot = item.GetComponent<HidingSpot>();
+                            currentHidingSpot.HideMonkey();
+                            visual.Hide();
+                            mood = MonkeMood.Hiding;
+                            break;
+                        }
+                    }
+                }
+            } break;
+
+            case MonkeMood.Idle:
+            {
+                if (checkedSurroundings)
+                    break;
+
+                Vector3Int gridPosition = groundTilemap.WorldToCell(rb.position);
+                for (int i = 0; i < gridXOffsets.Length; i++)
+                {
+                    Vector3Int probePosition = gridPosition + new Vector3Int(gridXOffsets[i], gridYOffsets[i], 0);
+                    if (itemTilemap.HasTile(probePosition))
+                    {
+                        GameObject item = itemTilemap.GetInstantiatedObject(probePosition);
+                        int layer = 1 << item.layer;
+
+                        if (layer == LayerMask.GetMask("Shiny"))
+                        {
+                            Shiny shiny = item.GetComponent<Shiny>();
+                            restPosition = (Vector3) probePosition + new Vector3(0.5f, 0.5f, 0f);
+                            shiny.Break();
+                            break;
+                        }
+
+                        if (lookForHidingSpot && layer == LayerMask.GetMask("HidingSpot"))
+                        {
+                            currentHidingSpot = item.GetComponent<HidingSpot>();
+                            currentHidingSpot.HideMonkey();
+                            visual.Hide();
+                            mood = MonkeMood.Hiding;
+                            break;
+                        }
+                    }
+                }
+
+                checkedSurroundings = true;
+            } break;
+        }
     }
 
     void FixedUpdate()
@@ -78,32 +177,9 @@ public class MonkeBehaviour : MonoBehaviour
                 {
                     mood = MonkeMood.Idle;
                     checkedSurroundings = false;
+                    lookForHidingSpot = true;
                     restPosition = gridPath[currentPathIndex - 1];
                     break;
-                }
-
-                Vector3Int gridPosition = groundTilemap.WorldToCell(rb.position);
-                for (int i = 0; i < gridXOffsets.Length; i++)
-                {
-                    Vector3Int probePosition = gridPosition + new Vector3Int(gridXOffsets[i], gridYOffsets[i], 0);
-                    if (itemTilemap.HasTile(probePosition))
-                    {
-                        GameObject item = itemTilemap.GetInstantiatedObject(probePosition);
-                        
-                        Shiny shiny = item.GetComponent<Shiny>();
-                        if (shiny != null)
-                        {
-                            if (shiny.broken)
-                                continue;
-
-                            itemTilemap.SetColor(probePosition, Color.red);
-                            itemTilemap.RefreshTile(probePosition);
-                            
-                            gridPath[currentPathIndex] = (Vector3) probePosition + new Vector3(0.5f, 0.5f, 0f);
-                            shiny.Break();
-                            break;
-                        }
-                    }
                 }
 
                 Vector3 move = Vector3.MoveTowards(rb.position, gridPath[currentPathIndex], settings.moveSpeed * Time.fixedDeltaTime);
@@ -125,35 +201,6 @@ public class MonkeBehaviour : MonoBehaviour
                     Vector3 move = Vector3.MoveTowards(rb.position, restPosition, settings.moveSpeed * Time.fixedDeltaTime);
                     rb.MovePosition(move);
                 }
-
-                if (checkedSurroundings)
-                    break;
-
-                Vector3Int gridPosition = groundTilemap.WorldToCell(rb.position);
-                for (int i = 0; i < gridXOffsets.Length; i++)
-                {
-                    Vector3Int probePosition = gridPosition + new Vector3Int(gridXOffsets[i], gridYOffsets[i], 0);
-                    if (itemTilemap.HasTile(probePosition))
-                    {
-                        GameObject item = itemTilemap.GetInstantiatedObject(probePosition);
-                        
-                        Shiny shiny = item.GetComponent<Shiny>();
-                        if (shiny != null)
-                        {
-                            if (shiny.broken)
-                                continue;
-
-                            itemTilemap.SetColor(probePosition, Color.red);
-                            itemTilemap.RefreshTile(probePosition);
-                            
-                            restPosition = (Vector3) probePosition + new Vector3(0.5f, 0.5f, 0f);
-                            shiny.Break();
-                            break;
-                        }
-                    }
-                }
-
-                checkedSurroundings = true;
             } break;
         }
     }
@@ -163,6 +210,13 @@ public class MonkeBehaviour : MonoBehaviour
         // Ignore banana if being chased
         if (mood == MonkeMood.OhNoGuard)
             return;
+
+        if (mood == MonkeMood.Hiding)
+        {
+            currentHidingSpot.UnhideMonkey();
+            visual.Unhide();
+            lookForHidingSpot = false;
+        }
 
         Vector3Int startPos = groundTilemap.WorldToCell(rb.position);
 
@@ -185,6 +239,7 @@ public class MonkeBehaviour : MonoBehaviour
         guardTransform = _guardTransform;
         runMode = mode;
         mood = MonkeMood.OhNoGuard;
+        lookForHidingSpot = false;
 
         visual.SetTarget(_guardTransform, false);
     }
@@ -193,22 +248,17 @@ public class MonkeBehaviour : MonoBehaviour
     {
         if (runMode == MonkeRunMode.RunBack)
             return;
+        
+        if (mood == MonkeMood.Hiding)
+        {
+            currentHidingSpot.UnhideMonkey();
+            visual.Unhide();
+            lookForHidingSpot = false;
+        }
 
         mood = MonkeMood.Idle;
         restPosition = (Vector3) groundTilemap.WorldToCell(rb.position) + new Vector3(0.5f, 0.5f, 0f);
         visual.SetTarget(guardTransform, true);
-    }
-
-    public void Hide(Vector3Int barrelPosition)
-    {
-        gridPath.Clear();
-        currentPathIndex = 0;
-
-    }
-
-    public void UnHide()
-    {
-        
     }
 
     void RunAway()

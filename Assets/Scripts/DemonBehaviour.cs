@@ -64,15 +64,20 @@ public class DemonBehaviour : MonoBehaviour
                     break;
 
                 // @Temp: This should be a proper vision cone/rectangle thingy based on where the demon is looking
+                // @Todo: Demon should ignore monkeys if they're hidden
 
                 Vector3Int currentGridPosition = groundTilemap.WorldToCell(rb.position);
-                Vector3Int areaTopLeft = currentGridPosition + new Vector3Int(-1, 1, 0);
+                Vector3Int areaTopLeft = currentGridPosition + new Vector3Int(-2, 2, 0);
+                Vector3Int areaBottomRight = currentGridPosition + new Vector3Int(2, -2, 0);
                 
                 for (int i = 0; i < hiveMind.units.Count; i++)
                 {
+                    if (hiveMind.units[i].mood == MonkeMood.Hiding)
+                        continue;
+                    
                     Vector3Int monkeGridPosition = groundTilemap.WorldToCell(hiveMind.units[i].transform.position);
-                    if (monkeGridPosition.x >= areaTopLeft.x && monkeGridPosition.x <= areaTopLeft.x + 2 &&
-                        monkeGridPosition.y >= areaTopLeft.y - 2 && monkeGridPosition.y <= areaTopLeft.y)
+                    if (monkeGridPosition.x >= areaTopLeft.x && monkeGridPosition.x <= areaBottomRight.x &&
+                        monkeGridPosition.y >= areaBottomRight.y && monkeGridPosition.y <= areaTopLeft.y)
                     {
                         target = hiveMind.units[i].transform;
                         targetIndex = i;

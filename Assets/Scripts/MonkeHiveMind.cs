@@ -80,6 +80,10 @@ public class MonkeHiveMind : MonoBehaviour
 
     public void Captured(MonkeBehaviour monke)
     {
+        // @Todo: Decide if monkey should be spared if it is able to hide just before getting caught
+        if (monke.mood == MonkeMood.Hiding)
+            return;
+
         monke.mood = MonkeMood.Captured;
         units.Remove(monke);
         monkeyCountText.text = units.Count.ToString();

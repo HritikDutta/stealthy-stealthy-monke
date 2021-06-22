@@ -7,9 +7,10 @@ public class MonkeVisual : MonoBehaviour
     [Header("Settings")]    
     public MonkeSettings settings;
 
-    [Header("Orientation")]
-    public Transform target;
-    public bool faceTowards;
+    private Transform target;
+    private bool faceTowards;
+
+    private SpriteRenderer renderer;
 
     private float verticalVelocity;
     private bool isJumping = false;
@@ -18,6 +19,8 @@ public class MonkeVisual : MonoBehaviour
     void Start()
     {
         lastJumpTime = Time.time;
+
+        renderer = GetComponent<SpriteRenderer>();
     }
 
     void LateUpdate()
@@ -63,5 +66,15 @@ public class MonkeVisual : MonoBehaviour
     {
         target = _target;
         faceTowards = _faceTowards;
+    }
+
+    public void Hide()
+    {
+        renderer.enabled = false;
+    }
+
+    public void Unhide()
+    {
+        renderer.enabled = true;
     }
 }
