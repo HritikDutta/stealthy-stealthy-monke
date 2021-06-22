@@ -160,13 +160,16 @@ public class MonkeBehaviour : MonoBehaviour
 
             case MonkeRunMode.Scatter:
             {                
+                // @Todo: Try to reduce chances of overlapping monkeys
                 float[] moveOptions = new float[neighboursX.Length];
                 Vector3Int gridPosition = groundTilemap.WorldToCell(rb.position);
 
-                Vector3 bestOptionPosition = transform.position;
                 float maxDistSqr = (((Vector3) gridPosition + new Vector3(0.5f, 0.5f, 0f)) - guardTransform.position).sqrMagnitude;
-                bool foundBetterOption = false;
+                if (maxDistSqr > settings.minDistanceFromGuard)
+                    break;
 
+                Vector3 bestOptionPosition = transform.position;
+                bool foundBetterOption = false;
                 for (int i = 0; i < neighboursX.Length; i++)
                 {
                     Vector3Int optionGridPosition = gridPosition + new Vector3Int(neighboursX[i], neighboursY[i], 0);

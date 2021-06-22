@@ -11,4 +11,7 @@ public class MonkeSettings : ScriptableObject
     public float hopSpeed  = 5f;
     public float gravity   = 20f;
     public float hopchance = 0.5f;
+
+    [Header("Behaviour")]
+    public float minDistanceFromGuard = 10f;
 }
