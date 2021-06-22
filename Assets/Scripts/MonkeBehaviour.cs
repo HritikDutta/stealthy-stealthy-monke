@@ -54,6 +54,7 @@ public class MonkeBehaviour : MonoBehaviour
     private bool lookForHidingSpot = true;
 
     private HidingSpot currentHidingSpot;
+    private bool wasHiding = false;
 
     void Awake()
     {
@@ -123,6 +124,7 @@ public class MonkeBehaviour : MonoBehaviour
                             currentHidingSpot.HideMonkey();
                             visual.Hide();
                             mood = MonkeMood.Hiding;
+                            wasHiding = true;
                             break;
                         }
                     }
@@ -157,6 +159,7 @@ public class MonkeBehaviour : MonoBehaviour
                             currentHidingSpot.HideMonkey();
                             visual.Hide();
                             mood = MonkeMood.Hiding;
+                            wasHiding = true;
                             break;
                         }
                     }
@@ -251,6 +254,9 @@ public class MonkeBehaviour : MonoBehaviour
         
         if (mood == MonkeMood.Hiding)
         {
+            if (wasHiding)
+                return;
+            
             currentHidingSpot.UnhideMonkey();
             visual.Unhide();
             lookForHidingSpot = false;
