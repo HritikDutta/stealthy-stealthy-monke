@@ -82,6 +82,30 @@ public class MonkeBehaviour : MonoBehaviour
                     break;
                 }
 
+                Vector3Int gridPosition = groundTilemap.WorldToCell(rb.position);
+                for (int i = 0; i < gridXOffsets.Length; i++)
+                {
+                    Vector3Int probePosition = gridPosition + new Vector3Int(gridXOffsets[i], gridYOffsets[i], 0);
+                    if (itemTilemap.HasTile(probePosition))
+                    {
+                        GameObject item = itemTilemap.GetInstantiatedObject(probePosition);
+                        
+                        Shiny shiny = item.GetComponent<Shiny>();
+                        if (shiny != null)
+                        {
+                            if (shiny.broken)
+                                continue;
+
+                            itemTilemap.SetColor(probePosition, Color.red);
+                            itemTilemap.RefreshTile(probePosition);
+                            
+                            gridPath[currentPathIndex] = (Vector3) probePosition + new Vector3(0.5f, 0.5f, 0f);
+                            shiny.Break();
+                            break;
+                        }
+                    }
+                }
+
                 Vector3 move = Vector3.MoveTowards(rb.position, gridPath[currentPathIndex], settings.moveSpeed * Time.fixedDeltaTime);
                 rb.MovePosition(move);
 
