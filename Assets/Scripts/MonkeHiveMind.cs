@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 
 public class MonkeHiveMind : MonoBehaviour
 {
+    [Header("UI")]
+    public Text monkeyCountText;
+
     [Header("Level")]
     public Tilemap groundTilemap;
     public Tilemap levelTilemap;
@@ -34,6 +38,8 @@ public class MonkeHiveMind : MonoBehaviour
 
         for (int i = 0; i < units.Count; i++)
             units[i].FindPathToBanana(finder, bananaTransform);
+
+        monkeyCountText.text = units.Count.ToString();
     }
 
     void Update()
@@ -76,5 +82,6 @@ public class MonkeHiveMind : MonoBehaviour
     {
         monke.mood = MonkeMood.Captured;
         units.Remove(monke);
+        monkeyCountText.text = units.Count.ToString();
     }
 }

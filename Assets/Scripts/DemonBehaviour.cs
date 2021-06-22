@@ -22,15 +22,15 @@ public class DemonBehaviour : MonoBehaviour
     public MonkeHiveMind hiveMind;
 
     [Header("Movement")]
-    public List<Vector3> patrolPath = new List<Vector3>();
-
-    [Header("Behaviour")]
     public DemonState state;
+    public Transform patrolPathTransform;
 
     private Transform target;
     private int targetIndex;
     private Rigidbody2D rb;
 
+    [HideInInspector]
+    private List<Transform> patrolPath = new List<Transform>();
     private List<Vector3> gridPath = new List<Vector3>();
     private int patrolPathIndex;
     private int gridPathIndex;
@@ -41,7 +41,10 @@ public class DemonBehaviour : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
-        Vector3Int currentGridPosition = groundTilemap.WorldToCell(rb.position);
+        foreach (Transform waypoint in patrolPathTransform)
+            patrolPath.Add(waypoint);
+
+        Vector3Int currentGridPosition = groundTilemap.WorldToCell(patrolPath[0].position);
         rb.position = (Vector3) currentGridPosition + new Vector3(0.5f, 0.5f, 0f);
 
         state = settings.startState;
@@ -91,7 +94,7 @@ public class DemonBehaviour : MonoBehaviour
                 hiveMind.DemonStoppedChasing();
 
                 Vector3Int currentGridPosition = groundTilemap.WorldToCell(rb.position);
-                Vector3Int destGridPosition = groundTilemap.WorldToCell(patrolPath[patrolPathIndex]);
+                Vector3Int destGridPosition = groundTilemap.WorldToCell(patrolPath[patrolPathIndex].position);
 
                 finder.UpdatePath(currentGridPosition, destGridPosition, ref gridPath);
                 gridPathIndex = 0;
@@ -109,10 +112,10 @@ public class DemonBehaviour : MonoBehaviour
                 if (patrolPath.Count == 0)
                     break;
 
-                Vector3 move = Vector3.MoveTowards(rb.position, patrolPath[patrolPathIndex], settings.patrolSpeed * Time.fixedDeltaTime);
+                Vector3 move = Vector3.MoveTowards(rb.position, patrolPath[patrolPathIndex].position, settings.patrolSpeed * Time.fixedDeltaTime);
                 rb.MovePosition(move);
 
-                if (((Vector3) rb.position - patrolPath[patrolPathIndex]).sqrMagnitude < 0.01f)
+                if (((Vector3) rb.position - patrolPath[patrolPathIndex].position).sqrMagnitude < 0.01f)
                     patrolPathIndex = (patrolPathIndex + 1) % patrolPath.Count;
             } break;
 
@@ -126,7 +129,7 @@ public class DemonBehaviour : MonoBehaviour
 
                     hiveMind.DemonStoppedChasing();
 
-                    Vector3Int destGridPosition = groundTilemap.WorldToCell(patrolPath[patrolPathIndex]);
+                    Vector3Int destGridPosition = groundTilemap.WorldToCell(patrolPath[patrolPathIndex].position);
                     finder.UpdatePath(currentGridPosition, destGridPosition, ref gridPath);
                     gridPathIndex = 0;
 
