@@ -104,6 +104,10 @@ public class MonkeBehaviour : MonoBehaviour
 
     public void FindPathToBanana(PathFinder finder, Transform bananaTransform)
     {
+        // Ignore banana if being chased
+        if (mood == MonkeMood.OhNoGuard)
+            return;
+
         Vector3Int startPos = groundTilemap.WorldToCell(rb.position);
 
         Vector3Int bananaGridPosition = groundTilemap.WorldToCell(bananaTransform.position);

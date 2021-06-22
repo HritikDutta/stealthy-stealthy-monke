@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c5587b82163d214382d528385cfabec, type: 3}
   m_Name: DefaultMonkeSettings
   m_EditorClassIdentifier: 
-  moveSpeed: 6
+  moveSpeed: 5
   hopSpeed: 8
   gravity: 40
   hopchance: 0.1
+  minDistanceFromGuard: 10
