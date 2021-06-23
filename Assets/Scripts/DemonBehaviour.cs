@@ -19,14 +19,13 @@ public class DemonBehaviour : MonoBehaviour
     [Header("Level")]
     public Tilemap groundTilemap;
     public PathFinder finder;
-    public MonkeHiveMind hiveMind;
 
     [Header("Movement")]
     public DemonState state;
     public Transform patrolPathTransform;
 
-    private Transform target;
-    private int targetIndex;
+    private MonkeSquad targetSquad;
+    private MonkeBehaviour target;
     private Rigidbody2D rb;
 
     [HideInInspector]
@@ -70,23 +69,31 @@ public class DemonBehaviour : MonoBehaviour
                 Vector3Int areaTopLeft = currentGridPosition + new Vector3Int(-2, 2, 0);
                 Vector3Int areaBottomRight = currentGridPosition + new Vector3Int(2, -2, 0);
                 
-                for (int i = 0; i < hiveMind.units.Count; i++)
+                foreach (MonkeSquad squad in MonkeHiveMind.instance.squads)
                 {
-                    if (hiveMind.units[i].mood == MonkeMood.Hiding)
-                        continue;
-                    
-                    Vector3Int monkeGridPosition = groundTilemap.WorldToCell(hiveMind.units[i].transform.position);
-                    if (monkeGridPosition.x >= areaTopLeft.x && monkeGridPosition.x <= areaBottomRight.x &&
-                        monkeGridPosition.y >= areaBottomRight.y && monkeGridPosition.y <= areaTopLeft.y)
+                    if (state == DemonState.Chasing)
+                        break;
+
+                    foreach (MonkeBehaviour monke in squad.monkes)
                     {
-                        target = hiveMind.units[i].transform;
-                        targetIndex = i;
-                        state  = DemonState.Chasing;
+                        if (monke.mood == MonkeMood.Hiding)
+                            continue;
 
-                        hiveMind.DemonStartedChasing(transform);
+                        Vector3Int monkeGridPosition = groundTilemap.WorldToCell(monke.transform.position);
+                        if (monkeGridPosition.x >= areaTopLeft.x && monkeGridPosition.x <= areaBottomRight.x &&
+                            monkeGridPosition.y >= areaBottomRight.y && monkeGridPosition.y <= areaTopLeft.y)
+                        {
+                            state  = DemonState.Chasing;
+                            targetSquad = squad;
+                            target = monke;     // @Todo: Will it be more iteresting if a random monke was picked?
 
-                        finder.UpdatePath(currentGridPosition, monkeGridPosition, ref gridPath);
-                        gridPathIndex = 0;
+                            MonkeHiveMind.instance.DemonStartedChasing(squad, transform);
+
+                            finder.UpdatePath(currentGridPosition, monkeGridPosition, ref gridPath);
+                            gridPathIndex = 0;
+
+                            break;
+                        }
                     }
                 }
             } break;
@@ -95,8 +102,8 @@ public class DemonBehaviour : MonoBehaviour
             {
                 state = DemonState.Returning;
 
-                hiveMind.Captured(hiveMind.units[targetIndex]);
-                hiveMind.DemonStoppedChasing();
+                MonkeHiveMind.instance.Captured(target);
+                MonkeHiveMind.instance.DemonStoppedChasing(targetSquad);
 
                 Vector3Int currentGridPosition = groundTilemap.WorldToCell(rb.position);
                 Vector3Int destGridPosition = groundTilemap.WorldToCell(patrolPath[patrolPathIndex].position);
@@ -135,7 +142,7 @@ public class DemonBehaviour : MonoBehaviour
                 {
                     state = DemonState.Returning;
 
-                    hiveMind.DemonStoppedChasing();
+                    MonkeHiveMind.instance.DemonStoppedChasing(targetSquad);
 
                     Vector3Int destGridPosition = groundTilemap.WorldToCell(patrolPath[patrolPathIndex].position);
                     finder.UpdatePath(currentGridPosition, destGridPosition, ref gridPath);
@@ -145,7 +152,7 @@ public class DemonBehaviour : MonoBehaviour
                 }
 
                 Vector3Int currentGridPositionWithOffset = groundTilemap.WorldToCell(rb.position + new Vector2(0.25f, 0.25f));
-                Vector3Int monkeGridPosition = groundTilemap.WorldToCell(target.position);
+                Vector3Int monkeGridPosition = groundTilemap.WorldToCell(target.transform.position);
                 if (monkeGridPosition == currentGridPositionWithOffset)
                 {
                     state = DemonState.Capturing;

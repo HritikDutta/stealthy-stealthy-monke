@@ -6,39 +6,46 @@ using UnityEngine.Tilemaps;
 
 public class MonkeHiveMind : MonoBehaviour
 {
+    public static MonkeHiveMind instance;
+
     [Header("UI")]
     public Text monkeyCountText;
+    public Text selectedSquadText;
 
     [Header("Level")]
     public Tilemap groundTilemap;
     public Tilemap levelTilemap;
 
-    [Header("Controls")]
-    public Transform bananaTransform;
-
     [Header("Units")]
-    public List<MonkeBehaviour> units = new List<MonkeBehaviour>();
+    public List<MonkeSquad> squads = new List<MonkeSquad>();
 
+    [HideInInspector]
+    public PathFinder finder;
     private Camera camera;
-    private PathFinder finder;
+
+    private int selectedSquadIndex = 0;
+
+    void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
+        
+        DontDestroyOnLoad(gameObject);
+
+        camera = Camera.main;
+        finder = GetComponent<PathFinder>();
+    }
 
     void Start()
     {
-        camera = Camera.main;
-        finder = GetComponent<PathFinder>();
+        int monkeCount = 0;
+        for (int i = 0; i < squads.Count; i++)
+            monkeCount += squads[i].monkes.Count;
 
-        // @Temp: Bananas won't be visible from the start
-        Vector3Int gridPosition = groundTilemap.WorldToCell(bananaTransform.position);
-        Vector3 position = (Vector3) gridPosition;
-        position.x += 0.5f;
-        position.y += 0.5f;
-
-        bananaTransform.position = position;
-
-        for (int i = 0; i < units.Count; i++)
-            units[i].FindPathToBanana(finder, bananaTransform);
-
-        monkeyCountText.text = units.Count.ToString();
+        monkeyCountText.text = monkeCount.ToString();
+        selectedSquadText.text = selectedSquadIndex.ToString();
     }
 
     void Update()
@@ -52,39 +59,42 @@ public class MonkeHiveMind : MonoBehaviour
             Vector3Int gridPosition = groundTilemap.WorldToCell(worldPosition);
 
             if (groundTilemap.HasTile(gridPosition) && !levelTilemap.HasTile(gridPosition))
-            {
-                Vector3 position = (Vector3) gridPosition;
-                position.x += 0.5f;
-                position.y += 0.5f;
+                squads[selectedSquadIndex].TellMonkesToMoveAsses(gridPosition);
+        }
 
-                bananaTransform.position = position;
-            }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            selectedSquadIndex = (selectedSquadIndex + 1) % squads.Count;
+            selectedSquadText.text = selectedSquadIndex.ToString();
+        }
 
-            for (int i = 0; i < units.Count; i++)
-                units[i].FindPathToBanana(finder, bananaTransform);
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            selectedSquadIndex = (selectedSquadIndex + squads.Count - 1) % squads.Count;
+            selectedSquadText.text = selectedSquadIndex.ToString();
         }
     }
 
-    public void DemonStartedChasing(Transform guardTransform)
+    public void DemonStartedChasing(MonkeSquad squad, Transform guardTransform)
     {
-        for (int i = 0; i < units.Count; i++)
-            units[i].StartRuningAway(guardTransform);
+        foreach (MonkeBehaviour monke in squad.monkes)
+            monke.StartRuningAway(guardTransform);
     }
 
-    public void DemonStoppedChasing()
+    public void DemonStoppedChasing(MonkeSquad squad)
     {
-        for (int i = 0; i < units.Count; i++)
-            units[i].StopRuningAway();
+        foreach (MonkeBehaviour monke in squad.monkes)
+            monke.StopRuningAway();
     }
 
     public void Captured(MonkeBehaviour monke)
     {
-        // @Todo: Decide if monkey should be spared if it is able to hide just before getting caught
-        if (monke.mood == MonkeMood.Hiding)
-            return;
+        monke.GetCaptured();
 
-        monke.mood = MonkeMood.Captured;
-        units.Remove(monke);
-        monkeyCountText.text = units.Count.ToString();
+        int monkeCount = 0;
+        for (int i = 0; i < squads.Count; i++)
+            monkeCount += squads[i].numActiveMonkes;
+
+        monkeyCountText.text = monkeCount.ToString();
     }
 }

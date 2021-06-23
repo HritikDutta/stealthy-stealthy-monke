@@ -16,7 +16,7 @@ public class MonkeVisual : MonoBehaviour
     private bool isJumping = false;
     private float lastJumpTime;
 
-    void Start()
+    void Awake()
     {
         lastJumpTime = Time.time;
 

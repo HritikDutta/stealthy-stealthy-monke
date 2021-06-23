@@ -8,7 +8,7 @@ public enum MonkeMood
     Idle,
     BananaYumYum,
     OhNoGuard,
-    Captured,
+    Captured,       // Cause being captured is also a mood
     Hiding,
 }
 
@@ -25,10 +25,11 @@ public class MonkeBehaviour : MonoBehaviour
     public Tilemap groundTilemap;
     public Tilemap levelTilemap;
 
-    [Header("Visual")]
-    public MonkeVisual visual;
-
     private Rigidbody2D rb;
+
+    [HideInInspector]
+    public MonkeSquad mySquad;  // @Todo: Remove this if no one uses this reference
+    private MonkeVisual visual;
 
     private List<Vector3> gridPath;
     private int currentPathIndex;
@@ -53,17 +54,22 @@ public class MonkeBehaviour : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         gridPath = new List<Vector3>();
+
         visual = transform.Find("visual").GetComponent<MonkeVisual>();
+        mySquad = transform.parent.GetComponent<MonkeSquad>();
+
         restPosition = (Vector3) groundTilemap.WorldToCell(rb.position) + new Vector3(0.5f, 0.5f, 0f);
+    }
+
+    void Start()
+    {
+        visual.Unhide();
     }
 
     void LateUpdate()
     {
         if (mood == MonkeMood.Captured)
-        {
-            Destroy(gameObject);
             return;
-        }
 
         // @Todo: Decide if you want the banana to be placed on the hiding spot
         // @Todo: Look at the number of monkeys in the spot and select best option for better distribution
@@ -192,8 +198,11 @@ public class MonkeBehaviour : MonoBehaviour
         }
     }
 
-    public void FindPathToBanana(PathFinder finder, Transform bananaTransform)
+    public void FindPathToBanana(Transform bananaTransform)
     {
+        if (mood == MonkeMood.Captured)
+            return;
+
         // Ignore banana if being chased
         if (mood == MonkeMood.OhNoGuard)
             return;
@@ -210,7 +219,7 @@ public class MonkeBehaviour : MonoBehaviour
         Vector3Int bananaGridPosition = groundTilemap.WorldToCell(bananaTransform.position);
         Vector3Int endPos = FindPositionAroundBanana(bananaGridPosition);
 
-        finder.UpdatePath(startPos, endPos, ref gridPath);
+        MonkeHiveMind.instance.finder.UpdatePath(startPos, endPos, ref gridPath);
 
         currentPathIndex = 0;
         mood = MonkeMood.BananaYumYum;
@@ -220,6 +229,9 @@ public class MonkeBehaviour : MonoBehaviour
 
     public void StartRuningAway(Transform _guardTransform)
     {
+        if (mood == MonkeMood.Captured)
+            return;
+
         guardTransform = _guardTransform;
         mood = MonkeMood.OhNoGuard;
         lookForHidingSpot = false;
@@ -229,6 +241,9 @@ public class MonkeBehaviour : MonoBehaviour
 
     public void StopRuningAway()
     {
+        if (mood == MonkeMood.Captured)
+            return;
+
         if (mood == MonkeMood.Hiding)
         {
             if (wasHiding)
@@ -242,6 +257,17 @@ public class MonkeBehaviour : MonoBehaviour
         mood = MonkeMood.Idle;
         restPosition = (Vector3) groundTilemap.WorldToCell(rb.position) + new Vector3(0.5f, 0.5f, 0f);
         visual.SetTarget(guardTransform, true);
+    }
+
+    public void GetCaptured()
+    {
+        // @Todo: Decide if monkey should be spared if it is able to hide just before getting caught
+        if (mood == MonkeMood.Captured || mood == MonkeMood.Hiding)
+            return;
+
+        mood = MonkeMood.Captured;
+        visual.Hide();
+        mySquad.TellThemIDied();
     }
 
     void RunAway()
