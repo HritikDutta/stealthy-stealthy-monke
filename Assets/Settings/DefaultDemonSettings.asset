@@ -15,5 +15,5 @@ MonoBehaviour:
   patrolSpeed: 2
   chaseSpeed: 6
   startState: 0
-  maxStamina: 15
-  minStamina: 5
+  maxStamina: 50
+  minStamina: 1

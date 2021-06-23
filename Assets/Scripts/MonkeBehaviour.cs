@@ -20,11 +20,6 @@ public class MonkeBehaviour : MonoBehaviour
     [Header("Settings")]
     public MonkeSettings settings;
 
-    [Header("Level")]
-    public Tilemap itemTilemap;
-    public Tilemap groundTilemap;
-    public Tilemap levelTilemap;
-
     private Rigidbody2D rb;
 
     [HideInInspector]
@@ -58,7 +53,7 @@ public class MonkeBehaviour : MonoBehaviour
         visual = transform.Find("visual").GetComponent<MonkeVisual>();
         mySquad = transform.parent.GetComponent<MonkeSquad>();
 
-        restPosition = (Vector3) groundTilemap.WorldToCell(rb.position) + new Vector3(0.5f, 0.5f, 0f);
+        restPosition = (Vector3) Level.groundTilemap.WorldToCell(rb.position) + new Vector3(0.5f, 0.5f, 0f);
     }
 
     void Start()
@@ -77,13 +72,13 @@ public class MonkeBehaviour : MonoBehaviour
         {
             case MonkeMood.OhNoGuard:
             {
-                Vector3Int gridPosition = groundTilemap.WorldToCell(rb.position);
+                Vector3Int gridPosition = Level.groundTilemap.WorldToCell(rb.position);
                 for (int i = 0; i < gridXOffsets.Length; i++)
                 {
                     Vector3Int probePosition = gridPosition + new Vector3Int(gridXOffsets[i], gridYOffsets[i], 0);
-                    if (itemTilemap.HasTile(probePosition))
+                    if (Level.itemTilemap.HasTile(probePosition))
                     {
-                        GameObject item = itemTilemap.GetInstantiatedObject(probePosition);
+                        GameObject item = Level.itemTilemap.GetInstantiatedObject(probePosition);
 
                         int layer = 1 << item.layer;
                         if (layer == LayerMask.GetMask("HidingSpot"))
@@ -100,13 +95,13 @@ public class MonkeBehaviour : MonoBehaviour
 
             case MonkeMood.BananaYumYum:
             {
-                Vector3Int gridPosition = groundTilemap.WorldToCell(rb.position);
+                Vector3Int gridPosition = Level.groundTilemap.WorldToCell(rb.position);
                 for (int i = 0; i < gridXOffsets.Length; i++)
                 {
                     Vector3Int probePosition = gridPosition + new Vector3Int(gridXOffsets[i], gridYOffsets[i], 0);
-                    if (itemTilemap.HasTile(probePosition))
+                    if (Level.itemTilemap.HasTile(probePosition))
                     {
-                        GameObject item = itemTilemap.GetInstantiatedObject(probePosition);
+                        GameObject item = Level.itemTilemap.GetInstantiatedObject(probePosition);
                         int layer = 1 << item.layer;
 
                         // @Todo: Decide if monkeys should break stuff on the way or not                        
@@ -126,13 +121,13 @@ public class MonkeBehaviour : MonoBehaviour
                 if (checkedSurroundings)
                     break;
 
-                Vector3Int gridPosition = groundTilemap.WorldToCell(rb.position);
+                Vector3Int gridPosition = Level.groundTilemap.WorldToCell(rb.position);
                 for (int i = 0; i < gridXOffsets.Length; i++)
                 {
                     Vector3Int probePosition = gridPosition + new Vector3Int(gridXOffsets[i], gridYOffsets[i], 0);
-                    if (itemTilemap.HasTile(probePosition))
+                    if (Level.itemTilemap.HasTile(probePosition))
                     {
-                        GameObject item = itemTilemap.GetInstantiatedObject(probePosition);
+                        GameObject item = Level.itemTilemap.GetInstantiatedObject(probePosition);
                         int layer = 1 << item.layer;
 
                         if (layer == LayerMask.GetMask("Shiny"))
@@ -214,9 +209,9 @@ public class MonkeBehaviour : MonoBehaviour
             lookForHidingSpot = false;
         }
 
-        Vector3Int startPos = groundTilemap.WorldToCell(rb.position);
+        Vector3Int startPos = Level.groundTilemap.WorldToCell(rb.position);
 
-        Vector3Int bananaGridPosition = groundTilemap.WorldToCell(bananaTransform.position);
+        Vector3Int bananaGridPosition = Level.groundTilemap.WorldToCell(bananaTransform.position);
         Vector3Int endPos = FindPositionAroundBanana(bananaGridPosition);
 
         MonkeHiveMind.instance.finder.UpdatePath(startPos, endPos, ref gridPath);
@@ -241,21 +236,11 @@ public class MonkeBehaviour : MonoBehaviour
 
     public void StopRuningAway()
     {
-        if (mood == MonkeMood.Captured)
+        if (mood == MonkeMood.Captured || mood == MonkeMood.Hiding)
             return;
 
-        if (mood == MonkeMood.Hiding)
-        {
-            if (wasHiding)
-                return;
-            
-            currentHidingSpot.UnhideMonkey();
-            visual.Unhide();
-            lookForHidingSpot = false;
-        }
-
         mood = MonkeMood.Idle;
-        restPosition = (Vector3) groundTilemap.WorldToCell(rb.position) + new Vector3(0.5f, 0.5f, 0f);
+        restPosition = (Vector3) Level.groundTilemap.WorldToCell(rb.position) + new Vector3(0.5f, 0.5f, 0f);
         visual.SetTarget(guardTransform, true);
     }
 
@@ -274,7 +259,7 @@ public class MonkeBehaviour : MonoBehaviour
     {
         // @Todo: Try to reduce chances of overlapping monkeys
         float[] moveOptions = new float[neighboursX.Length];
-        Vector3Int gridPosition = groundTilemap.WorldToCell(rb.position);
+        Vector3Int gridPosition = Level.groundTilemap.WorldToCell(rb.position);
 
         float maxDistSqr = (((Vector3) gridPosition + new Vector3(0.5f, 0.5f, 0f)) - guardTransform.position).sqrMagnitude;
         if (maxDistSqr > settings.minDistanceFromGuard)
@@ -285,7 +270,7 @@ public class MonkeBehaviour : MonoBehaviour
         for (int i = 0; i < neighboursX.Length; i++)
         {
             Vector3Int optionGridPosition = gridPosition + new Vector3Int(neighboursX[i], neighboursY[i], 0);
-            if (!groundTilemap.HasTile(optionGridPosition) || levelTilemap.HasTile(optionGridPosition))
+            if (!Level.groundTilemap.HasTile(optionGridPosition) || Level.wallTilemap.HasTile(optionGridPosition))
                 continue;
             
             Vector3 dest = (Vector3) optionGridPosition + new Vector3(0.5f, 0.5f, 0f);
@@ -325,7 +310,7 @@ public class MonkeBehaviour : MonoBehaviour
         for (int i = 0; i != gridYOffsets.Length; i++)
         {
             Vector3Int positionToCheck = bananaGridPosition + new Vector3Int(gridXOffsets[i], gridYOffsets[i], 0);
-            if (groundTilemap.HasTile(positionToCheck) && !levelTilemap.HasTile(positionToCheck))
+            if (Level.groundTilemap.HasTile(positionToCheck) && !Level.wallTilemap.HasTile(positionToCheck))
                 return positionToCheck;
         }
 

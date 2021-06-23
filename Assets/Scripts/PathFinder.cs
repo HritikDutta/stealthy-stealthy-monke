@@ -6,9 +6,6 @@ using UnityEngine.Tilemaps;
 // Custom A* pathfinder for level grid
 public class PathFinder : MonoBehaviour
 {
-    public Tilemap groundTilemap;
-    public Tilemap levelTilemap;
-
     private HashSet<Vector3Int> closedSet = new HashSet<Vector3Int>();
 
     private static int[] neighboursX = new int[] { -1, 0,  0, 1 };
@@ -60,7 +57,7 @@ public class PathFinder : MonoBehaviour
 
     public bool UpdatePath(Vector3Int startPosition, Vector3Int endPosition, ref List<Vector3> gridPath)
     {
-        Heap<Node> openSet = new Heap<Node>(10 * groundTilemap.size.x * groundTilemap.size.y);  // @Todo: Reduce this size
+        Heap<Node> openSet = new Heap<Node>(10 * Level.groundTilemap.size.x * Level.groundTilemap.size.y);  // @Todo: Reduce this size
         closedSet.Clear();
 
         Node startNode = new Node(startPosition);
@@ -84,8 +81,8 @@ public class PathFinder : MonoBehaviour
                 Vector3Int neighbourPosition = node.position + new Vector3Int(neighboursX[i], neighboursY[i], 0);
 
                 if (closedSet.Contains(neighbourPosition)     ||
-                    !groundTilemap.HasTile(neighbourPosition) ||
-                    levelTilemap.HasTile(neighbourPosition))
+                    !Level.groundTilemap.HasTile(neighbourPosition) ||
+                    Level.wallTilemap.HasTile(neighbourPosition))
                 {
                     continue;
                 }

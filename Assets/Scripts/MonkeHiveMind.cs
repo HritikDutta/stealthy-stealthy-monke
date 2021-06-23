@@ -12,10 +12,6 @@ public class MonkeHiveMind : MonoBehaviour
     public Text monkeyCountText;
     public Text selectedSquadText;
 
-    [Header("Level")]
-    public Tilemap groundTilemap;
-    public Tilemap levelTilemap;
-
     [Header("Units")]
     public List<MonkeSquad> squads = new List<MonkeSquad>();
 
@@ -56,9 +52,9 @@ public class MonkeHiveMind : MonoBehaviour
             Vector3 worldPosition = camera.ScreenToWorldPoint(screenPosition);
             worldPosition.z = 0f;
 
-            Vector3Int gridPosition = groundTilemap.WorldToCell(worldPosition);
+            Vector3Int gridPosition = Level.groundTilemap.WorldToCell(worldPosition);
 
-            if (groundTilemap.HasTile(gridPosition) && !levelTilemap.HasTile(gridPosition))
+            if (Level.groundTilemap.HasTile(gridPosition) && !Level.wallTilemap.HasTile(gridPosition))
                 squads[selectedSquadIndex].TellMonkesToMoveAsses(gridPosition);
         }
 

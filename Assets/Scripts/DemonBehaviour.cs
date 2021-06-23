@@ -17,12 +17,15 @@ public class DemonBehaviour : MonoBehaviour
     public DemonSettings settings;
 
     [Header("Level")]
-    public Tilemap groundTilemap;
     public PathFinder finder;
 
     [Header("Movement")]
     public DemonState state;
     public Transform patrolPathTransform;
+
+    [Header("Patrol")]
+    public Vector2Int viewAreaSize;
+    public Vector2Int viewAreaPivot;    // @Todo: Have this as a per patrol waypoint kinda thing maybe? That might mean the demons have to be animated a bit...
 
     private MonkeSquad targetSquad;
     private MonkeBehaviour target;
@@ -43,7 +46,7 @@ public class DemonBehaviour : MonoBehaviour
         foreach (Transform waypoint in patrolPathTransform)
             patrolPath.Add(waypoint);
 
-        Vector3Int currentGridPosition = groundTilemap.WorldToCell(patrolPath[0].position);
+        Vector3Int currentGridPosition = Level.groundTilemap.WorldToCell(patrolPath[0].position);
         rb.position = (Vector3) currentGridPosition + new Vector3(0.5f, 0.5f, 0f);
 
         state = settings.startState;
@@ -65,9 +68,9 @@ public class DemonBehaviour : MonoBehaviour
                 // @Temp: This should be a proper vision cone/rectangle thingy based on where the demon is looking
                 // @Todo: Demon should ignore monkeys if they're hidden
 
-                Vector3Int currentGridPosition = groundTilemap.WorldToCell(rb.position);
-                Vector3Int areaTopLeft = currentGridPosition + new Vector3Int(-2, 2, 0);
-                Vector3Int areaBottomRight = currentGridPosition + new Vector3Int(2, -2, 0);
+                Vector3Int currentGridPosition = Level.groundTilemap.WorldToCell(rb.position) + new Vector3Int(viewAreaPivot.x, viewAreaPivot.y, 0);
+                Vector3Int areaTopLeft = currentGridPosition + new Vector3Int(-viewAreaSize.x, viewAreaSize.y, 0);
+                Vector3Int areaBottomRight = currentGridPosition + new Vector3Int(viewAreaSize.x, -viewAreaSize.y, 0);
                 
                 foreach (MonkeSquad squad in MonkeHiveMind.instance.squads)
                 {
@@ -76,10 +79,10 @@ public class DemonBehaviour : MonoBehaviour
 
                     foreach (MonkeBehaviour monke in squad.monkes)
                     {
-                        if (monke.mood == MonkeMood.Hiding)
+                        if (monke.mood == MonkeMood.Hiding || monke.mood == MonkeMood.Captured)
                             continue;
 
-                        Vector3Int monkeGridPosition = groundTilemap.WorldToCell(monke.transform.position);
+                        Vector3Int monkeGridPosition = Level.groundTilemap.WorldToCell(monke.transform.position);
                         if (monkeGridPosition.x >= areaTopLeft.x && monkeGridPosition.x <= areaBottomRight.x &&
                             monkeGridPosition.y >= areaBottomRight.y && monkeGridPosition.y <= areaTopLeft.y)
                         {
@@ -105,8 +108,8 @@ public class DemonBehaviour : MonoBehaviour
                 MonkeHiveMind.instance.Captured(target);
                 MonkeHiveMind.instance.DemonStoppedChasing(targetSquad);
 
-                Vector3Int currentGridPosition = groundTilemap.WorldToCell(rb.position);
-                Vector3Int destGridPosition = groundTilemap.WorldToCell(patrolPath[patrolPathIndex].position);
+                Vector3Int currentGridPosition = Level.groundTilemap.WorldToCell(rb.position);
+                Vector3Int destGridPosition = Level.groundTilemap.WorldToCell(patrolPath[patrolPathIndex].position);
 
                 finder.UpdatePath(currentGridPosition, destGridPosition, ref gridPath);
                 gridPathIndex = 0;
@@ -136,23 +139,23 @@ public class DemonBehaviour : MonoBehaviour
 
             case DemonState.Chasing:
             {
-                Vector3Int currentGridPosition = groundTilemap.WorldToCell(rb.position);
+                Vector3Int currentGridPosition = Level.groundTilemap.WorldToCell(rb.position);
 
-                if (stamina == 0)
+                if (stamina == 0 || target.mood == MonkeMood.Hiding)
                 {
                     state = DemonState.Returning;
 
                     MonkeHiveMind.instance.DemonStoppedChasing(targetSquad);
 
-                    Vector3Int destGridPosition = groundTilemap.WorldToCell(patrolPath[patrolPathIndex].position);
+                    Vector3Int destGridPosition = Level.groundTilemap.WorldToCell(patrolPath[patrolPathIndex].position);
                     finder.UpdatePath(currentGridPosition, destGridPosition, ref gridPath);
                     gridPathIndex = 0;
 
                     break;
                 }
 
-                Vector3Int currentGridPositionWithOffset = groundTilemap.WorldToCell(rb.position + new Vector2(0.25f, 0.25f));
-                Vector3Int monkeGridPosition = groundTilemap.WorldToCell(target.transform.position);
+                Vector3Int currentGridPositionWithOffset = Level.groundTilemap.WorldToCell(rb.position + new Vector2(0.25f, 0.25f));
+                Vector3Int monkeGridPosition = Level.groundTilemap.WorldToCell(target.transform.position);
                 if (monkeGridPosition == currentGridPositionWithOffset)
                 {
                     state = DemonState.Capturing;
@@ -195,5 +198,16 @@ public class DemonBehaviour : MonoBehaviour
                 }
             } break;
         }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        float x = 2f * (float) viewAreaSize.x + 1;
+        float y = 2f * (float) viewAreaSize.y + 1;
+
+        Vector3Int currentGridPosition = Level.groundTilemap.WorldToCell(transform.position) + new Vector3Int(viewAreaPivot.x, viewAreaPivot.y, 0);
+        Vector3 displayPosition = (Vector3) currentGridPosition + new Vector3(0.5f, 0.5f, 0f);
+        Gizmos.DrawWireCube(displayPosition, new Vector3(-x, y, 0.1f));
     }
 }
