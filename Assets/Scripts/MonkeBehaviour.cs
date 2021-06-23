@@ -12,12 +12,6 @@ public enum MonkeMood
     Hiding,
 }
 
-public enum MonkeRunMode
-{
-    RunBack,
-    Scatter,
-}
-
 public class MonkeBehaviour : MonoBehaviour
 {
     [Header("Behaviour")]
@@ -40,7 +34,6 @@ public class MonkeBehaviour : MonoBehaviour
     private int currentPathIndex;
 
     private Transform guardTransform;
-    private MonkeRunMode runMode;
 
     // To find a spot on or around banana
     private static int[] gridYOffsets = new int[] { -1, -1, -1,   0, 0, 0,   1, 1, 1 };
@@ -225,13 +218,9 @@ public class MonkeBehaviour : MonoBehaviour
         visual.SetTarget(bananaTransform, true);
     }
 
-    public void StartRuningAway(Transform _guardTransform, MonkeRunMode mode)
+    public void StartRuningAway(Transform _guardTransform)
     {
-        if (mode == MonkeRunMode.RunBack)
-            currentPathIndex--;
-
         guardTransform = _guardTransform;
-        runMode = mode;
         mood = MonkeMood.OhNoGuard;
         lookForHidingSpot = false;
 
@@ -240,9 +229,6 @@ public class MonkeBehaviour : MonoBehaviour
 
     public void StopRuningAway()
     {
-        if (runMode == MonkeRunMode.RunBack)
-            return;
-        
         if (mood == MonkeMood.Hiding)
         {
             if (wasHiding)
@@ -260,59 +246,37 @@ public class MonkeBehaviour : MonoBehaviour
 
     void RunAway()
     {
-        switch (runMode)
+        // @Todo: Try to reduce chances of overlapping monkeys
+        float[] moveOptions = new float[neighboursX.Length];
+        Vector3Int gridPosition = groundTilemap.WorldToCell(rb.position);
+
+        float maxDistSqr = (((Vector3) gridPosition + new Vector3(0.5f, 0.5f, 0f)) - guardTransform.position).sqrMagnitude;
+        if (maxDistSqr > settings.minDistanceFromGuard)
+            return;
+
+        Vector3 bestOptionPosition = transform.position;
+        bool foundBetterOption = false;
+        for (int i = 0; i < neighboursX.Length; i++)
         {
-            case MonkeRunMode.RunBack:
+            Vector3Int optionGridPosition = gridPosition + new Vector3Int(neighboursX[i], neighboursY[i], 0);
+            if (!groundTilemap.HasTile(optionGridPosition) || levelTilemap.HasTile(optionGridPosition))
+                continue;
+            
+            Vector3 dest = (Vector3) optionGridPosition + new Vector3(0.5f, 0.5f, 0f);
+            float distSqr = (dest - guardTransform.position).sqrMagnitude;
+
+            if ((maxDistSqr - distSqr) < -0.1f)
             {
-                if (currentPathIndex < 0)   // @Todo: What if the starting position was close by?? Maybe fall back to scatter? Or move-back more steps?? Soo many questions?????
-                {
-                    mood = MonkeMood.Idle;
-                    visual.SetTarget(guardTransform, true);
-                    break;
-                }
+                maxDistSqr = distSqr;
+                bestOptionPosition = dest;
+                foundBetterOption = true;
+            }
+        }
 
-                Vector3 move = Vector3.MoveTowards(rb.position, gridPath[currentPathIndex], settings.moveSpeed * Time.fixedDeltaTime);
-                rb.MovePosition(move);
-
-                if (((Vector3) rb.position - gridPath[currentPathIndex]).sqrMagnitude < 0.01f)
-                    currentPathIndex--;
-            } break;
-
-            case MonkeRunMode.Scatter:
-            {                
-                // @Todo: Try to reduce chances of overlapping monkeys
-                float[] moveOptions = new float[neighboursX.Length];
-                Vector3Int gridPosition = groundTilemap.WorldToCell(rb.position);
-
-                float maxDistSqr = (((Vector3) gridPosition + new Vector3(0.5f, 0.5f, 0f)) - guardTransform.position).sqrMagnitude;
-                if (maxDistSqr > settings.minDistanceFromGuard)
-                    break;
-
-                Vector3 bestOptionPosition = transform.position;
-                bool foundBetterOption = false;
-                for (int i = 0; i < neighboursX.Length; i++)
-                {
-                    Vector3Int optionGridPosition = gridPosition + new Vector3Int(neighboursX[i], neighboursY[i], 0);
-                    if (!groundTilemap.HasTile(optionGridPosition) || levelTilemap.HasTile(optionGridPosition))
-                        continue;
-                    
-                    Vector3 dest = (Vector3) optionGridPosition + new Vector3(0.5f, 0.5f, 0f);
-                    float distSqr = (dest - guardTransform.position).sqrMagnitude;
-
-                    if ((maxDistSqr - distSqr) < -0.1f)
-                    {
-                        maxDistSqr = distSqr;
-                        bestOptionPosition = dest;
-                        foundBetterOption = true;
-                    }
-                }
-
-                if (foundBetterOption)
-                {
-                    Vector3 move = Vector3.MoveTowards(rb.position, bestOptionPosition, settings.moveSpeed * Time.fixedDeltaTime);
-                    rb.MovePosition(move);
-                }
-            } break;
+        if (foundBetterOption)
+        {
+            Vector3 move = Vector3.MoveTowards(rb.position, bestOptionPosition, settings.moveSpeed * Time.fixedDeltaTime);
+            rb.MovePosition(move);
         }
     }
 

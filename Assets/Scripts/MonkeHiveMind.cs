@@ -15,7 +15,6 @@ public class MonkeHiveMind : MonoBehaviour
 
     [Header("Controls")]
     public Transform bananaTransform;
-    public MonkeRunMode runMode;
 
     [Header("Units")]
     public List<MonkeBehaviour> units = new List<MonkeBehaviour>();
@@ -69,7 +68,7 @@ public class MonkeHiveMind : MonoBehaviour
     public void DemonStartedChasing(Transform guardTransform)
     {
         for (int i = 0; i < units.Count; i++)
-            units[i].StartRuningAway(guardTransform, runMode);
+            units[i].StartRuningAway(guardTransform);
     }
 
     public void DemonStoppedChasing()
