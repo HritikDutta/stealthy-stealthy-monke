@@ -109,22 +109,13 @@ public class MonkeBehaviour : MonoBehaviour
                     {
                         GameObject item = itemTilemap.GetInstantiatedObject(probePosition);
                         int layer = 1 << item.layer;
-                        
+
+                        // @Todo: Decide if monkeys should break stuff on the way or not                        
                         if (layer == LayerMask.GetMask("Shiny"))
                         {
                             Shiny shiny = item.GetComponent<Shiny>();
                             gridPath[currentPathIndex] = (Vector3) probePosition + new Vector3(0.5f, 0.5f, 0f);
                             shiny.Break();
-                            break;
-                        }
-
-                        if (lookForHidingSpot && layer == LayerMask.GetMask("HidingSpot"))
-                        {
-                            currentHidingSpot = item.GetComponent<HidingSpot>();
-                            currentHidingSpot.HideMonkey();
-                            visual.Hide();
-                            mood = MonkeMood.Hiding;
-                            wasHiding = true;
                             break;
                         }
                     }
