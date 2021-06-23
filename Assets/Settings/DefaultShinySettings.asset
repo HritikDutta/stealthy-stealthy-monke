@@ -9,12 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60f11e2be57e0bc4797f603ccef7a03d, type: 3}
-  m_Name: DefaultDemonSettings
+  m_Script: {fileID: 11500000, guid: dc73d0b6381ed6444a90b9ab7b3f0c1d, type: 3}
+  m_Name: DefaultShinySettings
   m_EditorClassIdentifier: 
-  patrolSpeed: 2
-  chaseSpeed: 6
-  startState: 0
-  maxStamina: 50
-  minStamina: 1
-  investigationTime: 3
+  soundRadius: 5

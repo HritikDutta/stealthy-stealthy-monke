@@ -5,8 +5,10 @@ using UnityEngine.Tilemaps;
 
 public class Shiny : MonoBehaviour
 {
-    public bool broken = false;
+    [Header("Settings")]
+    public ShinySettings settings;
 
+    private bool broken = false;
     private Tilemap tilemap;
     private Vector3Int gridPosition;
     
@@ -27,5 +29,33 @@ public class Shiny : MonoBehaviour
         gameObject.SetActive(false);
         gameObject.layer = 0;
         broken = true;
+
+        MakeSound();
+    }
+
+    private void MakeSound()
+    {        
+        DemonBehaviour closestDemon = null;
+        float minSqrDistanceSoFar = float.MaxValue;
+
+        Vector3 myPosition = (Vector3) gridPosition + new Vector3(0.5f, 0.5f, 0f);
+
+        foreach (DemonBehaviour demon in Level.demons)
+        {
+            if (demon.state == DemonState.Investigating)
+                continue;
+            
+            float sqrDistance = (demon.transform.position - myPosition).sqrMagnitude;
+            if (sqrDistance < minSqrDistanceSoFar)
+            {
+                minSqrDistanceSoFar = sqrDistance;
+                closestDemon = demon;
+            }
+        }
+
+        Debug.Log("Making Sound! " + closestDemon + " should investigate...");
+
+        if (minSqrDistanceSoFar <= settings.soundRadius * settings.soundRadius)
+            closestDemon.Investigate(gridPosition);
     }
 }

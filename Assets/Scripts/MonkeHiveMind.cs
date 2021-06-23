@@ -15,8 +15,6 @@ public class MonkeHiveMind : MonoBehaviour
     [Header("Units")]
     public List<MonkeSquad> squads = new List<MonkeSquad>();
 
-    [HideInInspector]
-    public PathFinder finder;
     private Camera camera;
 
     private int selectedSquadIndex = 0;
@@ -31,7 +29,6 @@ public class MonkeHiveMind : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         camera = Camera.main;
-        finder = GetComponent<PathFinder>();
     }
 
     void Start()

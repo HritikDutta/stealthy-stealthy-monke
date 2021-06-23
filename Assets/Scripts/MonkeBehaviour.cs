@@ -66,6 +66,7 @@ public class MonkeBehaviour : MonoBehaviour
         if (mood == MonkeMood.Captured)
             return;
 
+        // @Todo: Decide if all monkeys in a squad should hide together or individually
         // @Todo: Decide if you want the banana to be placed on the hiding spot
         // @Todo: Look at the number of monkeys in the spot and select best option for better distribution
         switch (mood)
@@ -214,7 +215,7 @@ public class MonkeBehaviour : MonoBehaviour
         Vector3Int bananaGridPosition = Level.groundTilemap.WorldToCell(bananaTransform.position);
         Vector3Int endPos = FindPositionAroundBanana(bananaGridPosition);
 
-        MonkeHiveMind.instance.finder.UpdatePath(startPos, endPos, ref gridPath);
+        Level.finder.UpdatePath(startPos, endPos, ref gridPath);
 
         currentPathIndex = 0;
         mood = MonkeMood.BananaYumYum;

@@ -6,6 +6,8 @@ using UnityEngine.Tilemaps;
 public enum DemonState
 {
     Patrolling,
+    Investigating,
+    Looking,
     Chasing,
     Capturing,
     Returning,
@@ -15,9 +17,6 @@ public class DemonBehaviour : MonoBehaviour
 {
     [Header("Settings")]
     public DemonSettings settings;
-
-    [Header("Level")]
-    public PathFinder finder;
 
     [Header("Movement")]
     public DemonState state;
@@ -29,6 +28,7 @@ public class DemonBehaviour : MonoBehaviour
 
     private MonkeSquad targetSquad;
     private MonkeBehaviour target;
+
     private Rigidbody2D rb;
 
     [HideInInspector]
@@ -60,6 +60,8 @@ public class DemonBehaviour : MonoBehaviour
         switch (state)
         {
             case DemonState.Patrolling:
+            case DemonState.Investigating:
+            case DemonState.Looking:
             case DemonState.Returning:
             {
                 if (stamina < settings.minStamina)
@@ -92,7 +94,7 @@ public class DemonBehaviour : MonoBehaviour
 
                             MonkeHiveMind.instance.DemonStartedChasing(squad, transform);
 
-                            finder.UpdatePath(currentGridPosition, monkeGridPosition, ref gridPath);
+                            Level.finder.UpdatePath(currentGridPosition, monkeGridPosition, ref gridPath);
                             gridPathIndex = 0;
 
                             break;
@@ -111,7 +113,7 @@ public class DemonBehaviour : MonoBehaviour
                 Vector3Int currentGridPosition = Level.groundTilemap.WorldToCell(rb.position);
                 Vector3Int destGridPosition = Level.groundTilemap.WorldToCell(patrolPath[patrolPathIndex].position);
 
-                finder.UpdatePath(currentGridPosition, destGridPosition, ref gridPath);
+                Level.finder.UpdatePath(currentGridPosition, destGridPosition, ref gridPath);
                 gridPathIndex = 0;
                 stamina = 0;
             } break;
@@ -148,7 +150,7 @@ public class DemonBehaviour : MonoBehaviour
                     MonkeHiveMind.instance.DemonStoppedChasing(targetSquad);
 
                     Vector3Int destGridPosition = Level.groundTilemap.WorldToCell(patrolPath[patrolPathIndex].position);
-                    finder.UpdatePath(currentGridPosition, destGridPosition, ref gridPath);
+                    Level.finder.UpdatePath(currentGridPosition, destGridPosition, ref gridPath);
                     gridPathIndex = 0;
 
                     break;
@@ -164,7 +166,7 @@ public class DemonBehaviour : MonoBehaviour
 
                 if (gridPathIndex >= gridPath.Count)
                 {
-                    finder.UpdatePath(currentGridPosition, monkeGridPosition, ref gridPath);
+                    Level.finder.UpdatePath(currentGridPosition, monkeGridPosition, ref gridPath);
                     gridPathIndex = 0;
                 }
 
@@ -176,6 +178,22 @@ public class DemonBehaviour : MonoBehaviour
                     gridPathIndex++;
                     stamina--;
                 }
+            } break;
+
+            case DemonState.Investigating:
+            {
+                if (gridPathIndex >= gridPath.Count)
+                {
+                    state = DemonState.Looking;
+                    StartCoroutine(LookForMonkey());
+                    break;
+                }
+
+                Vector3 move = Vector3.MoveTowards(rb.position, gridPath[gridPathIndex], settings.patrolSpeed * Time.fixedDeltaTime);
+                rb.MovePosition(move);
+
+                if (((Vector3) rb.position - gridPath[gridPathIndex]).sqrMagnitude < 0.01f)
+                    gridPathIndex++;
             } break;
 
             case DemonState.Returning:
@@ -198,6 +216,35 @@ public class DemonBehaviour : MonoBehaviour
                 }
             } break;
         }
+    }
+
+    private IEnumerator LookForMonkey()
+    {
+        yield return new WaitForSeconds(settings.investigationTime);
+
+        state = DemonState.Returning;
+
+        Vector3Int currentGridPosition = Level.groundTilemap.WorldToCell(rb.position);
+        Vector3Int destGridPosition = Level.groundTilemap.WorldToCell(patrolPath[patrolPathIndex].position);
+
+        Level.finder.UpdatePath(currentGridPosition, destGridPosition, ref gridPath);
+        gridPathIndex = 0;
+
+        yield return null;
+    }
+
+    public void Investigate(Vector3Int positionToCheck)
+    {
+        if (state == DemonState.Investigating)
+            return;
+        
+        Vector3Int currentGridPosition = Level.groundTilemap.WorldToCell(rb.position);
+
+        Level.finder.UpdatePath(currentGridPosition, positionToCheck, ref gridPath);
+        gridPathIndex = 0;
+        state = DemonState.Investigating;
+
+        Debug.Log("Investigating!");
     }
 
     void OnDrawGizmosSelected()
