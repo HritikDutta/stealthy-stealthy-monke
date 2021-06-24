@@ -45,7 +45,7 @@ public class MonkeBehaviour : MonoBehaviour
     private HidingSpot currentHidingSpot;
     private bool wasHiding = false;
 
-    void Awake()
+    void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         gridPath = new List<Vector3>();
@@ -54,10 +54,6 @@ public class MonkeBehaviour : MonoBehaviour
         mySquad = transform.parent.GetComponent<MonkeSquad>();
 
         restPosition = (Vector3) Level.groundTilemap.WorldToCell(rb.position) + new Vector3(0.5f, 0.5f, 0f);
-    }
-
-    void Start()
-    {
         visual.Unhide();
     }
 
