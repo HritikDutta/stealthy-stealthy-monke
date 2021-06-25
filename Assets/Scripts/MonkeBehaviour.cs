@@ -50,14 +50,14 @@ public class MonkeBehaviour : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         gridPath = new List<Vector3>();
 
-        visual = transform.Find("visual").GetComponent<MonkeVisual>();
+        visual = transform.GetChild(0).GetComponent<MonkeVisual>();
         mySquad = transform.parent.GetComponent<MonkeSquad>();
 
         restPosition = (Vector3) Level.groundTilemap.WorldToCell(rb.position) + new Vector3(0.5f, 0.5f, 0f);
         visual.Unhide();
     }
 
-    void LateUpdate()
+    void Update()
     {
         if (mood == MonkeMood.Captured)
             return;
@@ -190,6 +190,24 @@ public class MonkeBehaviour : MonoBehaviour
         }
     }
 
+    public void Teleport(Vector3 position)
+    {
+        if (mood == MonkeMood.Hiding)
+        {
+            currentHidingSpot.UnhideMonkey();
+            visual.Unhide();
+        }
+
+        mood = MonkeMood.Idle;
+        
+        rb.position = position;
+        restPosition = position;
+
+        lookForHidingSpot = false;
+        checkedSurroundings = false;
+        wasHiding = false;
+    }
+
     public void FindPathToBanana(Transform bananaTransform)
     {
         if (mood == MonkeMood.Captured)
@@ -288,7 +306,7 @@ public class MonkeBehaviour : MonoBehaviour
         }
     }
 
-    Vector3Int FindPositionAroundBanana(Vector3Int bananaGridPosition)
+    public Vector3Int FindPositionAroundBanana(Vector3Int bananaGridPosition)
     {
         int offsetIndex = Random.Range(1, gridYOffsets.Length);
 

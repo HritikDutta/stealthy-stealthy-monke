@@ -55,6 +55,18 @@ public class MonkeHiveMind : MonoBehaviour
                 squads[selectedSquadIndex].TellMonkesToMoveAsses(gridPosition);
         }
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            Vector3 screenPosition = Input.mousePosition;
+            Vector3 worldPosition = camera.ScreenToWorldPoint(screenPosition);
+            worldPosition.z = 0f;
+
+            Vector3Int gridPosition = Level.groundTilemap.WorldToCell(worldPosition);
+
+            if (Level.groundTilemap.HasTile(gridPosition) && !Level.wallTilemap.HasTile(gridPosition))
+                TeleportEveryone(gridPosition);
+        }
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             selectedSquadIndex = (selectedSquadIndex + 1) % squads.Count;
@@ -66,6 +78,12 @@ public class MonkeHiveMind : MonoBehaviour
             selectedSquadIndex = (selectedSquadIndex + squads.Count - 1) % squads.Count;
             selectedSquadText.text = selectedSquadIndex.ToString();
         }
+    }
+
+    public void TeleportEveryone(Vector3Int gridPosition)
+    {
+        foreach (MonkeSquad squad in squads)
+            squad.TeleportEveryone(gridPosition);
     }
 
     public void DemonStartedChasing(MonkeSquad squad, Transform guardTransform)

@@ -9,6 +9,7 @@ public class Shiny : MonoBehaviour
     public ShinySettings settings;
 
     private bool broken = false;
+
     private Tilemap tilemap;
     private Vector3Int gridPosition;
     
@@ -16,6 +17,8 @@ public class Shiny : MonoBehaviour
     {
         tilemap = transform.parent.GetComponent<Tilemap>();
         gridPosition = tilemap.WorldToCell(transform.position);
+
+        tilemap.SetTile(gridPosition, settings.intactSprite);
     }
 
     public void Break()
@@ -23,10 +26,9 @@ public class Shiny : MonoBehaviour
         if (broken)
             return;
 
-        tilemap.SetColor(gridPosition, Color.red);
+        tilemap.SetTile(gridPosition, settings.brokenSprite);
         tilemap.RefreshTile(gridPosition);
 
-        gameObject.SetActive(false);
         gameObject.layer = 0;
         broken = true;
 
