@@ -234,7 +234,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -263,6 +263,78 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: tvOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Lumin
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -427,7 +499,7 @@ TextureImporter:
       name: RoomTilesAtlas_7
       rect:
         serializedVersion: 2
-        x: 32
+        x: 48
         y: 189
         width: 16
         height: 16
@@ -448,7 +520,7 @@ TextureImporter:
       name: RoomTilesAtlas_8
       rect:
         serializedVersion: 2
-        x: 48
+        x: 64
         y: 189
         width: 16
         height: 16
@@ -469,8 +541,8 @@ TextureImporter:
       name: RoomTilesAtlas_9
       rect:
         serializedVersion: 2
-        x: 64
-        y: 189
+        x: 0
+        y: 173
         width: 16
         height: 16
       alignment: 0
@@ -490,7 +562,7 @@ TextureImporter:
       name: RoomTilesAtlas_10
       rect:
         serializedVersion: 2
-        x: 0
+        x: 16
         y: 173
         width: 16
         height: 16
@@ -511,7 +583,7 @@ TextureImporter:
       name: RoomTilesAtlas_11
       rect:
         serializedVersion: 2
-        x: 16
+        x: 48
         y: 173
         width: 16
         height: 16
@@ -532,7 +604,7 @@ TextureImporter:
       name: RoomTilesAtlas_12
       rect:
         serializedVersion: 2
-        x: 32
+        x: 64
         y: 173
         width: 16
         height: 16
@@ -553,8 +625,8 @@ TextureImporter:
       name: RoomTilesAtlas_13
       rect:
         serializedVersion: 2
-        x: 48
-        y: 173
+        x: 0
+        y: 157
         width: 16
         height: 16
       alignment: 0
@@ -574,8 +646,8 @@ TextureImporter:
       name: RoomTilesAtlas_14
       rect:
         serializedVersion: 2
-        x: 64
-        y: 173
+        x: 16
+        y: 157
         width: 16
         height: 16
       alignment: 0
@@ -595,7 +667,7 @@ TextureImporter:
       name: RoomTilesAtlas_15
       rect:
         serializedVersion: 2
-        x: 0
+        x: 48
         y: 157
         width: 16
         height: 16
@@ -616,7 +688,7 @@ TextureImporter:
       name: RoomTilesAtlas_16
       rect:
         serializedVersion: 2
-        x: 16
+        x: 64
         y: 157
         width: 16
         height: 16
@@ -637,8 +709,8 @@ TextureImporter:
       name: RoomTilesAtlas_17
       rect:
         serializedVersion: 2
-        x: 32
-        y: 157
+        x: 0
+        y: 141
         width: 16
         height: 16
       alignment: 0
@@ -658,8 +730,8 @@ TextureImporter:
       name: RoomTilesAtlas_18
       rect:
         serializedVersion: 2
-        x: 48
-        y: 157
+        x: 16
+        y: 141
         width: 16
         height: 16
       alignment: 0
@@ -679,8 +751,8 @@ TextureImporter:
       name: RoomTilesAtlas_19
       rect:
         serializedVersion: 2
-        x: 64
-        y: 157
+        x: 32
+        y: 141
         width: 16
         height: 16
       alignment: 0
@@ -700,7 +772,7 @@ TextureImporter:
       name: RoomTilesAtlas_20
       rect:
         serializedVersion: 2
-        x: 0
+        x: 48
         y: 141
         width: 16
         height: 16
@@ -721,7 +793,7 @@ TextureImporter:
       name: RoomTilesAtlas_21
       rect:
         serializedVersion: 2
-        x: 16
+        x: 64
         y: 141
         width: 16
         height: 16
@@ -742,8 +814,8 @@ TextureImporter:
       name: RoomTilesAtlas_22
       rect:
         serializedVersion: 2
-        x: 32
-        y: 141
+        x: 0
+        y: 125
         width: 16
         height: 16
       alignment: 0
@@ -763,8 +835,8 @@ TextureImporter:
       name: RoomTilesAtlas_23
       rect:
         serializedVersion: 2
-        x: 48
-        y: 141
+        x: 16
+        y: 125
         width: 16
         height: 16
       alignment: 0
@@ -784,8 +856,8 @@ TextureImporter:
       name: RoomTilesAtlas_24
       rect:
         serializedVersion: 2
-        x: 64
-        y: 141
+        x: 32
+        y: 125
         width: 16
         height: 16
       alignment: 0
@@ -805,7 +877,7 @@ TextureImporter:
       name: RoomTilesAtlas_25
       rect:
         serializedVersion: 2
-        x: 0
+        x: 48
         y: 125
         width: 16
         height: 16
@@ -826,7 +898,7 @@ TextureImporter:
       name: RoomTilesAtlas_26
       rect:
         serializedVersion: 2
-        x: 16
+        x: 64
         y: 125
         width: 16
         height: 16
@@ -847,8 +919,8 @@ TextureImporter:
       name: RoomTilesAtlas_27
       rect:
         serializedVersion: 2
-        x: 32
-        y: 125
+        x: 0
+        y: 109
         width: 16
         height: 16
       alignment: 0
@@ -868,8 +940,8 @@ TextureImporter:
       name: RoomTilesAtlas_28
       rect:
         serializedVersion: 2
-        x: 48
-        y: 125
+        x: 16
+        y: 109
         width: 16
         height: 16
       alignment: 0
@@ -889,8 +961,8 @@ TextureImporter:
       name: RoomTilesAtlas_29
       rect:
         serializedVersion: 2
-        x: 64
-        y: 125
+        x: 32
+        y: 109
         width: 16
         height: 16
       alignment: 0
@@ -910,7 +982,7 @@ TextureImporter:
       name: RoomTilesAtlas_30
       rect:
         serializedVersion: 2
-        x: 0
+        x: 48
         y: 109
         width: 16
         height: 16
@@ -931,7 +1003,7 @@ TextureImporter:
       name: RoomTilesAtlas_31
       rect:
         serializedVersion: 2
-        x: 16
+        x: 64
         y: 109
         width: 16
         height: 16
@@ -952,8 +1024,8 @@ TextureImporter:
       name: RoomTilesAtlas_32
       rect:
         serializedVersion: 2
-        x: 32
-        y: 109
+        x: 0
+        y: 93
         width: 16
         height: 16
       alignment: 0
@@ -973,8 +1045,8 @@ TextureImporter:
       name: RoomTilesAtlas_33
       rect:
         serializedVersion: 2
-        x: 48
-        y: 109
+        x: 16
+        y: 93
         width: 16
         height: 16
       alignment: 0
@@ -994,8 +1066,8 @@ TextureImporter:
       name: RoomTilesAtlas_34
       rect:
         serializedVersion: 2
-        x: 64
-        y: 109
+        x: 32
+        y: 93
         width: 16
         height: 16
       alignment: 0
@@ -1015,7 +1087,7 @@ TextureImporter:
       name: RoomTilesAtlas_35
       rect:
         serializedVersion: 2
-        x: 0
+        x: 48
         y: 93
         width: 16
         height: 16
@@ -1036,7 +1108,7 @@ TextureImporter:
       name: RoomTilesAtlas_36
       rect:
         serializedVersion: 2
-        x: 16
+        x: 64
         y: 93
         width: 16
         height: 16
@@ -1057,8 +1129,8 @@ TextureImporter:
       name: RoomTilesAtlas_37
       rect:
         serializedVersion: 2
-        x: 32
-        y: 93
+        x: 0
+        y: 77
         width: 16
         height: 16
       alignment: 0
@@ -1078,8 +1150,8 @@ TextureImporter:
       name: RoomTilesAtlas_38
       rect:
         serializedVersion: 2
-        x: 48
-        y: 93
+        x: 16
+        y: 77
         width: 16
         height: 16
       alignment: 0
@@ -1099,8 +1171,8 @@ TextureImporter:
       name: RoomTilesAtlas_39
       rect:
         serializedVersion: 2
-        x: 64
-        y: 93
+        x: 32
+        y: 77
         width: 16
         height: 16
       alignment: 0
@@ -1120,7 +1192,7 @@ TextureImporter:
       name: RoomTilesAtlas_40
       rect:
         serializedVersion: 2
-        x: 0
+        x: 48
         y: 77
         width: 16
         height: 16
@@ -1141,7 +1213,7 @@ TextureImporter:
       name: RoomTilesAtlas_41
       rect:
         serializedVersion: 2
-        x: 16
+        x: 64
         y: 77
         width: 16
         height: 16
@@ -1162,8 +1234,8 @@ TextureImporter:
       name: RoomTilesAtlas_42
       rect:
         serializedVersion: 2
-        x: 32
-        y: 77
+        x: 0
+        y: 61
         width: 16
         height: 16
       alignment: 0
@@ -1183,8 +1255,8 @@ TextureImporter:
       name: RoomTilesAtlas_43
       rect:
         serializedVersion: 2
-        x: 48
-        y: 77
+        x: 16
+        y: 61
         width: 16
         height: 16
       alignment: 0
@@ -1204,8 +1276,8 @@ TextureImporter:
       name: RoomTilesAtlas_44
       rect:
         serializedVersion: 2
-        x: 64
-        y: 77
+        x: 32
+        y: 61
         width: 16
         height: 16
       alignment: 0
@@ -1225,7 +1297,7 @@ TextureImporter:
       name: RoomTilesAtlas_45
       rect:
         serializedVersion: 2
-        x: 0
+        x: 48
         y: 61
         width: 16
         height: 16
@@ -1246,7 +1318,7 @@ TextureImporter:
       name: RoomTilesAtlas_46
       rect:
         serializedVersion: 2
-        x: 16
+        x: 64
         y: 61
         width: 16
         height: 16
@@ -1267,8 +1339,8 @@ TextureImporter:
       name: RoomTilesAtlas_47
       rect:
         serializedVersion: 2
-        x: 32
-        y: 61
+        x: 0
+        y: 45
         width: 16
         height: 16
       alignment: 0
@@ -1288,8 +1360,8 @@ TextureImporter:
       name: RoomTilesAtlas_48
       rect:
         serializedVersion: 2
-        x: 48
-        y: 61
+        x: 16
+        y: 45
         width: 16
         height: 16
       alignment: 0
@@ -1309,8 +1381,8 @@ TextureImporter:
       name: RoomTilesAtlas_49
       rect:
         serializedVersion: 2
-        x: 64
-        y: 61
+        x: 48
+        y: 45
         width: 16
         height: 16
       alignment: 0
@@ -1330,7 +1402,7 @@ TextureImporter:
       name: RoomTilesAtlas_50
       rect:
         serializedVersion: 2
-        x: 0
+        x: 64
         y: 45
         width: 16
         height: 16
@@ -1351,8 +1423,8 @@ TextureImporter:
       name: RoomTilesAtlas_51
       rect:
         serializedVersion: 2
-        x: 16
-        y: 45
+        x: 0
+        y: 29
         width: 16
         height: 16
       alignment: 0
@@ -1372,8 +1444,8 @@ TextureImporter:
       name: RoomTilesAtlas_52
       rect:
         serializedVersion: 2
-        x: 48
-        y: 45
+        x: 16
+        y: 29
         width: 16
         height: 16
       alignment: 0
@@ -1393,8 +1465,8 @@ TextureImporter:
       name: RoomTilesAtlas_53
       rect:
         serializedVersion: 2
-        x: 64
-        y: 45
+        x: 48
+        y: 29
         width: 16
         height: 16
       alignment: 0
@@ -1414,7 +1486,7 @@ TextureImporter:
       name: RoomTilesAtlas_54
       rect:
         serializedVersion: 2
-        x: 0
+        x: 64
         y: 29
         width: 16
         height: 16
@@ -1435,8 +1507,8 @@ TextureImporter:
       name: RoomTilesAtlas_55
       rect:
         serializedVersion: 2
-        x: 16
-        y: 29
+        x: 0
+        y: 13
         width: 16
         height: 16
       alignment: 0
@@ -1456,8 +1528,8 @@ TextureImporter:
       name: RoomTilesAtlas_56
       rect:
         serializedVersion: 2
-        x: 48
-        y: 29
+        x: 16
+        y: 13
         width: 16
         height: 16
       alignment: 0
@@ -1477,8 +1549,8 @@ TextureImporter:
       name: RoomTilesAtlas_57
       rect:
         serializedVersion: 2
-        x: 64
-        y: 29
+        x: 48
+        y: 13
         width: 16
         height: 16
       alignment: 0
@@ -1498,7 +1570,7 @@ TextureImporter:
       name: RoomTilesAtlas_58
       rect:
         serializedVersion: 2
-        x: 0
+        x: 64
         y: 13
         width: 16
         height: 16
@@ -1511,69 +1583,6 @@ TextureImporter:
       bones: []
       spriteID: 37bc95475e802eec0800000000000000
       internalID: -3539256575567213709
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RoomTilesAtlas_59
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 13
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2d503148dba41aed0800000000000000
-      internalID: -2404558548214020654
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RoomTilesAtlas_60
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 13
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ff825770e5e8fee50800000000000000
-      internalID: 6840842893502261503
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RoomTilesAtlas_61
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 13
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 24ddb7c44150fa490800000000000000
-      internalID: -7732956450431181502
       vertices: []
       indices: 
       edges: []

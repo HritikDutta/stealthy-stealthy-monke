@@ -44,7 +44,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 2800000, guid: a44539a1303b5324a9144d941fc90247, type: 3}
-    totalSpriteSurfaceArea: 15872
+    totalSpriteSurfaceArea: 15104
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -53,9 +53,6 @@ SpriteAtlas:
   - {fileID: -8705754688325794473, guid: a44539a1303b5324a9144d941fc90247, type: 3}
   - {fileID: 2377993181961836621, guid: a44539a1303b5324a9144d941fc90247, type: 3}
   - {fileID: -3539256575567213709, guid: a44539a1303b5324a9144d941fc90247, type: 3}
-  - {fileID: -7732956450431181502, guid: a44539a1303b5324a9144d941fc90247, type: 3}
-  - {fileID: -2404558548214020654, guid: a44539a1303b5324a9144d941fc90247, type: 3}
-  - {fileID: 6840842893502261503, guid: a44539a1303b5324a9144d941fc90247, type: 3}
   - {fileID: -2498736368944316089, guid: a44539a1303b5324a9144d941fc90247, type: 3}
   - {fileID: 5321219476972568985, guid: a44539a1303b5324a9144d941fc90247, type: 3}
   - {fileID: -5329164657749335666, guid: a44539a1303b5324a9144d941fc90247, type: 3}
@@ -116,9 +113,6 @@ SpriteAtlas:
   - RoomTilesAtlas_38
   - RoomTilesAtlas_39
   - RoomTilesAtlas_58
-  - RoomTilesAtlas_61
-  - RoomTilesAtlas_59
-  - RoomTilesAtlas_60
   - RoomTilesAtlas_30
   - RoomTilesAtlas_31
   - RoomTilesAtlas_49
