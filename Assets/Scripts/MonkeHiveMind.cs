@@ -122,7 +122,7 @@ public class MonkeHiveMind : MonoBehaviour
 
     public void Captured(MonkeBehaviour monke)
     {
-        // monke.GetCaptured();
+        monke.GetCaptured();
 
         // int monkeCount = 0;
         // for (int i = 0; i < squads.Count; i++)

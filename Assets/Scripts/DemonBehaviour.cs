@@ -114,7 +114,6 @@ public class DemonBehaviour : MonoBehaviour
 
                 Level.finder.UpdatePath(currentGridPosition, destGridPosition, ref gridPath);
                 gridPathIndex = 0;
-                stamina = 0;
             } break;
         }
     }
