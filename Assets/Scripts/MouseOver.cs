@@ -11,39 +11,38 @@ public class MouseOver : MonoBehaviour
     private bool mouseMoved = false;
     private SpriteRenderer highlightRenderer;
 
-    void Start()
+    private Vector3Int previousGridPosition;
+
+    void Awake()
     {
         camera = GetComponent<Camera>();
         highlightRenderer = highlighter.GetComponent<SpriteRenderer>();
+        previousGridPosition = new Vector3Int(0, 0, 10);
     }
 
     void Update()
     {
-        mouseMoved = (Input.GetAxis("Mouse X") != 0.1f || Input.GetAxis("Mouse Y") != 0.1f);
-    }
-
-    void LateUpdate()
-    {
-        if (!mouseMoved)
-            return;
-
         Vector3 screenPosition = Input.mousePosition;
         Vector3 worldPosition = camera.ScreenToWorldPoint(screenPosition);
         worldPosition.z = 0f;
 
         Vector3Int gridPosition = Level.groundTilemap.WorldToCell(worldPosition);
+        if (gridPosition == previousGridPosition)
+            return;
 
         if (Level.groundTilemap.HasTile(gridPosition) && !Level.wallTilemap.HasTile(gridPosition))
         {
             highlighter.position = (Vector3) gridPosition + new Vector3(0.5f, 0.5f, 0f);
             highlightRenderer.enabled = true;
 
+            Debug.Log("Mouse Moved!");
+
             // @Todo: Different icons for interactables?
         }
         else
-        {
             highlightRenderer.enabled = false;
-        }
+        
+        previousGridPosition = gridPosition;
     }
 
     public void SetColor(Color color)
