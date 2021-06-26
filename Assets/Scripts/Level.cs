@@ -22,13 +22,16 @@ public class Level : MonoBehaviour
     [Header("Demons")]
     public Transform _demonsObject;
 
+    [Header("Sections")]
+    public List<float> _sectionHeights = new List<float>();
+
     private List<DemonBehaviour> _demons = new List<DemonBehaviour>();
     private PathFinder _finder;
 
     private List<Transform> _cameraPositions = new List<Transform>();
     private List<Transform> _sectionStarts = new List<Transform>();
     private List<DoorTrigger> _sectionTriggers = new List<DoorTrigger>();
-    private int _currentTriggerIndex = 0;
+    private int _currentSectionIndex = 0;
 
     private List<LevelEndDoor> _levelEndDoorTiles = new List<LevelEndDoor>();
 
@@ -65,9 +68,12 @@ public class Level : MonoBehaviour
 
     void Start()
     {
-        _sectionTriggers[_currentTriggerIndex].Enable();
-        _levelCamera.SetTarget(_cameraPositions[_currentTriggerIndex]);
-        _hiveMind.TeleportEveryone(_groundTilemap.WorldToCell(_sectionStarts[_currentTriggerIndex].position));
+        _sectionTriggers[_currentSectionIndex].Enable();
+        _hiveMind.TeleportEveryone(_groundTilemap.WorldToCell(_sectionStarts[_currentSectionIndex].position));
+
+        float maskX = (float) (_groundTilemap.size.x + 1);
+        Vector3 maskScale =  new Vector3(maskX, _sectionHeights[_currentSectionIndex], 1f);
+        _levelCamera.SetTargetAndMaskScale(_cameraPositions[_currentSectionIndex], maskScale);
     }
 
     public static void AddDoorTile(LevelEndDoor door)
@@ -77,18 +83,21 @@ public class Level : MonoBehaviour
 
     public static void GoToNextSection()
     {
-        if (instance._currentTriggerIndex >= instance._sectionTriggers.Count)
+        if (instance._currentSectionIndex >= instance._sectionTriggers.Count)
             return;
 
-        instance._sectionTriggers[instance._currentTriggerIndex].Disable();
-        instance._currentTriggerIndex++;
+        instance._sectionTriggers[instance._currentSectionIndex].Disable();
+        instance._currentSectionIndex++;
         
-        if (instance._currentTriggerIndex >= instance._sectionTriggers.Count)
+        if (instance._currentSectionIndex >= instance._sectionTriggers.Count)
             return;
 
-        instance._sectionTriggers[instance._currentTriggerIndex].Enable();
-        instance._levelCamera.SetTarget(instance._cameraPositions[instance._currentTriggerIndex]);
-        instance._hiveMind.TeleportEveryone(instance._groundTilemap.WorldToCell(instance._sectionStarts[instance._currentTriggerIndex].position));
+        instance._sectionTriggers[instance._currentSectionIndex].Enable();
+        instance._hiveMind.TeleportEveryone(instance._groundTilemap.WorldToCell(instance._sectionStarts[instance._currentSectionIndex].position));
+
+        float maskX = (float) (instance._groundTilemap.size.x + 1);
+        Vector3 maskScale =  new Vector3(maskX, instance._sectionHeights[instance._currentSectionIndex], 1f);
+        instance._levelCamera.SetTargetAndMaskScale(instance._cameraPositions[instance._currentSectionIndex], maskScale);
     }
 
     public static void UnlockDoor()

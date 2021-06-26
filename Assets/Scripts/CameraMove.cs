@@ -11,6 +11,15 @@ public class CameraMove : MonoBehaviour
     private Vector3 start;
     private Vector3 end;
 
+    private Transform mask;
+    private Vector3 maskStartScale;
+    private Vector3 maskTargetScale;
+
+    void Awake()
+    {
+        mask = transform.GetChild(0);
+    }
+
     void Update()
     {
         float t = (Time.time - lastMove) / moveDuration;
@@ -18,12 +27,16 @@ public class CameraMove : MonoBehaviour
             return;
         
         transform.position = Vector3.Lerp(start, end, moveCurve.Evaluate(t));
+        mask.localScale = Vector3.Lerp(maskStartScale, maskTargetScale, moveCurve.Evaluate(t));
     }
 
-    public void SetTarget(Transform _target)
+    public void SetTargetAndMaskScale(Transform _target, Vector3 scale)
     {
         lastMove = Time.time;
         start = transform.position;
         end = _target.position;
+
+        maskTargetScale = scale;
+        maskStartScale = mask.localScale;
     }
 }

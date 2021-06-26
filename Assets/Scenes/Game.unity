@@ -331,7 +331,7 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
-  m_MaskInteraction: 0
+  m_MaskInteraction: 1
 --- !u!1839735485 &254346227
 Tilemap:
   m_ObjectHideFlags: 0
@@ -3223,7 +3223,7 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
-  m_MaskInteraction: 0
+  m_MaskInteraction: 1
 --- !u!1839735485 &309945299
 Tilemap:
   m_ObjectHideFlags: 0
@@ -9479,6 +9479,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1566007600}
     m_Modifications:
+    - target: {fileID: 4376223042660389912, guid: d6745bc5c8eb3614f9ea346f5951a109, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -5076754513298380769, guid: 59ba785d086885c4f80a9852b31b7a25, type: 3}
     - target: {fileID: 4376223043432539936, guid: d6745bc5c8eb3614f9ea346f5951a109, type: 3}
       propertyPath: m_Name
       value: Monke Yellow
@@ -9832,6 +9836,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1566007600}
     m_Modifications:
+    - target: {fileID: 4376223042660389912, guid: d6745bc5c8eb3614f9ea346f5951a109, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -5076754513298380769, guid: 59ba785d086885c4f80a9852b31b7a25, type: 3}
     - target: {fileID: 4376223043432539936, guid: d6745bc5c8eb3614f9ea346f5951a109, type: 3}
       propertyPath: m_Name
       value: Monke Yellow (1)
@@ -10017,6 +10025,87 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 609534788}
   m_CullTransparentMesh: 1
+--- !u!1 &623590572
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 623590574}
+  - component: {fileID: 623590573}
+  m_Layer: 0
+  m_Name: Sprite Mask
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!331 &623590573
+SpriteMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623590572}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10758, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  m_MaskAlphaCutoff: 0.2
+  m_FrontSortingLayerID: 0
+  m_BackSortingLayerID: 0
+  m_FrontSortingLayer: 0
+  m_BackSortingLayer: 0
+  m_FrontSortingOrder: 0
+  m_BackSortingOrder: 0
+  m_IsCustomRangeActive: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &623590574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623590572}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1503472584}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &658273911
 GameObject:
   m_ObjectHideFlags: 0
@@ -10380,7 +10469,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 1
   m_SpriteSortPoint: 0
 --- !u!1 &874066914
 GameObject:
@@ -11252,7 +11341,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 623590574}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11430,6 +11520,10 @@ MonoBehaviour:
   _interactableTilemap: {fileID: 1645069830}
   _hiveMind: {fileID: 290008446}
   _demonsObject: {fileID: 516565883}
+  _sectionHeights:
+  - 16
+  - 15
+  - 13
 --- !u!4 &1603282311
 Transform:
   m_ObjectHideFlags: 0
@@ -11538,7 +11632,7 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
-  m_MaskInteraction: 0
+  m_MaskInteraction: 1
 --- !u!1839735485 &1645069830
 Tilemap:
   m_ObjectHideFlags: 0
@@ -12300,7 +12394,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 1
   m_SpriteSortPoint: 0
 --- !u!4 &1817244955
 Transform:
@@ -12395,7 +12489,7 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
-  m_MaskInteraction: 0
+  m_MaskInteraction: 1
 --- !u!1839735485 &1898428251
 Tilemap:
   m_ObjectHideFlags: 0
@@ -12966,7 +13060,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 1
   m_SpriteSortPoint: 0
 --- !u!4 &1984393361
 Transform:
@@ -13130,6 +13224,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1566007600}
     m_Modifications:
+    - target: {fileID: 4376223042660389912, guid: d6745bc5c8eb3614f9ea346f5951a109, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -5076754513298380769, guid: 59ba785d086885c4f80a9852b31b7a25, type: 3}
     - target: {fileID: 4376223043432539936, guid: d6745bc5c8eb3614f9ea346f5951a109, type: 3}
       propertyPath: m_Name
       value: Monke Yellow (2)
@@ -13234,7 +13332,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 1
   m_SpriteSortPoint: 0
 --- !u!1 &8248957487389233313
 GameObject:
