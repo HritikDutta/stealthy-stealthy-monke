@@ -118,7 +118,7 @@ public class MonkeBehaviour : MonoBehaviour
                             if (col.type == CollectibleType.Key)
                                 Level.hiveMind.RegisterKey();
 
-                            col.Collected();
+                            col.Collected(transform);
                             break;
                         }
                     }
@@ -155,7 +155,7 @@ public class MonkeBehaviour : MonoBehaviour
                             if (col.type == CollectibleType.Key)
                                 Level.hiveMind.RegisterKey();
 
-                            col.Collected();
+                            col.Collected(transform);
                             break;
                         }
 
