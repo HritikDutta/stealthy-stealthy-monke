@@ -24,12 +24,6 @@ public class MonkeSquad : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        foreach (MonkeBehaviour monke in monkes)
-            monke.FindPathToBanana(commandBanana);
-    }
-
     void Update()
     {
         if (bananaRenderer.enabled)
@@ -51,7 +45,7 @@ public class MonkeSquad : MonoBehaviour
     public void TeleportEveryone(Vector3Int gridPosition)
     {
         Vector3 floatPosition = (Vector3) gridPosition + new Vector3(0.5f, 0.5f, 0f);
-        commandBanana.transform.position = floatPosition;
+        commandBanana.position = floatPosition;
         bananaRenderer.enabled = false;
 
         foreach (MonkeBehaviour monke in monkes)
@@ -59,7 +53,7 @@ public class MonkeSquad : MonoBehaviour
             Vector3Int dest = monke.FindPositionAroundBanana(gridPosition);
             Vector3 floatDest = (Vector3) dest + new Vector3(0.5f, 0.5f, 0f);
 
-            monke.Teleport(floatDest);
+            monke.Teleport(floatDest, commandBanana);
         }
 
         numActiveMonkes = monkes.Count;
@@ -67,7 +61,7 @@ public class MonkeSquad : MonoBehaviour
 
     public void TellMonkesToMoveAsses(Vector3Int gridPosition)
     {
-        commandBanana.transform.position = (Vector3) gridPosition + new Vector3(0.5f, 0.5f, 0f);
+        commandBanana.position = (Vector3) gridPosition + new Vector3(0.5f, 0.5f, 0f);
         bananaRenderer.enabled = true;
 
         foreach (MonkeBehaviour monke in monkes)

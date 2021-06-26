@@ -11,6 +11,12 @@ public class Heap<T> where T : IHeapItem<T> {
 		items = new T[maxHeapSize];
 		currentItemCount = 0;
 	}
+
+	public void Clear()
+	{
+		Array.Clear(items, 0, currentItemCount);
+		currentItemCount = 0;
+	}
 	
 	public void Add(T item) {
 		item.HeapIndex = currentItemCount;

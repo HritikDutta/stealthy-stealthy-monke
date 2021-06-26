@@ -18,9 +18,8 @@ public class MonkeVisual : MonoBehaviour
 
     void Awake()
     {
-        lastJumpTime = Time.time;
-
         renderer = GetComponent<SpriteRenderer>();
+        lastJumpTime = Time.time;
     }
 
     void LateUpdate()

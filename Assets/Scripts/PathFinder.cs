@@ -7,9 +7,15 @@ using UnityEngine.Tilemaps;
 public class PathFinder : MonoBehaviour
 {
     private HashSet<Vector3Int> closedSet = new HashSet<Vector3Int>();
+    private Heap<Node> openSet;
 
     private static int[] neighboursX = new int[] { -1, 0,  0, 1 };
     private static int[] neighboursY = new int[] {  0, 1, -1, 0 };
+
+    void Start()
+    {
+        openSet = new Heap<Node>(10 * Level.groundTilemap.size.x * Level.groundTilemap.size.y);
+    }
 
     public class Node : IHeapItem<Node>
     {
@@ -57,8 +63,8 @@ public class PathFinder : MonoBehaviour
 
     public bool UpdatePath(Vector3Int startPosition, Vector3Int endPosition, ref List<Vector3> gridPath)
     {
-        Heap<Node> openSet = new Heap<Node>(2 * Level.groundTilemap.size.x * Level.groundTilemap.size.y);
         closedSet.Clear();
+        openSet.Clear();
 
         Node startNode = new Node(startPosition);
         openSet.Add(startNode);

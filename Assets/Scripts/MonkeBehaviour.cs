@@ -214,7 +214,7 @@ public class MonkeBehaviour : MonoBehaviour
         }
     }
 
-    public void Teleport(Vector3 position)
+    public void Teleport(Vector3 position, Transform bananaTransform)
     {
         if (mood == MonkeMood.Hiding)
         {
@@ -230,6 +230,8 @@ public class MonkeBehaviour : MonoBehaviour
         lookForHidingSpot = false;
         checkedSurroundings = false;
         wasHiding = false;
+
+        visual.SetTarget(bananaTransform, true);
     }
 
     public void FindPathToBanana(Transform bananaTransform)

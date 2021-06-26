@@ -47,7 +47,7 @@ public class MonkeHiveMind : MonoBehaviour
 
         monkeyCountText.text = monkeCount.ToString();
         selectedSquadText.text = selectedSquadIndex.ToString();
-        Level.mouseOver.SetColor(squads[selectedSquadIndex].color);
+        Level.mouseOver.SetColorAndStart(squads[selectedSquadIndex].color, squads[selectedSquadIndex].commandBanana.position);
         
         collectedKey = false;
     }
@@ -72,7 +72,7 @@ public class MonkeHiveMind : MonoBehaviour
             {
                 selectedSquadIndex = (selectedSquadIndex + 1) % squads.Count;
                 selectedSquadText.text = selectedSquadIndex.ToString();
-                Level.mouseOver.SetColor(squads[selectedSquadIndex].color);
+                Level.mouseOver.SetColorAndStart(squads[selectedSquadIndex].color, squads[selectedSquadIndex].commandBanana.position);
                 lastSwitchTime = Time.time;
             }
 
@@ -80,7 +80,7 @@ public class MonkeHiveMind : MonoBehaviour
             {
                 selectedSquadIndex = (selectedSquadIndex + squads.Count - 1) % squads.Count;
                 selectedSquadText.text = selectedSquadIndex.ToString();
-                Level.mouseOver.SetColor(squads[selectedSquadIndex].color);
+                Level.mouseOver.SetColorAndStart(squads[selectedSquadIndex].color, squads[selectedSquadIndex].commandBanana.position);
                 lastSwitchTime = Time.time;
             }
         }
