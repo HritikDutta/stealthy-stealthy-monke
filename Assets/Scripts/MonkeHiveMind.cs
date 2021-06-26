@@ -8,6 +8,9 @@ public class MonkeHiveMind : MonoBehaviour
 {
     public static MonkeHiveMind instance;
 
+    [Header("Input")]
+    public float switchInterval = 1f;
+
     [Header("UI")]
     public Text monkeyCountText;
     public Text selectedSquadText;
@@ -21,6 +24,8 @@ public class MonkeHiveMind : MonoBehaviour
 
     [HideInInspector]
     public bool collectedKey;
+
+    private float lastSwitchTime = 0f;
 
     void Awake()
     {
@@ -61,18 +66,23 @@ public class MonkeHiveMind : MonoBehaviour
                 squads[selectedSquadIndex].TellMonkesToMoveAsses(gridPosition);
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Time.time - lastSwitchTime >= switchInterval)
         {
-            selectedSquadIndex = (selectedSquadIndex + 1) % squads.Count;
-            selectedSquadText.text = selectedSquadIndex.ToString();
-            Level.mouseOver.SetColor(squads[selectedSquadIndex].color);
-        }
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetAxis("Mouse ScrollWheel") > 0f)
+            {
+                selectedSquadIndex = (selectedSquadIndex + 1) % squads.Count;
+                selectedSquadText.text = selectedSquadIndex.ToString();
+                Level.mouseOver.SetColor(squads[selectedSquadIndex].color);
+                lastSwitchTime = Time.time;
+            }
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            selectedSquadIndex = (selectedSquadIndex + squads.Count - 1) % squads.Count;
-            selectedSquadText.text = selectedSquadIndex.ToString();
-            Level.mouseOver.SetColor(squads[selectedSquadIndex].color);
+            if (Input.GetKeyDown(KeyCode.Q) || Input.GetAxis("Mouse ScrollWheel") < 0f)
+            {
+                selectedSquadIndex = (selectedSquadIndex + squads.Count - 1) % squads.Count;
+                selectedSquadText.text = selectedSquadIndex.ToString();
+                Level.mouseOver.SetColor(squads[selectedSquadIndex].color);
+                lastSwitchTime = Time.time;
+            }
         }
     }
 
