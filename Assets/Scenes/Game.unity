@@ -8877,8 +8877,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fcb4b058f4834c478d68b95b295b286, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
-  target: {fileID: 0}
+  moveDuration: 1.5
+  moveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.05105591
+      value: 0.0029907227
+      inSlope: 0.14610708
+      outSlope: 0.14610708
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.1408918
+    - serializedVersion: 3
+      time: 0.8786539
+      value: 1.0045924
+      inSlope: 0.10020665
+      outSlope: 0.10020665
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.11611829
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1554009987
 GameObject:
   m_ObjectHideFlags: 0

@@ -61,7 +61,7 @@ public class Level : MonoBehaviour
     void Start()
     {
         _sectionTriggers[_currentTriggerIndex].Enable();
-        _levelCamera.target = _cameraPositions[_currentTriggerIndex];
+        _levelCamera.SetTarget(_cameraPositions[_currentTriggerIndex]);
         _hiveMind.TeleportEveryone(_groundTilemap.WorldToCell(_sectionStarts[_currentTriggerIndex].position));
     }
 
@@ -77,7 +77,7 @@ public class Level : MonoBehaviour
             return;
 
         instance._sectionTriggers[instance._currentTriggerIndex].Enable();
-        instance._levelCamera.target = instance._cameraPositions[instance._currentTriggerIndex];
+        instance._levelCamera.SetTarget(instance._cameraPositions[instance._currentTriggerIndex]);
         instance._hiveMind.TeleportEveryone(instance._groundTilemap.WorldToCell(instance._sectionStarts[instance._currentTriggerIndex].position));
     }
 
