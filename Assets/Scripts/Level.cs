@@ -23,6 +23,7 @@ public class Level : MonoBehaviour
     public Transform _demonsObject;
 
     [Header("Sections")]
+    public bool _sectionsEnabled = false;
     public List<float> _sectionHeights = new List<float>();
 
     private List<DemonBehaviour> _demons = new List<DemonBehaviour>();
@@ -52,25 +53,39 @@ public class Level : MonoBehaviour
 
         _finder = GetComponent<PathFinder>();
 
-        Transform triggers = transform.GetChild(0);
-        foreach(Transform trigger in triggers)
+        if (_sectionsEnabled)
         {
-            DoorTrigger doorTrigger = trigger.GetComponent<DoorTrigger>();
-            _sectionTriggers.Add(doorTrigger);
-            doorTrigger.Disable();
+            Transform triggers = transform.GetChild(0);
+            foreach(Transform trigger in triggers)
+            {
+                DoorTrigger doorTrigger = trigger.GetComponent<DoorTrigger>();
+                _sectionTriggers.Add(doorTrigger);
+                doorTrigger.Disable();
+            }
+
+            Transform _cameraPositionsObject = transform.GetChild(1);
+            foreach(Transform cameraPosition in _cameraPositionsObject)
+                _cameraPositions.Add(cameraPosition);
+
+            Transform _sectionStartsObject = transform.GetChild(2);
+            foreach(Transform sectionStart in _sectionStartsObject)
+                _sectionStarts.Add(sectionStart);
         }
-
-        Transform _cameraPositionsObject = transform.GetChild(1);
-        foreach(Transform cameraPosition in _cameraPositionsObject)
-            _cameraPositions.Add(cameraPosition);
-
-        Transform _sectionStartsObject = transform.GetChild(2);
-        foreach(Transform sectionStart in _sectionStartsObject)
-            _sectionStarts.Add(sectionStart);
+        else
+        {
+            _sectionTop =    (int) _groundTilemap.localBounds.max.y;
+            _sectionBottom = (int) _groundTilemap.localBounds.min.y;
+        }
     }
 
     void Start()
     {
+        if (!sectionsEnabled)
+        {
+            _hiveMind.Init();
+            return;
+        }
+
         StartSection();
     }
 
@@ -81,6 +96,9 @@ public class Level : MonoBehaviour
 
     public static void GoToNextSection()
     {
+        if (!sectionsEnabled)
+            return;
+        
         if (instance._currentSectionIndex >= instance._sectionTriggers.Count)
             return;
 
@@ -95,6 +113,9 @@ public class Level : MonoBehaviour
 
     public void StartSection()
     {
+        if (!sectionsEnabled)
+            return;
+        
         _sectionTriggers[_currentSectionIndex].Enable();
         _hiveMind.TeleportEveryone(_groundTilemap.WorldToCell(_sectionStarts[_currentSectionIndex].position));
 
@@ -148,5 +169,9 @@ public class Level : MonoBehaviour
 
     public static int sectionBottom {
         get { return instance._sectionBottom; }
+    }
+
+    public static bool sectionsEnabled {
+        get { return instance._sectionsEnabled; }
     }
 }

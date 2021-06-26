@@ -11,9 +11,9 @@ public class MonkeHiveMind : MonoBehaviour
     [Header("Input")]
     public float switchInterval = 1f;
 
-    [Header("UI")]
-    public Text monkeyCountText;
-    public Text selectedSquadText;
+    // [Header("UI")]
+    // public Text monkeyCountText;
+    // public Text selectedSquadText;
 
     [Header("Units")]
     public List<MonkeSquad> squads = new List<MonkeSquad>();
@@ -45,8 +45,8 @@ public class MonkeHiveMind : MonoBehaviour
         for (int i = 0; i < squads.Count; i++)
             monkeCount += squads[i].monkes.Count;
 
-        monkeyCountText.text = monkeCount.ToString();
-        selectedSquadText.text = selectedSquadIndex.ToString();
+        // monkeyCountText.text = monkeCount.ToString();
+        // selectedSquadText.text = selectedSquadIndex.ToString();
         Level.mouseOver.SetColorAndStart(squads[selectedSquadIndex].color, squads[selectedSquadIndex].commandBanana.position);
         
         collectedKey = false;
@@ -71,7 +71,7 @@ public class MonkeHiveMind : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E) || Input.GetAxis("Mouse ScrollWheel") > 0f)
             {
                 selectedSquadIndex = (selectedSquadIndex + 1) % squads.Count;
-                selectedSquadText.text = selectedSquadIndex.ToString();
+                // selectedSquadText.text = selectedSquadIndex.ToString();
                 Level.mouseOver.SetColorAndStart(squads[selectedSquadIndex].color, squads[selectedSquadIndex].commandBanana.position);
                 lastSwitchTime = Time.time;
             }
@@ -79,7 +79,7 @@ public class MonkeHiveMind : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Q) || Input.GetAxis("Mouse ScrollWheel") < 0f)
             {
                 selectedSquadIndex = (selectedSquadIndex + squads.Count - 1) % squads.Count;
-                selectedSquadText.text = selectedSquadIndex.ToString();
+                // selectedSquadText.text = selectedSquadIndex.ToString();
                 Level.mouseOver.SetColorAndStart(squads[selectedSquadIndex].color, squads[selectedSquadIndex].commandBanana.position);
                 lastSwitchTime = Time.time;
             }
@@ -94,6 +94,12 @@ public class MonkeHiveMind : MonoBehaviour
     public void RegisterKey()
     {
         collectedKey = true;
+    }
+
+    public void Init()
+    {
+        foreach (MonkeSquad squad in squads)
+            squad.Init();
     }
 
     public void TeleportEveryone(Vector3Int gridPosition)
@@ -116,12 +122,12 @@ public class MonkeHiveMind : MonoBehaviour
 
     public void Captured(MonkeBehaviour monke)
     {
-        monke.GetCaptured();
+        // monke.GetCaptured();
 
-        int monkeCount = 0;
-        for (int i = 0; i < squads.Count; i++)
-            monkeCount += squads[i].numActiveMonkes;
+        // int monkeCount = 0;
+        // for (int i = 0; i < squads.Count; i++)
+        //     monkeCount += squads[i].numActiveMonkes;
 
-        monkeyCountText.text = monkeCount.ToString();
+        // monkeyCountText.text = monkeCount.ToString();
     }
 }

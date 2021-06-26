@@ -42,6 +42,22 @@ public class MonkeSquad : MonoBehaviour
         }
     }
 
+    public void Init()
+    {
+        Vector3Int gridPosition = Level.groundTilemap.WorldToCell(commandBanana.position);
+        bananaRenderer.enabled = false;
+
+        foreach (MonkeBehaviour monke in monkes)
+        {
+            Vector3Int dest = monke.FindPositionAroundBanana(gridPosition);
+            Vector3 floatDest = (Vector3) dest + new Vector3(0.5f, 0.5f, 0f);
+
+            monke.Teleport(floatDest, commandBanana);
+        }
+
+        numActiveMonkes = monkes.Count;
+    }
+
     public void TeleportEveryone(Vector3Int gridPosition)
     {
         Vector3 floatPosition = (Vector3) gridPosition + new Vector3(0.5f, 0.5f, 0f);
