@@ -62,7 +62,7 @@ public class MonkeHiveMind : MonoBehaviour
 
             Vector3Int gridPosition = Level.groundTilemap.WorldToCell(worldPosition);
 
-            if (Level.groundTilemap.HasTile(gridPosition) && !Level.wallTilemap.HasTile(gridPosition))
+            if (IsInSection(gridPosition) && Level.groundTilemap.HasTile(gridPosition) && !Level.wallTilemap.HasTile(gridPosition))
                 squads[selectedSquadIndex].TellMonkesToMoveAsses(gridPosition);
         }
 
@@ -84,6 +84,11 @@ public class MonkeHiveMind : MonoBehaviour
                 lastSwitchTime = Time.time;
             }
         }
+    }
+
+    private bool IsInSection(Vector3Int position)
+    {
+        return position.y < Level.sectionTop && position.y >= Level.sectionBottom;
     }
 
     public void RegisterKey()
