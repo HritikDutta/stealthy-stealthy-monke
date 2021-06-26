@@ -73,9 +73,9 @@ public class MonkeBehaviour : MonoBehaviour
                 for (int i = 0; i < gridXOffsets.Length; i++)
                 {
                     Vector3Int probePosition = gridPosition + new Vector3Int(gridXOffsets[i], gridYOffsets[i], 0);
-                    if (Level.itemTilemap.HasTile(probePosition))
+                    if (Level.interactableTilemap.HasTile(probePosition))
                     {
-                        GameObject item = Level.itemTilemap.GetInstantiatedObject(probePosition);
+                        GameObject item = Level.interactableTilemap.GetInstantiatedObject(probePosition);
 
                         int layer = 1 << item.layer;
                         if (layer == LayerMask.GetMask("HidingSpot"))
@@ -96,9 +96,9 @@ public class MonkeBehaviour : MonoBehaviour
                 for (int i = 0; i < gridXOffsets.Length; i++)
                 {
                     Vector3Int probePosition = gridPosition + new Vector3Int(gridXOffsets[i], gridYOffsets[i], 0);
-                    if (Level.itemTilemap.HasTile(probePosition))
+                    if (Level.interactableTilemap.HasTile(probePosition))
                     {
-                        GameObject item = Level.itemTilemap.GetInstantiatedObject(probePosition);
+                        GameObject item = Level.interactableTilemap.GetInstantiatedObject(probePosition);
                         int layer = 1 << item.layer;
 
                         // @Todo: Decide if monkeys should break stuff on the way or not                        
@@ -107,6 +107,18 @@ public class MonkeBehaviour : MonoBehaviour
                             Shiny shiny = item.GetComponent<Shiny>();
                             gridPath[currentPathIndex] = (Vector3) probePosition + new Vector3(0.5f, 0.5f, 0f);
                             shiny.Break();
+                            break;
+                        }
+
+                        if (layer == LayerMask.GetMask("Collectible"))
+                        {
+                            Collectible col = item.GetComponent<Collectible>();
+                            restPosition = (Vector3) probePosition + new Vector3(0.5f, 0.5f, 0f);
+
+                            if (col.type == CollectibleType.Key)
+                                Level.hiveMind.RegisterKey();
+
+                            col.Collected();
                             break;
                         }
                     }
@@ -122,9 +134,9 @@ public class MonkeBehaviour : MonoBehaviour
                 for (int i = 0; i < gridXOffsets.Length; i++)
                 {
                     Vector3Int probePosition = gridPosition + new Vector3Int(gridXOffsets[i], gridYOffsets[i], 0);
-                    if (Level.itemTilemap.HasTile(probePosition))
+                    if (Level.interactableTilemap.HasTile(probePosition))
                     {
-                        GameObject item = Level.itemTilemap.GetInstantiatedObject(probePosition);
+                        GameObject item = Level.interactableTilemap.GetInstantiatedObject(probePosition);
                         int layer = 1 << item.layer;
 
                         if (layer == LayerMask.GetMask("Shiny"))
@@ -132,6 +144,18 @@ public class MonkeBehaviour : MonoBehaviour
                             Shiny shiny = item.GetComponent<Shiny>();
                             restPosition = (Vector3) probePosition + new Vector3(0.5f, 0.5f, 0f);
                             shiny.Break();
+                            break;
+                        }
+
+                        if (layer == LayerMask.GetMask("Collectible"))
+                        {
+                            Collectible col = item.GetComponent<Collectible>();
+                            restPosition = (Vector3) probePosition + new Vector3(0.5f, 0.5f, 0f);
+
+                            if (col.type == CollectibleType.Key)
+                                Level.hiveMind.RegisterKey();
+
+                            col.Collected();
                             break;
                         }
 

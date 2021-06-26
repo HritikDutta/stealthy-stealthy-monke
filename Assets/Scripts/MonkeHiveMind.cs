@@ -19,6 +19,9 @@ public class MonkeHiveMind : MonoBehaviour
 
     private int selectedSquadIndex = 0;
 
+    [HideInInspector]
+    public bool collectedKey;
+
     void Awake()
     {
         if (instance == null)
@@ -39,6 +42,8 @@ public class MonkeHiveMind : MonoBehaviour
 
         monkeyCountText.text = monkeCount.ToString();
         selectedSquadText.text = selectedSquadIndex.ToString();
+        
+        collectedKey = false;
     }
 
     void Update()
@@ -78,6 +83,11 @@ public class MonkeHiveMind : MonoBehaviour
             selectedSquadIndex = (selectedSquadIndex + squads.Count - 1) % squads.Count;
             selectedSquadText.text = selectedSquadIndex.ToString();
         }
+    }
+
+    public void RegisterKey()
+    {
+        collectedKey = true;
     }
 
     public void TeleportEveryone(Vector3Int gridPosition)

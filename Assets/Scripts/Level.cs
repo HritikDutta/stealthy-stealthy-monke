@@ -11,7 +11,7 @@ public class Level : MonoBehaviour
     public CameraMove _levelCamera;
     public Tilemap _groundTilemap;
     public Tilemap _wallTilemap;
-    public Tilemap _itemTilemap;
+    public Tilemap _interactableTilemap;
 
     [Header("Monkes")]
     public MonkeHiveMind _hiveMind;
@@ -26,6 +26,8 @@ public class Level : MonoBehaviour
     private List<Transform> _sectionStarts = new List<Transform>();
     private List<DoorTrigger> _sectionTriggers = new List<DoorTrigger>();
     private int _currentTriggerIndex = 0;
+
+    private List<LevelEndDoor> _levelEndDoorTiles = new List<LevelEndDoor>();
 
     void Awake()
     {
@@ -65,6 +67,11 @@ public class Level : MonoBehaviour
         _hiveMind.TeleportEveryone(_groundTilemap.WorldToCell(_sectionStarts[_currentTriggerIndex].position));
     }
 
+    public static void AddDoorTile(LevelEndDoor door)
+    {
+        instance._levelEndDoorTiles.Add(door);
+    }
+
     public static void GoToNextSection()
     {
         if (instance._currentTriggerIndex >= instance._sectionTriggers.Count)
@@ -81,6 +88,12 @@ public class Level : MonoBehaviour
         instance._hiveMind.TeleportEveryone(instance._groundTilemap.WorldToCell(instance._sectionStarts[instance._currentTriggerIndex].position));
     }
 
+    public static void UnlockDoor()
+    {
+        foreach(LevelEndDoor door in instance._levelEndDoorTiles)
+            door.Open(instance._hiveMind.collectedKey);
+    }
+
     public static Tilemap groundTilemap {
         get { return instance._groundTilemap; }
     }
@@ -89,8 +102,12 @@ public class Level : MonoBehaviour
         get { return instance._wallTilemap; }
     }
 
-    public static Tilemap itemTilemap {
-        get { return instance._itemTilemap; }
+    public static Tilemap interactableTilemap {
+        get { return instance._interactableTilemap; }
+    }
+
+    public static MonkeHiveMind hiveMind {
+        get { return instance._hiveMind; }
     }
 
     public static List<DemonBehaviour> demons {

@@ -10,15 +10,12 @@ public class Shiny : MonoBehaviour
 
     private bool broken = false;
 
-    private Tilemap tilemap;
     private Vector3Int gridPosition;
     
     void Start()
     {
-        tilemap = transform.parent.GetComponent<Tilemap>();
-        gridPosition = tilemap.WorldToCell(transform.position);
-
-        tilemap.SetTile(gridPosition, settings.intactSprite);
+        gridPosition = Level.interactableTilemap.WorldToCell(transform.position);
+        Level.interactableTilemap.SetTile(gridPosition, settings.intactSprite);
     }
 
     public void Break()
@@ -26,8 +23,8 @@ public class Shiny : MonoBehaviour
         if (broken)
             return;
 
-        tilemap.SetTile(gridPosition, settings.brokenSprite);
-        tilemap.RefreshTile(gridPosition);
+        Level.interactableTilemap.SetTile(gridPosition, settings.brokenSprite);
+        Level.interactableTilemap.RefreshTile(gridPosition);
 
         gameObject.layer = 0;
         broken = true;

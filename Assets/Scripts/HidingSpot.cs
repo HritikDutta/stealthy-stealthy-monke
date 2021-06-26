@@ -8,24 +8,21 @@ public class HidingSpot : MonoBehaviour
     public Tile openTile;
     public Tile closedTile;
 
-    private Tilemap tilemap;
     private Vector3Int gridPosition;
     public int numMonkeysHiding = 0;
 
     void Start()
     {
-        tilemap = transform.parent.GetComponent<Tilemap>();
-        gridPosition = tilemap.WorldToCell(transform.position);
-
-        tilemap.SetTile(gridPosition, openTile);
+        gridPosition = Level.interactableTilemap.WorldToCell(transform.position);
+        Level.interactableTilemap.SetTile(gridPosition, openTile);
     }
 
     public void HideMonkey()
     {
         if (numMonkeysHiding == 0)
         {
-            tilemap.SetTile(gridPosition, closedTile);
-            tilemap.RefreshTile(gridPosition);
+            Level.interactableTilemap.SetTile(gridPosition, closedTile);
+            Level.interactableTilemap.RefreshTile(gridPosition);
         }
 
         numMonkeysHiding++;
@@ -37,8 +34,8 @@ public class HidingSpot : MonoBehaviour
 
         if (numMonkeysHiding == 0)
         {
-            tilemap.SetTile(gridPosition, openTile);
-            tilemap.RefreshTile(gridPosition);
+            Level.interactableTilemap.SetTile(gridPosition, openTile);
+            Level.interactableTilemap.RefreshTile(gridPosition);
         }
     }
 }
