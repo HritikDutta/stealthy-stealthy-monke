@@ -5,6 +5,8 @@ using UnityEngine;
 public class MonkeSquad : MonoBehaviour
 {
     public Transform commandBanana;
+    public Color color;
+    
     public List<MonkeBehaviour> monkes = new List<MonkeBehaviour>();
     public int numActiveMonkes = 0;
 

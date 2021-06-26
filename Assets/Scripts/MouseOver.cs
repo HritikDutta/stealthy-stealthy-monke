@@ -45,4 +45,9 @@ public class MouseOver : MonoBehaviour
             highlightRenderer.enabled = false;
         }
     }
+
+    public void SetColor(Color color)
+    {
+        highlightRenderer.color = color;
+    }
 }

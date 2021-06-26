@@ -7,6 +7,9 @@ public class Level : MonoBehaviour
 {
     public static Level instance;
 
+    [Header("UI")]
+    public MouseOver _mouseOver;
+
     [Header("Level")]
     public CameraMove _levelCamera;
     public Tilemap _groundTilemap;
@@ -108,6 +111,10 @@ public class Level : MonoBehaviour
 
     public static MonkeHiveMind hiveMind {
         get { return instance._hiveMind; }
+    }
+
+    public static MouseOver mouseOver {
+        get { return instance._mouseOver; }
     }
 
     public static List<DemonBehaviour> demons {
