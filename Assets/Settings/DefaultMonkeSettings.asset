@@ -16,4 +16,4 @@ MonoBehaviour:
   hopSpeed: 8
   gravity: 40
   hopchance: 0.1
-  minDistanceFromGuard: 4.5
+  minDistanceFromGuard: 6.5
