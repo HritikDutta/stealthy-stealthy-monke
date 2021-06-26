@@ -57,7 +57,7 @@ public class PathFinder : MonoBehaviour
 
     public bool UpdatePath(Vector3Int startPosition, Vector3Int endPosition, ref List<Vector3> gridPath)
     {
-        Heap<Node> openSet = new Heap<Node>(10 * Level.groundTilemap.size.x * Level.groundTilemap.size.y);  // @Todo: Reduce this size
+        Heap<Node> openSet = new Heap<Node>(2 * Level.groundTilemap.size.x * Level.groundTilemap.size.y);
         closedSet.Clear();
 
         Node startNode = new Node(startPosition);

@@ -23,7 +23,7 @@ public class MonkeBehaviour : MonoBehaviour
     private Rigidbody2D rb;
 
     [HideInInspector]
-    public MonkeSquad mySquad;  // @Todo: Remove this if no one uses this reference
+    public MonkeSquad mySquad;
     private MonkeVisual visual;
 
     private List<Vector3> gridPath;

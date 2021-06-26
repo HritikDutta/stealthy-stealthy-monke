@@ -68,7 +68,6 @@ public class DemonBehaviour : MonoBehaviour
                     break;
 
                 // @Temp: This should be a proper vision cone/rectangle thingy based on where the demon is looking
-                // @Todo: Demon should ignore monkeys if they're hidden
 
                 Vector3Int currentGridPosition = Level.groundTilemap.WorldToCell(rb.position) + new Vector3Int(viewAreaPivot.x, viewAreaPivot.y, 0);
                 Vector3Int areaTopLeft = currentGridPosition + new Vector3Int(-viewAreaSize.x, viewAreaSize.y, 0);
