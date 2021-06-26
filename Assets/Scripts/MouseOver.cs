@@ -37,7 +37,7 @@ public class MouseOver : MonoBehaviour
         if (gridPosition == previousGridPosition && !redraw)
             return;
 
-        if (Level.groundTilemap.HasTile(gridPosition) && !Level.wallTilemap.HasTile(gridPosition))
+        if (IsInSection(gridPosition) && Level.groundTilemap.HasTile(gridPosition) && !Level.wallTilemap.HasTile(gridPosition))
         {
             highlighter.position = (Vector3) gridPosition + new Vector3(0.5f, 0.5f, 0f);
             highlightRenderer.enabled = true;
@@ -54,6 +54,11 @@ public class MouseOver : MonoBehaviour
         
         previousGridPosition = gridPosition;
         redraw = false;
+    }
+
+    private bool IsInSection(Vector3Int position)
+    {
+        return position.y < Level.sectionTop && position.y >= Level.sectionBottom;
     }
 
     public void SetColorAndStart(Color _color, Vector3 _startPosition)

@@ -35,6 +35,9 @@ public class Level : MonoBehaviour
 
     private List<LevelEndDoor> _levelEndDoorTiles = new List<LevelEndDoor>();
 
+    private int _sectionTop;
+    private int _sectionBottom;
+
     void Awake()
     {
         if (instance == null)
@@ -68,12 +71,7 @@ public class Level : MonoBehaviour
 
     void Start()
     {
-        _sectionTriggers[_currentSectionIndex].Enable();
-        _hiveMind.TeleportEveryone(_groundTilemap.WorldToCell(_sectionStarts[_currentSectionIndex].position));
-
-        float maskX = (float) (_groundTilemap.size.x + 1);
-        Vector3 maskScale =  new Vector3(maskX, _sectionHeights[_currentSectionIndex], 1f);
-        _levelCamera.SetTargetAndMaskScale(_cameraPositions[_currentSectionIndex], maskScale);
+        StartSection();
     }
 
     public static void AddDoorTile(LevelEndDoor door)
@@ -92,12 +90,22 @@ public class Level : MonoBehaviour
         if (instance._currentSectionIndex >= instance._sectionTriggers.Count)
             return;
 
-        instance._sectionTriggers[instance._currentSectionIndex].Enable();
-        instance._hiveMind.TeleportEveryone(instance._groundTilemap.WorldToCell(instance._sectionStarts[instance._currentSectionIndex].position));
+        instance.StartSection();
+    }
 
-        float maskX = (float) (instance._groundTilemap.size.x + 1);
-        Vector3 maskScale =  new Vector3(maskX, instance._sectionHeights[instance._currentSectionIndex], 1f);
-        instance._levelCamera.SetTargetAndMaskScale(instance._cameraPositions[instance._currentSectionIndex], maskScale);
+    public void StartSection()
+    {
+        _sectionTriggers[_currentSectionIndex].Enable();
+        _hiveMind.TeleportEveryone(_groundTilemap.WorldToCell(_sectionStarts[_currentSectionIndex].position));
+
+        float maskX = (float) (_groundTilemap.size.x + 1);
+        Vector3 maskScale =  new Vector3(maskX, _sectionHeights[_currentSectionIndex], 1f);
+        _levelCamera.SetTargetAndMaskScale(_cameraPositions[_currentSectionIndex], maskScale);
+        
+        _sectionTop    = _groundTilemap.WorldToCell(_cameraPositions[_currentSectionIndex].position + new Vector3(0f,  _sectionHeights[_currentSectionIndex] / 2f, 0f)).y;
+        _sectionBottom = _groundTilemap.WorldToCell(_cameraPositions[_currentSectionIndex].position + new Vector3(0f, -_sectionHeights[_currentSectionIndex] / 2f, 0f)).y;
+
+        Debug.Log("Top: " + _sectionTop + ", Bottom: " + _sectionBottom);
     }
 
     public static void UnlockDoor()
@@ -132,5 +140,13 @@ public class Level : MonoBehaviour
 
     public static PathFinder finder {
         get { return instance._finder; }
+    }
+
+    public static int sectionTop {
+        get { return instance._sectionTop; }
+    }
+
+    public static int sectionBottom {
+        get { return instance._sectionBottom; }
     }
 }
