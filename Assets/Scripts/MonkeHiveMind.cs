@@ -49,6 +49,12 @@ public class MonkeHiveMind : MonoBehaviour
         if (numActiveSquads <= 0)
             return;
 
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Application.LoadLevel(Application.loadedLevel);
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 screenPosition = Input.mousePosition;
@@ -163,6 +169,9 @@ public class MonkeHiveMind : MonoBehaviour
                 // @Todo: Failure condition
                 Debug.Log("Level Failed");
                 Level.mouseOver.Disable();
+
+                Level.RegisterLetterCounts();
+                Application.LoadLevel(Level.gameLostSceneName);
                 return;
             }
 

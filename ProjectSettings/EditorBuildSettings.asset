@@ -14,4 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 1ca43692ea510f542894bc9ad56f2a99
+  - enabled: 1
+    path: Assets/Scenes/End Screen Lost.unity
+    guid: fd975f2d53bc12841ae396e04e224f87
+  - enabled: 1
+    path: Assets/Scenes/Main Menu.unity
+    guid: de7d6e722f49b7545ac531dc379c84a7
+  - enabled: 1
+    path: Assets/Scenes/End Screen Victory.unity
+    guid: 2d16bec7255363642814943f7b3cb7ce
   m_configObjects: {}

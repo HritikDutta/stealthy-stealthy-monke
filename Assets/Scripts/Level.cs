@@ -15,6 +15,7 @@ public class Level : MonoBehaviour
 
     [Header("Level")]
     public string nextScene;
+    public string _gameLostSceneName;
     public CameraMove _levelCamera;
     public Tilemap _groundTilemap;
     public Tilemap _wallTilemap;
@@ -39,6 +40,9 @@ public class Level : MonoBehaviour
     private int _currentSectionIndex = 0;
 
     private List<LevelEndDoor> _levelEndDoorTiles = new List<LevelEndDoor>();
+
+    private int _lettersInLevel;
+    private int _lettersCollected;
 
     private int _sectionTop;
     private int _sectionBottom;
@@ -93,6 +97,8 @@ public class Level : MonoBehaviour
             StartSection();
             _hiveMind.TeleportEveryone(_groundTilemap.WorldToCell(_sectionStarts[_currentSectionIndex].position));
         }
+
+        _lettersCollected = _lettersInLevel = 0;
     }
 
     public static void AddDoorTile(LevelEndDoor door)
@@ -113,6 +119,7 @@ public class Level : MonoBehaviour
         
         if (instance._currentSectionIndex >= instance._sectionTriggers.Count)
         {
+            RegisterLetterCounts();
             Application.LoadLevel(instance.nextScene);
             return;
         }
@@ -144,6 +151,21 @@ public class Level : MonoBehaviour
         
         _sectionTop    = _groundTilemap.WorldToCell(_cameraPositions[_currentSectionIndex].position + new Vector3(0f,  _sectionHeights[_currentSectionIndex] / 2f, 0f)).y;
         _sectionBottom = _groundTilemap.WorldToCell(_cameraPositions[_currentSectionIndex].position + new Vector3(0f, -_sectionHeights[_currentSectionIndex] / 2f, 0f)).y;
+    }
+
+    public static void AddLetter()
+    {
+        instance._lettersInLevel++;
+    }
+
+    public static void LetterCollected()
+    {
+        instance._lettersCollected++;
+    }
+
+    public static void RegisterLetterCounts()
+    {
+        ScoreManager.AddLetterCounts(instance._lettersInLevel, instance._lettersCollected);
     }
 
     public static void UnlockDoor(MonkeSquad squad)
@@ -207,4 +229,17 @@ public class Level : MonoBehaviour
     public static bool doorIsOpen {
         get { return instance._doorIsOpen; }
     }
+
+    public static string gameLostSceneName {
+        get { return instance._gameLostSceneName; }
+    }
+
+    public static int lettersInLevel {
+        get { return instance._lettersInLevel; }
+    }
+
+    public static int lettersCollected {
+        get { return instance._lettersCollected; }
+    }
+
 }
