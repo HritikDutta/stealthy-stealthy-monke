@@ -23,6 +23,12 @@ public class Collectible : MonoBehaviour
     private SpriteRenderer renderer;
     private Transform rendererTransform;
 
+    void Awake()
+    {
+        if (type == CollectibleType.Letter)
+            Level.AddLetter();
+    }
+
     void Start()
     {
         gridPosition = Level.interactableTilemap.WorldToCell(transform.position);
@@ -44,6 +50,9 @@ public class Collectible : MonoBehaviour
 
         Level.interactableTilemap.SetColor(gridPosition, new Color(0f, 0f, 0f, 0f));
         Level.interactableTilemap.RefreshTile(gridPosition);
+
+        if (type == CollectibleType.Letter)
+            Level.LetterCollected();
     }
 
     private IEnumerator PlayCollectAnimation(Transform collector)

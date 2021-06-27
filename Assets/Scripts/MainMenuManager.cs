@@ -15,6 +15,8 @@ public class MainMenuManager : MonoBehaviour
 
     public void StartGame()
     {
+        ScoreManager.Reset();
+
         if (skipTutorial)
             Application.LoadLevel(gameSceneName);
         else

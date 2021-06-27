@@ -85,6 +85,9 @@ public class DemonBehaviour : MonoBehaviour
                     if (state == DemonState.Chasing)
                         break;
 
+                    if (squad.Eliminated)
+                        continue;
+
                     foreach (MonkeBehaviour monke in squad.monkes)
                     {
                         if (monke.mood == MonkeMood.Hiding || monke.mood == MonkeMood.Captured)

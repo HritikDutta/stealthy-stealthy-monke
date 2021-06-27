@@ -169,6 +169,8 @@ public class MonkeHiveMind : MonoBehaviour
                 // @Todo: Failure condition
                 Debug.Log("Level Failed");
                 Level.mouseOver.Disable();
+
+                Level.RegisterLetterCounts();
                 Application.LoadLevel(Level.gameLostSceneName);
                 return;
             }
