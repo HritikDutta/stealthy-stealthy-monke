@@ -297,6 +297,8 @@ public class MonkeBehaviour : MonoBehaviour
         mood = MonkeMood.Captured;
         visual.Hide();
         mySquad.TellThemIDied();
+
+        ScoreManager.AddCasualty();
     }
 
     void RunAway()

@@ -152,6 +152,8 @@ public class DemonBehaviour : MonoBehaviour
 
             case DemonState.Chasing:
             {
+                ScoreManager.DemonAlerted();    // Ughh...
+
                 Vector3Int currentGridPosition = Level.groundTilemap.WorldToCell(rb.position);
 
                 if (stamina == 0 || target.mood == MonkeMood.Hiding || target.mood == MonkeMood.Captured || targetSquad.finished)
@@ -193,6 +195,8 @@ public class DemonBehaviour : MonoBehaviour
 
             case DemonState.Investigating:
             {
+                ScoreManager.DemonAlerted();    // Ughh...
+
                 if (gridPathIndex >= gridPath.Count)
                 {
                     state = DemonState.Looking;
