@@ -15,6 +15,7 @@ public class Level : MonoBehaviour
 
     [Header("Level")]
     public string nextScene;
+    public string _gameLostSceneName;
     public CameraMove _levelCamera;
     public Tilemap _groundTilemap;
     public Tilemap _wallTilemap;
@@ -207,4 +208,9 @@ public class Level : MonoBehaviour
     public static bool doorIsOpen {
         get { return instance._doorIsOpen; }
     }
+
+    public static string gameLostSceneName {
+        get { return instance._gameLostSceneName; }
+    }
+
 }

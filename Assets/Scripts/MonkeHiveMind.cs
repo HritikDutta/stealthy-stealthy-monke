@@ -169,6 +169,7 @@ public class MonkeHiveMind : MonoBehaviour
                 // @Todo: Failure condition
                 Debug.Log("Level Failed");
                 Level.mouseOver.Disable();
+                Application.LoadLevel(Level.gameLostSceneName);
                 return;
             }
 

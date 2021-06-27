@@ -11543,6 +11543,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  target: {fileID: 0}
+  maskTargetScale: {x: 0, y: 0, z: 0}
 --- !u!114 &1503472586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11677,6 +11679,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mouseOver: {fileID: 1503472586}
   _audio: {fileID: 173241521}
+  nextScene: End Screen Victory
+  _gameLostSceneName: End Screen Lost
   _levelCamera: {fileID: 1503472585}
   _groundTilemap: {fileID: 309945299}
   _wallTilemap: {fileID: 254346227}
