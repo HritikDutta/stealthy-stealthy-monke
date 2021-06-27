@@ -8,12 +8,12 @@ public class CameraMove : MonoBehaviour
     public AnimationCurve moveCurve = AnimationCurve.Linear(0f, 0f, 1f, 1f);
 
     private float lastMove = -10f;
+    [HideInInspector] public Transform target;
     private Vector3 start;
-    private Vector3 end;
 
     private Transform mask;
+    [HideInInspector] public Vector3 maskTargetScale;
     private Vector3 maskStartScale;
-    private Vector3 maskTargetScale;
 
     void Awake()
     {
@@ -26,7 +26,7 @@ public class CameraMove : MonoBehaviour
         if (t > 1f)
             return;
         
-        transform.position = Vector3.Lerp(start, end, moveCurve.Evaluate(t));
+        transform.position = Vector3.Lerp(start, target.position, moveCurve.Evaluate(t));
         mask.localScale = Vector3.Lerp(maskStartScale, maskTargetScale, moveCurve.Evaluate(t));
     }
 
@@ -34,7 +34,7 @@ public class CameraMove : MonoBehaviour
     {
         lastMove = Time.time;
         start = transform.position;
-        end = _target.position;
+        target = _target;
 
         maskTargetScale = scale;
         maskStartScale = mask.localScale;

@@ -58,7 +58,7 @@ public class Level : MonoBehaviour
 
         if (_sectionsEnabled)
         {
-            Transform triggers = transform.GetChild(0);
+            Transform triggers = transform.Find("Triggers");
             foreach(Transform trigger in triggers)
             {
                 DoorTrigger doorTrigger = trigger.GetComponent<DoorTrigger>();
@@ -66,11 +66,11 @@ public class Level : MonoBehaviour
                 doorTrigger.Disable();
             }
 
-            Transform _cameraPositionsObject = transform.GetChild(1);
+            Transform _cameraPositionsObject = transform.Find("Camera Positions");
             foreach(Transform cameraPosition in _cameraPositionsObject)
                 _cameraPositions.Add(cameraPosition);
 
-            Transform _sectionStartsObject = transform.GetChild(2);
+            Transform _sectionStartsObject = transform.Find("Start Positions");
             foreach(Transform sectionStart in _sectionStartsObject)
                 _sectionStarts.Add(sectionStart);
         }
@@ -144,6 +144,10 @@ public class Level : MonoBehaviour
     {
         foreach(LevelEndDoor door in instance._levelEndDoorTiles)
             door.Open(squad.collectedKey);
+    }
+
+    public static CameraMove levelCamera {
+        get { return instance._levelCamera; }
     }
 
     public static Tilemap groundTilemap {
