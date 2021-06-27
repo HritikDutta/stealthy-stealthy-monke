@@ -13,6 +13,8 @@ public class ScoreManager : MonoBehaviour
 
     private bool _demonsWereAlerted;
 
+    public static string nextLevel;
+
     void Awake()
     {
         if (instance == null)

@@ -175,15 +175,18 @@ public class MonkeHiveMind : MonoBehaviour
                 return;
             }
 
+            if (numSquadsLeftInSection <= 0)
+            {
+                Level.GoToNextSection();
+                return;
+            }
+
             // Change highlight color
             selectedSquadIndex = (selectedSquadIndex + 1) % squads.Count;
             while (squads[selectedSquadIndex].Eliminated || squads[selectedSquadIndex].finished)
                 selectedSquadIndex = (selectedSquadIndex + 1) % squads.Count;
 
             Level.mouseOver.SetColor(squads[selectedSquadIndex].color);
-
-            if (numSquadsLeftInSection <= 0 && numActiveSquads > 0)
-                Level.GoToNextSection();
         }
 
         // int monkeCount = 0;

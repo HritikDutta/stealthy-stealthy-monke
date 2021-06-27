@@ -15,6 +15,6 @@ public class LettersLeftDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        text.text = Level.lettersCollected.ToString() + " / " + Level.lettersInLevel;
+    text.text = Level.lettersCollected.ToString() + " / " + Level.lettersInLevel;
     }
 }

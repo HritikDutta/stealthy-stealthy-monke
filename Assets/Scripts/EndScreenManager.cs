@@ -26,10 +26,10 @@ public class EndScreenManager : MonoBehaviour
         casualtiesText.text =        "Casualties (" + ScoreManager.casualties.ToString() + ") : -" + (ScoreManager.casualties * 50).ToString();
         demonsWereAlertedText.text = "Stealth bonus multiplier : " + ((ScoreManager.demonsWereAlerted) ? "x 1" : "x 2");
 
-        score = ScoreManager.lettersCollected * 100 - ScoreManager.casualties * 50;
-        if (ScoreManager.demonsWereAlerted)
+        score = (ScoreManager.lettersCollected * 100) - (ScoreManager.casualties * 50);
+        if (!ScoreManager.demonsWereAlerted)
             score *= 2;
 
-        scoreText.text = "Score : " + score;
+        scoreText.text = "Score : " + score.ToString();
     }
 }

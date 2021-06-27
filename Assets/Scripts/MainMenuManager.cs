@@ -6,6 +6,7 @@ public class MainMenuManager : MonoBehaviour
 {
     public string tutorialSceneName;
     public string gameSceneName;
+    public string narrative;
     public bool skipTutorial = false;
 
     public void TutorialToggle(bool value)
@@ -18,8 +19,10 @@ public class MainMenuManager : MonoBehaviour
         ScoreManager.Reset();
 
         if (skipTutorial)
-            Application.LoadLevel(gameSceneName);
+            ScoreManager.nextLevel = gameSceneName;
         else
-            Application.LoadLevel(tutorialSceneName);
+            ScoreManager.nextLevel = tutorialSceneName;
+
+        Application.LoadLevel(narrative);
     }
 }

@@ -195,8 +195,6 @@ public class DemonBehaviour : MonoBehaviour
 
             case DemonState.Investigating:
             {
-                ScoreManager.DemonAlerted();    // Ughh...
-
                 if (gridPathIndex >= gridPath.Count)
                 {
                     state = DemonState.Looking;

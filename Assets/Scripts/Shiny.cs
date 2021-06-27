@@ -21,6 +21,8 @@ public class Shiny : MonoBehaviour
 
         breakRipple = transform.GetChild(0).GetComponent<ParticleSystem>();
         breakRipple.startSize = settings.soundRadius * 2f;
+
+        broken = false;
     }
 
     public void Break()
@@ -28,13 +30,13 @@ public class Shiny : MonoBehaviour
         if (broken)
             return;
 
+        gameObject.layer = 0;
+        MakeSound();
+
         Level.interactableTilemap.SetTile(gridPosition, settings.brokenSprite);
         Level.interactableTilemap.RefreshTile(gridPosition);
 
-        gameObject.layer = 0;
         broken = true;
-
-        MakeSound();
     }
 
     private void MakeSound()

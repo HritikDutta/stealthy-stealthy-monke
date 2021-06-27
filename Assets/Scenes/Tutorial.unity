@@ -18094,8 +18094,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mouseOver: {fileID: 1685081865}
   _audio: {fileID: 1398479589}
-  nextScene: Game
-  _gameLostSceneName: 
+  nextScene: Levels
+  _gameLostSceneName: End Screen Lost
   _levelCamera: {fileID: 1685081866}
   _groundTilemap: {fileID: 758495836}
   _wallTilemap: {fileID: 2028990529}

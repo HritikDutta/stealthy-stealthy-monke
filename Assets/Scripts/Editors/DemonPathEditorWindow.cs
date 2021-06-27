@@ -3,44 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class DemonPathEditorWindow : EditorWindow
+public class DemonPathEditorWindow : MonkeBehaviour
 {
-    [MenuItem("Tools/Demon Path Editor")]
-    public static void Open()
-    {
-        GetWindow<DemonPathEditorWindow>();
-    }
+    // [MenuItem("Tools/Demon Path Editor")]
+    // public static void Open()
+    // {
+    //     GetWindow<DemonPathEditorWindow>();
+    // }
 
-    public Transform pathParentTransform;
+    // public Transform pathParentTransform;
 
-    void OnGUI()
-    {
-        SerializedObject obj = new SerializedObject(this);
+    // void OnGUI()
+    // {
+    //     SerializedObject obj = new SerializedObject(this);
 
-        EditorGUILayout.PropertyField(obj.FindProperty("pathParentTransform"));
+    //     EditorGUILayout.PropertyField(obj.FindProperty("pathParentTransform"));
 
-        EditorGUILayout.BeginVertical();
-        DrawButtons();
-        EditorGUILayout.EndVertical();
+    //     EditorGUILayout.BeginVertical();
+    //     DrawButtons();
+    //     EditorGUILayout.EndVertical();
 
-        obj.ApplyModifiedProperties();
-    }
+    //     obj.ApplyModifiedProperties();
+    // }
 
-    void DrawButtons()
-    {
-        if (GUILayout.Button("Add Waypoint"))
-        {
-            // Add a waypoint to the path
-            GameObject waypointObject = new GameObject("Waypoint " + pathParentTransform.childCount);
-            waypointObject.transform.SetParent(pathParentTransform, true);
-            Selection.activeGameObject = waypointObject;
-        }
+    // void DrawButtons()
+    // {
+    //     if (GUILayout.Button("Add Waypoint"))
+    //     {
+    //         // Add a waypoint to the path
+    //         GameObject waypointObject = new GameObject("Waypoint " + pathParentTransform.childCount);
+    //         waypointObject.transform.SetParent(pathParentTransform, true);
+    //         Selection.activeGameObject = waypointObject;
+    //     }
 
-        if (GUILayout.Button("Remove Waypoint"))
-        {
-            GameObject selectedWaypoint = Selection.activeGameObject;
-            if (selectedWaypoint != null)
-                DestroyImmediate(selectedWaypoint);
-        }
-    }
+    //     if (GUILayout.Button("Remove Waypoint"))
+    //     {
+    //         GameObject selectedWaypoint = Selection.activeGameObject;
+    //         if (selectedWaypoint != null)
+    //             DestroyImmediate(selectedWaypoint);
+    //     }
+    // }
 }
