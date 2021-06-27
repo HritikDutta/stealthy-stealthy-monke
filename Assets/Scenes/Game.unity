@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 35631959}
   m_Layer: 0
-  m_Name: Tiggers
+  m_Name: Triggers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3873,6 +3873,7 @@ MonoBehaviour:
   squads:
   - {fileID: 1566007601}
   - {fileID: 1184817968}
+  numActiveSquads: 0
 --- !u!4 &290008447
 Transform:
   m_ObjectHideFlags: 0
