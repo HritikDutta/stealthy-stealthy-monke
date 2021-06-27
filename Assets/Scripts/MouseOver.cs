@@ -68,6 +68,12 @@ public class MouseOver : MonoBehaviour
         shouldHighlight = false;
     }
 
+    public void Enable()
+    {
+        highlightRenderer.enabled = true;
+        shouldHighlight = true;
+    }
+
     public void SetColor(Color _color)
     {
         highlightRenderer.color = _color;

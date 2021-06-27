@@ -50,6 +50,7 @@ public class TutorialManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
+            Level.mouseOver.Enable();
             promptPanels[currentStageIndex].SetActive(false);
             Time.timeScale = 1f;
 
@@ -64,6 +65,8 @@ public class TutorialManager : MonoBehaviour
         Time.timeScale = 0f;
         promptPanels[currentStageIndex].SetActive(true);
         triggers[currentStageIndex].Disable();
+
+        Level.mouseOver.Disable();
     }
 
     public static void TriggerNext()
