@@ -189,4 +189,8 @@ public class Level : MonoBehaviour
     public static bool sectionsEnabled {
         get { return instance._sectionsEnabled; }
     }
+
+    public static int currentSectionIndex {
+        get { return instance._currentSectionIndex; }
+    }
 }

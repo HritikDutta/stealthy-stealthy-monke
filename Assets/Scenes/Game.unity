@@ -3766,6 +3766,22 @@ PrefabInstance:
     m_TransformParent: {fileID: 516565883}
     m_Modifications:
     - target: {fileID: 4555956550263962972, guid: 95bc5451de4f80645a94fef5a331dcd4, type: 3}
+      propertyPath: sectionIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555956550263962972, guid: 95bc5451de4f80645a94fef5a331dcd4, type: 3}
+      propertyPath: viewAreaSize.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555956550263962972, guid: 95bc5451de4f80645a94fef5a331dcd4, type: 3}
+      propertyPath: viewAreaSize.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555956550263962972, guid: 95bc5451de4f80645a94fef5a331dcd4, type: 3}
+      propertyPath: viewAreaPivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555956550263962972, guid: 95bc5451de4f80645a94fef5a331dcd4, type: 3}
       propertyPath: patrolPathTransform
       value: 
       objectReference: {fileID: 855474555}

@@ -17,6 +17,8 @@ public class MouseOver : MonoBehaviour
 
     private List<Vector3> gridPath = new List<Vector3>();
 
+    private bool shouldHighlight = true;
+
     void Awake()
     {
         highlightRenderer = highlighter.GetComponent<SpriteRenderer>();
@@ -27,6 +29,9 @@ public class MouseOver : MonoBehaviour
 
     void Update()
     {
+        if (!shouldHighlight)
+            return;
+
         Vector3 screenPosition = Input.mousePosition;
         Vector3 worldPosition = camera.ScreenToWorldPoint(screenPosition);
         worldPosition.z = 0f;
@@ -57,9 +62,16 @@ public class MouseOver : MonoBehaviour
         return position.y < Level.sectionTop && position.y >= Level.sectionBottom;
     }
 
+    public void Disable()
+    {
+        highlightRenderer.enabled = false;
+        shouldHighlight = false;
+    }
+
     public void SetColor(Color _color)
     {
         highlightRenderer.color = _color;
+        shouldHighlight = true;
         redraw = true;
     }
 }

@@ -23,6 +23,7 @@ public class DemonBehaviour : MonoBehaviour
     public Transform patrolPathTransform;
 
     [Header("Patrol")]
+    public int sectionIndex;
     public Vector2Int viewAreaSize;
     public Vector2Int viewAreaPivot;    // @Todo: Have this as a per patrol waypoint kinda thing maybe? That might mean the demons have to be animated a bit...
 
@@ -57,6 +58,9 @@ public class DemonBehaviour : MonoBehaviour
 
     void Update()
     {
+        if (Level.sectionsEnabled && Level.currentSectionIndex != sectionIndex)
+            return;
+
         StartCoroutine(LightUpViewArea());
 
         switch (state)
@@ -71,9 +75,10 @@ public class DemonBehaviour : MonoBehaviour
 
                 // @Temp: This should be a proper vision cone/rectangle thingy based on where the demon is looking
 
-                Vector3Int currentGridPosition = Level.groundTilemap.WorldToCell(rb.position) + new Vector3Int(viewAreaPivot.x, viewAreaPivot.y, 0);
-                Vector3Int areaTopLeft = currentGridPosition + new Vector3Int(-viewAreaSize.x, viewAreaSize.y, 0);
-                Vector3Int areaBottomRight = currentGridPosition + new Vector3Int(viewAreaSize.x, -viewAreaSize.y, 0);
+                Vector3Int currentGridPosition = Level.groundTilemap.WorldToCell(rb.position);
+                Vector3Int offsetGridPosition = currentGridPosition + new Vector3Int(viewAreaPivot.x, viewAreaPivot.y, 0);
+                Vector3Int areaTopLeft = offsetGridPosition + new Vector3Int(-viewAreaSize.x, viewAreaSize.y, 0);
+                Vector3Int areaBottomRight = offsetGridPosition + new Vector3Int(viewAreaSize.x, -viewAreaSize.y, 0);
                 
                 foreach (MonkeSquad squad in Level.hiveMind.squads)
                 {
@@ -122,6 +127,9 @@ public class DemonBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (Level.sectionsEnabled && Level.currentSectionIndex != sectionIndex)
+            return;
+
         switch (state)
         {
             case DemonState.Patrolling:
@@ -143,7 +151,7 @@ public class DemonBehaviour : MonoBehaviour
             {
                 Vector3Int currentGridPosition = Level.groundTilemap.WorldToCell(rb.position);
 
-                if (stamina == 0 || target.mood == MonkeMood.Hiding)
+                if (stamina == 0 || target.mood == MonkeMood.Hiding || target.mood == MonkeMood.Captured || targetSquad.finished)
                 {
                     state = DemonState.Returning;
 

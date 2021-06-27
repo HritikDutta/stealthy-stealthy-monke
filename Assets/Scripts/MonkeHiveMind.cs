@@ -23,7 +23,9 @@ public class MonkeHiveMind : MonoBehaviour
     private float lastSwitchTime = 0f;
 
     private int numSquadsLeftInSection;
-    private int numActiveSquads;
+
+    [HideInInspector]
+    public int numActiveSquads;
 
     void Awake()
     {
@@ -160,8 +162,16 @@ public class MonkeHiveMind : MonoBehaviour
             {
                 // @Todo: Failure condition
                 Debug.Log("Level Failed");
-                // return;
+                Level.mouseOver.Disable();
+                return;
             }
+
+            // Change highlight color
+            selectedSquadIndex = (selectedSquadIndex + 1) % squads.Count;
+            while (squads[selectedSquadIndex].Eliminated || squads[selectedSquadIndex].finished)
+                selectedSquadIndex = (selectedSquadIndex + 1) % squads.Count;
+
+            Level.mouseOver.SetColor(squads[selectedSquadIndex].color);
 
             if (numSquadsLeftInSection <= 0 && numActiveSquads > 0)
                 Level.GoToNextSection();
