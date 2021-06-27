@@ -243,13 +243,14 @@ public class DemonBehaviour : MonoBehaviour
                 Vector3Int gridPosition = currentGridPosition + new Vector3Int(x, y, 0);
                 if (Level.groundTilemap.HasTile(gridPosition))
                 {
+                    Level.groundTilemap.SetTileFlags(gridPosition, TileFlags.None);
                     Level.groundTilemap.SetColor(gridPosition, Color.white);
-                    Level.groundTilemap.RefreshTile(gridPosition);
                 }
             }
         }
 
         yield return null;
+
 
         yield return new WaitForEndOfFrame();
 
@@ -264,7 +265,7 @@ public class DemonBehaviour : MonoBehaviour
                 if (Level.groundTilemap.HasTile(gridPosition))
                 {
                     Level.groundTilemap.SetColor(gridPosition, defaultTint);
-                    Level.groundTilemap.RefreshTile(gridPosition);
+                    Level.groundTilemap.RefreshTile(gridPosition);  // Also resets tile flags back to TileFlags.LockColor
                 }
             }
         }
