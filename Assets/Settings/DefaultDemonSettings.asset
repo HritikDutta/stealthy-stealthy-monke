@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DefaultDemonSettings
   m_EditorClassIdentifier: 
   patrolSpeed: 2
-  chaseSpeed: 20
+  chaseSpeed: 10
   startState: 0
   maxStamina: 50
   minStamina: 30
