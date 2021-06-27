@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Room Tileset_68
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: -4232560716972305997, guid: 5a331d96e03c4a945b55b1a89ffaf403, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5170366, g: 0.47305092, b: 0.8301887, a: 1}
   m_Transform:
     e00: 1
     e01: 0
@@ -32,5 +32,5 @@ MonoBehaviour:
     e32: 0
     e33: 1
   m_InstancedGameObject: {fileID: 0}
-  m_Flags: 1
+  m_Flags: 0
   m_ColliderType: 1

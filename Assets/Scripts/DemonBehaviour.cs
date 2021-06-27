@@ -57,6 +57,8 @@ public class DemonBehaviour : MonoBehaviour
 
     void Update()
     {
+        StartCoroutine(LightUpViewArea());
+
         switch (state)
         {
             case DemonState.Patrolling:
@@ -227,6 +229,45 @@ public class DemonBehaviour : MonoBehaviour
 
         Level.finder.UpdatePath(currentGridPosition, destGridPosition, ref gridPath);
         gridPathIndex = 0;
+
+        yield return null;
+    }
+
+    private IEnumerator LightUpViewArea()
+    {
+        Vector3Int currentGridPosition = Level.groundTilemap.WorldToCell(rb.position) + new Vector3Int(viewAreaPivot.x, viewAreaPivot.y, 0);
+        for (int y = -viewAreaSize.y; y <= viewAreaSize.y; y++)
+        {
+            for (int x = -viewAreaSize.x; x <= viewAreaSize.x; x++)
+            {
+                Vector3Int gridPosition = currentGridPosition + new Vector3Int(x, y, 0);
+                if (Level.groundTilemap.HasTile(gridPosition))
+                {
+                    Level.groundTilemap.SetColor(gridPosition, Color.white);
+                    Level.groundTilemap.RefreshTile(gridPosition);
+                }
+            }
+        }
+
+        yield return null;
+
+        yield return new WaitForEndOfFrame();
+
+        Color defaultTint = new Color(0.5170366f, 0.4730509f, 0.8301887f, 1f);
+
+        // Could've cached this but meh...
+        for (int y = -viewAreaSize.y; y <= viewAreaSize.y; y++)
+        {
+            for (int x = -viewAreaSize.x; x <= viewAreaSize.x; x++)
+            {
+                Vector3Int gridPosition = currentGridPosition + new Vector3Int(x, y, 0);
+                if (Level.groundTilemap.HasTile(gridPosition))
+                {
+                    Level.groundTilemap.SetColor(gridPosition, defaultTint);
+                    Level.groundTilemap.RefreshTile(gridPosition);
+                }
+            }
+        }
 
         yield return null;
     }
