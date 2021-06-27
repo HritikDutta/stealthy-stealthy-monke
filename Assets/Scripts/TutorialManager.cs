@@ -6,7 +6,7 @@ public class TutorialManager : MonoBehaviour
 {
     public static TutorialManager instance;
 
-    public string[] prompts;
+    public bool skipTutorial = false;
     public GameObject[] promptPanels;
 
     private List<TutorialTrigger> triggers = new List<TutorialTrigger>();
@@ -22,6 +22,9 @@ public class TutorialManager : MonoBehaviour
         else if (instance != this)
             Destroy(gameObject);
         
+        if (skipTutorial)
+            return;
+
         Transform triggerParent = transform.Find("Triggers");
         foreach(Transform trig in triggerParent)
         {
@@ -33,12 +36,18 @@ public class TutorialManager : MonoBehaviour
 
     void Start()
     {
+        if (skipTutorial)
+            return;
+
         currentStageIndex = 0;
         triggers[currentStageIndex].Enable();
     }
 
     void Update()
     {
+        if (skipTutorial)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Return))
         {
             promptPanels[currentStageIndex].SetActive(false);
@@ -53,13 +62,15 @@ public class TutorialManager : MonoBehaviour
     private void _TriggerNext()
     {
         Time.timeScale = 0f;
-        Debug.Log(prompts[currentStageIndex]);
         promptPanels[currentStageIndex].SetActive(true);
         triggers[currentStageIndex].Disable();
     }
 
     public static void TriggerNext()
     {
+        if (instance.skipTutorial)
+            return;
+
         instance._TriggerNext();
     }
 }

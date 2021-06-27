@@ -14,6 +14,7 @@ public class Level : MonoBehaviour
     public AudioManager _audio;
 
     [Header("Level")]
+    public string nextScene;
     public CameraMove _levelCamera;
     public Tilemap _groundTilemap;
     public Tilemap _wallTilemap;
@@ -41,6 +42,8 @@ public class Level : MonoBehaviour
 
     private int _sectionTop;
     private int _sectionBottom;
+
+    private bool _doorIsOpen;
 
     void Awake()
     {
@@ -109,7 +112,10 @@ public class Level : MonoBehaviour
         instance._currentSectionIndex++;
         
         if (instance._currentSectionIndex >= instance._sectionTriggers.Count)
+        {
+            Application.LoadLevel(instance.nextScene);
             return;
+        }
 
         instance.StartSection();
     }
@@ -143,7 +149,7 @@ public class Level : MonoBehaviour
     public static void UnlockDoor(MonkeSquad squad)
     {
         foreach(LevelEndDoor door in instance._levelEndDoorTiles)
-            door.Open(squad.collectedKey);
+            instance._doorIsOpen = door.Open(squad.collectedKey);
     }
 
     public static CameraMove levelCamera {
@@ -196,5 +202,9 @@ public class Level : MonoBehaviour
 
     public static int currentSectionIndex {
         get { return instance._currentSectionIndex; }
+    }
+
+    public static bool doorIsOpen {
+        get { return instance._doorIsOpen; }
     }
 }

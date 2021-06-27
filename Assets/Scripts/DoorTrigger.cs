@@ -40,13 +40,15 @@ public class DoorTrigger : MonoBehaviour
             {
                 case DoorType.SectionEnd:
                 {
-                    // Level.GoToNextSection();
                     Level.SendSquadToNextSection(monke.mySquad);
                 } break;
 
                 case DoorType.LevelEnd:
                 {
                     Level.UnlockDoor(monke.mySquad);
+
+                    if (Level.doorIsOpen)
+                        Level.SendSquadToNextSection(monke.mySquad);
                 } break;
             }
         }

@@ -19,15 +19,16 @@ public class LevelEndDoor : MonoBehaviour
         Level.AddDoorTile(this);
     }
 
-    public void Open(bool hasKey)
+    public bool Open(bool hasKey)
     {
         if (isOpen)
-            return;
+            return true;
         
         if (!hasKey)
         {
+            // @Todo: Show prompt
             Debug.Log("Need key to open door!");
-            return;
+            return false;
         }
 
         Level.audio.Play("Door Open");
@@ -36,6 +37,6 @@ public class LevelEndDoor : MonoBehaviour
         Level.interactableTilemap.RefreshTile(gridPosition);
         isOpen = true;
 
-        Debug.Log("End of level!");
+        return true;
     }
 }
