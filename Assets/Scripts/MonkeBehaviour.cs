@@ -266,7 +266,7 @@ public class MonkeBehaviour : MonoBehaviour
         visual.SetTarget(bananaTransform, true);
     }
 
-    public void StartRuningAway(Transform _guardTransform)
+    public void StartRunningAway(Transform _guardTransform)
     {
         if (mood == MonkeMood.Captured)
             return;

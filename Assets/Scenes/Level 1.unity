@@ -3021,6 +3021,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mouseOver: {fileID: 817205270}
+  _audio: {fileID: 1863662789}
   _levelCamera: {fileID: 817205271}
   _groundTilemap: {fileID: 1632615671}
   _wallTilemap: {fileID: 1515371567}
@@ -9775,6 +9776,8 @@ MonoBehaviour:
   color: {r: 0.85098046, g: 0.3803922, b: 0.24705884, a: 1}
   monkes: []
   numActiveMonkes: 0
+  finished: 0
+  collectedKey: 0
 --- !u!4 &1515386064
 Transform:
   m_ObjectHideFlags: 0
@@ -27435,6 +27438,8 @@ MonoBehaviour:
   color: {r: 1, g: 0.882353, b: 0.10196079, a: 1}
   monkes: []
   numActiveMonkes: 0
+  finished: 0
+  collectedKey: 0
 --- !u!1 &1706256420
 GameObject:
   m_ObjectHideFlags: 0
@@ -28555,6 +28560,82 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4376223043432539951, guid: d6745bc5c8eb3614f9ea346f5951a109, type: 3}
   m_PrefabInstance: {fileID: 1839502881}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1863662788
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1863662790}
+  - component: {fileID: 1863662789}
+  m_Layer: 0
+  m_Name: Audio Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1863662789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863662788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdef131213ba8784db0cd3a59d6ff8a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Breaking Armour
+    clip: {fileID: 8300000, guid: ca0291aec6b918d49ae0fe23e25ac230, type: 3}
+    volume: 0.35
+    source: {fileID: 0}
+  - name: Breaking Sword
+    clip: {fileID: 8300000, guid: ef0a0b7f3faa39a418e6ee6e77a3837e, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+  - name: Door Open
+    clip: {fileID: 8300000, guid: e0b5129941cc44e47b6c2ad7a83d48dc, type: 3}
+    volume: 0.3
+    source: {fileID: 0}
+  - name: Collect Key
+    clip: {fileID: 8300000, guid: b568609656d076448a82b17bc94dab36, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+  - name: Collect Letter
+    clip: {fileID: 8300000, guid: a959f9b5824a075439ae6c3f6bf18438, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+  - name: Monkey Panic
+    clip: {fileID: 8300000, guid: 2f180e8374ed9cb40b2627e88957c6ad, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+  - name: Demon Alert
+    clip: {fileID: 8300000, guid: 0bdc76fac0c927a409908805887f7e8d, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+  - name: Demon Returning
+    clip: {fileID: 8300000, guid: 5352cea2d45f778428fb8f7cbb81dbab, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+--- !u!4 &1863662790
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863662788}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1879404882
 GameObject:
   m_ObjectHideFlags: 0
@@ -28818,7 +28899,6 @@ MonoBehaviour:
   squads:
   - {fileID: 1688040986}
   - {fileID: 1515386063}
-  collectedKey: 0
 --- !u!1 &2096712854
 GameObject:
   m_ObjectHideFlags: 0

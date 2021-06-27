@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc73d0b6381ed6444a90b9ab7b3f0c1d, type: 3}
   m_Name: Breakable Armour Settings
   m_EditorClassIdentifier: 
+  audioClipName: Breaking Armour
   soundRadius: 5
   intactSprite: {fileID: 11400000, guid: 877966796334ba942b780637d8b61057, type: 2}
   brokenSprite: {fileID: 11400000, guid: 799685627bc7a3946b0718caf6900a03, type: 2}

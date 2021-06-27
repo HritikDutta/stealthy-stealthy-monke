@@ -6,8 +6,6 @@ using UnityEngine.Tilemaps;
 
 public class MonkeHiveMind : MonoBehaviour
 {
-    public static MonkeHiveMind instance;
-
     [Header("Input")]
     public float switchInterval = 1f;
 
@@ -29,13 +27,6 @@ public class MonkeHiveMind : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(gameObject);
-        
-        DontDestroyOnLoad(gameObject);
-
         camera = Camera.main;
     }
 
@@ -145,8 +136,9 @@ public class MonkeHiveMind : MonoBehaviour
 
     public void DemonStartedChasing(MonkeSquad squad, Transform guardTransform)
     {
+        Level.audio.Play("Monkey Panic");
         foreach (MonkeBehaviour monke in squad.monkes)
-            monke.StartRuningAway(guardTransform);
+            monke.StartRunningAway(guardTransform);
     }
 
     public void DemonStoppedChasing(MonkeSquad squad)
@@ -167,10 +159,11 @@ public class MonkeHiveMind : MonoBehaviour
             if (numActiveSquads <= 0)
             {
                 // @Todo: Failure condition
+                Debug.Log("Level Failed");
                 // return;
             }
 
-            if (numSquadsLeftInSection <= 0)
+            if (numSquadsLeftInSection <= 0 && numActiveSquads > 0)
                 Level.GoToNextSection();
         }
 

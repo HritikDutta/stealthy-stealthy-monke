@@ -40,6 +40,7 @@ public class Shiny : MonoBehaviour
     private void MakeSound()
     {        
         breakRipple.Play();
+        Level.audio.Play(settings.audioClipName);
 
         DemonBehaviour closestDemon = null;
         float minSqrDistanceSoFar = float.MaxValue;

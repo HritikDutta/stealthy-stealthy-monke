@@ -75,7 +75,7 @@ public class DemonBehaviour : MonoBehaviour
                 Vector3Int areaTopLeft = currentGridPosition + new Vector3Int(-viewAreaSize.x, viewAreaSize.y, 0);
                 Vector3Int areaBottomRight = currentGridPosition + new Vector3Int(viewAreaSize.x, -viewAreaSize.y, 0);
                 
-                foreach (MonkeSquad squad in MonkeHiveMind.instance.squads)
+                foreach (MonkeSquad squad in Level.hiveMind.squads)
                 {
                     if (state == DemonState.Chasing)
                         break;
@@ -93,7 +93,7 @@ public class DemonBehaviour : MonoBehaviour
                             targetSquad = squad;
                             target = monke;     // @Todo: Will it be more iteresting if a random monke was picked?
 
-                            MonkeHiveMind.instance.DemonStartedChasing(squad, transform);
+                            Level.hiveMind.DemonStartedChasing(squad, transform);
 
                             Level.finder.UpdatePath(currentGridPosition, monkeGridPosition, ref gridPath);
                             gridPathIndex = 0;
@@ -108,8 +108,8 @@ public class DemonBehaviour : MonoBehaviour
             {
                 state = DemonState.Returning;
 
-                MonkeHiveMind.instance.Captured(target);
-                MonkeHiveMind.instance.DemonStoppedChasing(targetSquad);
+                Level.hiveMind.Captured(target);
+                Level.hiveMind.DemonStoppedChasing(targetSquad);
 
                 Vector3Int currentGridPosition = Level.groundTilemap.WorldToCell(rb.position);
                 Vector3Int destGridPosition = Level.groundTilemap.WorldToCell(patrolPath[patrolPathIndex].position);
@@ -147,7 +147,7 @@ public class DemonBehaviour : MonoBehaviour
                 {
                     state = DemonState.Returning;
 
-                    MonkeHiveMind.instance.DemonStoppedChasing(targetSquad);
+                    Level.hiveMind.DemonStoppedChasing(targetSquad);
 
                     Vector3Int destGridPosition = Level.groundTilemap.WorldToCell(patrolPath[patrolPathIndex].position);
                     Level.finder.UpdatePath(currentGridPosition, destGridPosition, ref gridPath);
@@ -224,6 +224,8 @@ public class DemonBehaviour : MonoBehaviour
 
         state = DemonState.Returning;
 
+        Level.audio.Play("Demon Returning");
+
         Vector3Int currentGridPosition = Level.groundTilemap.WorldToCell(rb.position);
         Vector3Int destGridPosition = Level.groundTilemap.WorldToCell(patrolPath[patrolPathIndex].position);
 
@@ -283,6 +285,8 @@ public class DemonBehaviour : MonoBehaviour
         Level.finder.UpdatePath(currentGridPosition, positionToCheck, ref gridPath);
         gridPathIndex = 0;
         state = DemonState.Investigating;
+        
+        Level.audio.Play("Demon Alert");
 
         Debug.Log("Investigating!");
     }

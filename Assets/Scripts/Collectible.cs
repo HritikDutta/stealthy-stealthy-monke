@@ -14,6 +14,9 @@ public class Collectible : MonoBehaviour
     public CollectibleType type;
     public float hoverTime = 1f;
 
+    [Header("Audio")]
+    public string audioClipName;
+
     private Vector3Int gridPosition;
     private bool hasBeenCollected;
 
@@ -34,12 +37,7 @@ public class Collectible : MonoBehaviour
         if (hasBeenCollected)
             return;
 
-        Debug.Log(collector);
-
-        if (type == CollectibleType.Key)
-            Debug.Log("Collected Key!");
-        else
-            Debug.Log("Collected Letter!");
+        Level.audio.Play(audioClipName);
 
         StartCoroutine(PlayCollectAnimation(collector));
         hasBeenCollected = true;

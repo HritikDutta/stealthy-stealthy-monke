@@ -30,6 +30,8 @@ public class LevelEndDoor : MonoBehaviour
             return;
         }
 
+        Level.audio.Play("Door Open");
+
         Level.interactableTilemap.SetTile(gridPosition, settings.openTile);
         Level.interactableTilemap.RefreshTile(gridPosition);
         isOpen = true;

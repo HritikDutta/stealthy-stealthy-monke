@@ -128,3 +128,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   hoverTime: 1.5
+  audioClipName: Collect Letter

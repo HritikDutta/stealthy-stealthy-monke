@@ -10,6 +10,9 @@ public class Level : MonoBehaviour
     [Header("UI")]
     public MouseOver _mouseOver;
 
+    [Header("Audio")]
+    public AudioManager _audio;
+
     [Header("Level")]
     public CameraMove _levelCamera;
     public Tilemap _groundTilemap;
@@ -46,7 +49,7 @@ public class Level : MonoBehaviour
         else
             Destroy(gameObject);
         
-        DontDestroyOnLoad(gameObject);  // @Todo: Maybe not?
+        // DontDestroyOnLoad(gameObject);  // @Todo: Maybe not?
 
         foreach (Transform demon in _demonsObject)
             _demons.Add(demon.GetComponent<DemonBehaviour>());
@@ -81,8 +84,12 @@ public class Level : MonoBehaviour
     void Start()
     {
         _hiveMind.Init();
-        StartSection();
-        _hiveMind.TeleportEveryone(_groundTilemap.WorldToCell(_sectionStarts[_currentSectionIndex].position));
+
+        if (sectionsEnabled)
+        {
+            StartSection();
+            _hiveMind.TeleportEveryone(_groundTilemap.WorldToCell(_sectionStarts[_currentSectionIndex].position));
+        }
     }
 
     public static void AddDoorTile(LevelEndDoor door)
@@ -153,6 +160,10 @@ public class Level : MonoBehaviour
 
     public static MonkeHiveMind hiveMind {
         get { return instance._hiveMind; }
+    }
+
+    public static AudioManager audio {
+        get { return instance._audio; }
     }
 
     public static MouseOver mouseOver {
