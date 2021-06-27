@@ -49,7 +49,8 @@ SpriteAtlas:
     - {fileID: 2800000, guid: b6ccc5004f982c44487032f9adc979da, type: 3}
     - {fileID: 2800000, guid: 59ba785d086885c4f80a9852b31b7a25, type: 3}
     - {fileID: 2800000, guid: c762b167f5d12184db85325665d40da4, type: 3}
-    totalSpriteSurfaceArea: 39680
+    - {fileID: 2800000, guid: f6d2e8b68da8196428ed2c7952e6795a, type: 3}
+    totalSpriteSurfaceArea: 41984
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -207,6 +208,7 @@ SpriteAtlas:
   - {fileID: -8542744403945273253, guid: 5a331d96e03c4a945b55b1a89ffaf403, type: 3}
   - {fileID: -5017699084474648683, guid: 5a331d96e03c4a945b55b1a89ffaf403, type: 3}
   - {fileID: -6320895142550583258, guid: 5a331d96e03c4a945b55b1a89ffaf403, type: 3}
+  - {fileID: 21300000, guid: f6d2e8b68da8196428ed2c7952e6795a, type: 3}
   - {fileID: 21300000, guid: c762b167f5d12184db85325665d40da4, type: 3}
   - {fileID: -5076754513298380769, guid: 59ba785d086885c4f80a9852b31b7a25, type: 3}
   - {fileID: 9086930611110559423, guid: 59ba785d086885c4f80a9852b31b7a25, type: 3}
@@ -363,6 +365,7 @@ SpriteAtlas:
   - Room Tileset_53
   - Room Tileset_50
   - Room Tileset_51
+  - Ripple
   - Highlight
   - MonkeyIdleSprites_3
   - MonkeyIdleSprites_2
