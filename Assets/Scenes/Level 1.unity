@@ -3002,6 +3002,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  target: {fileID: 0}
+  maskTargetScale: {x: 0, y: 0, z: 0}
 --- !u!81 &817205272
 AudioListener:
   m_ObjectHideFlags: 0
@@ -3678,6 +3680,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mouseOver: {fileID: 817205270}
   _audio: {fileID: 1863662789}
+  nextScene: 
   _levelCamera: {fileID: 817205271}
   _groundTilemap: {fileID: 1632615671}
   _wallTilemap: {fileID: 1515371567}
