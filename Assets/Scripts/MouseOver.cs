@@ -13,7 +13,6 @@ public class MouseOver : MonoBehaviour
     private SpriteRenderer highlightRenderer;
 
     private Vector3Int previousGridPosition;
-    private Vector3Int startPosition;
     private bool redraw;
 
     private List<Vector3> gridPath = new List<Vector3>();
@@ -24,7 +23,6 @@ public class MouseOver : MonoBehaviour
 
         camera = GetComponent<Camera>();
         previousGridPosition = new Vector3Int(0, 0, 10);
-        startPosition = new Vector3Int(0, 0, 10);
     }
 
     void Update()
@@ -42,10 +40,8 @@ public class MouseOver : MonoBehaviour
             highlighter.position = (Vector3) gridPosition + new Vector3(0.5f, 0.5f, 0f);
             highlightRenderer.enabled = true;
 
-            Level.finder.UpdatePath(startPosition, gridPosition, ref gridPath);
-
-            // @Todo: Draw this path onto the screen with a dotted line
-            // Will need to do this manually since Unity's line renderer SUCKS ASSS UGHHHHHH!!
+            // @Todo: Draw this path onto the screen with a dotted line - Taking too much time
+            // Will need to do this manually since Unity's line renderer SUCKS ASS UGHHHHHH!!
 
             // @Todo: Different icons for interactables?
         }
@@ -61,10 +57,9 @@ public class MouseOver : MonoBehaviour
         return position.y < Level.sectionTop && position.y >= Level.sectionBottom;
     }
 
-    public void SetColorAndStart(Color _color, Vector3 _startPosition)
+    public void SetColor(Color _color)
     {
         highlightRenderer.color = _color;
-        startPosition = Level.groundTilemap.WorldToCell(_startPosition);
         redraw = true;
     }
 }

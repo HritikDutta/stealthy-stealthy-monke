@@ -66,7 +66,7 @@ public class Shiny : MonoBehaviour
         }
     }
 
-    void OnDrawGizmos()
+    void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(transform.position, settings.soundRadius);
     }

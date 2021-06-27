@@ -47,7 +47,7 @@ public class MonkeHiveMind : MonoBehaviour
 
         // monkeyCountText.text = monkeCount.ToString();
         // selectedSquadText.text = selectedSquadIndex.ToString();
-        Level.mouseOver.SetColorAndStart(squads[selectedSquadIndex].color, squads[selectedSquadIndex].commandBanana.position);
+        Level.mouseOver.SetColor(squads[selectedSquadIndex].color);
         
         collectedKey = false;
     }
@@ -72,7 +72,7 @@ public class MonkeHiveMind : MonoBehaviour
             {
                 selectedSquadIndex = (selectedSquadIndex + 1) % squads.Count;
                 // selectedSquadText.text = selectedSquadIndex.ToString();
-                Level.mouseOver.SetColorAndStart(squads[selectedSquadIndex].color, squads[selectedSquadIndex].commandBanana.position);
+                Level.mouseOver.SetColor(squads[selectedSquadIndex].color);
                 lastSwitchTime = Time.time;
             }
 
@@ -80,7 +80,7 @@ public class MonkeHiveMind : MonoBehaviour
             {
                 selectedSquadIndex = (selectedSquadIndex + squads.Count - 1) % squads.Count;
                 // selectedSquadText.text = selectedSquadIndex.ToString();
-                Level.mouseOver.SetColorAndStart(squads[selectedSquadIndex].color, squads[selectedSquadIndex].commandBanana.position);
+                Level.mouseOver.SetColor(squads[selectedSquadIndex].color);
                 lastSwitchTime = Time.time;
             }
         }
@@ -106,6 +106,9 @@ public class MonkeHiveMind : MonoBehaviour
     {
         foreach (MonkeSquad squad in squads)
             squad.TeleportEveryone(gridPosition);
+
+        // Just to be safe
+        Level.mouseOver.SetColor(squads[selectedSquadIndex].color);
     }
 
     public void DemonStartedChasing(MonkeSquad squad, Transform guardTransform)

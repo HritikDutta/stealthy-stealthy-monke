@@ -125,8 +125,6 @@ public class Level : MonoBehaviour
         
         _sectionTop    = _groundTilemap.WorldToCell(_cameraPositions[_currentSectionIndex].position + new Vector3(0f,  _sectionHeights[_currentSectionIndex] / 2f, 0f)).y;
         _sectionBottom = _groundTilemap.WorldToCell(_cameraPositions[_currentSectionIndex].position + new Vector3(0f, -_sectionHeights[_currentSectionIndex] / 2f, 0f)).y;
-
-        Debug.Log("Top: " + _sectionTop + ", Bottom: " + _sectionBottom);
     }
 
     public static void UnlockDoor()
