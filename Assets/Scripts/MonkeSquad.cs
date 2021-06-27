@@ -12,6 +12,12 @@ public class MonkeSquad : MonoBehaviour
 
     private SpriteRenderer bananaRenderer;
 
+    [HideInInspector]
+    public bool finished;
+
+    [HideInInspector]
+    public bool collectedKey;
+
     void Awake()
     {
         bananaRenderer = commandBanana.GetComponent<SpriteRenderer>();
@@ -56,6 +62,13 @@ public class MonkeSquad : MonoBehaviour
         }
 
         numActiveMonkes = monkes.Count;
+        finished = false;
+        collectedKey = false;
+    }
+
+    public void RegisterKey()
+    {
+        collectedKey = true;
     }
 
     public void TeleportEveryone(Vector3Int gridPosition)
@@ -87,5 +100,9 @@ public class MonkeSquad : MonoBehaviour
     public void TellThemIDied()
     {
         numActiveMonkes--;
+    }
+
+    public bool Eliminated {
+        get { return numActiveMonkes <= 0; }
     }
 }

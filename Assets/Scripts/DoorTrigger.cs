@@ -34,16 +34,19 @@ public class DoorTrigger : MonoBehaviour
 
         if (col != null && ((1 << col.gameObject.layer) & mask) != 0)
         {
+            MonkeBehaviour monke = col.transform.GetComponent<MonkeBehaviour>();
+
             switch (type)
             {
                 case DoorType.SectionEnd:
                 {
-                    Level.GoToNextSection();
+                    // Level.GoToNextSection();
+                    Level.SendSquadToNextSection(monke.mySquad);
                 } break;
 
                 case DoorType.LevelEnd:
                 {
-                    Level.UnlockDoor();
+                    Level.UnlockDoor(monke.mySquad);
                 } break;
             }
         }

@@ -119,7 +119,7 @@ public class MonkeBehaviour : MonoBehaviour
                             restPosition = (Vector3) probePosition + new Vector3(0.5f, 0.5f, 0f);
 
                             if (col.type == CollectibleType.Key)
-                                Level.hiveMind.RegisterKey();
+                                mySquad.RegisterKey();
 
                             col.Collected(transform);
                             break;
@@ -156,7 +156,7 @@ public class MonkeBehaviour : MonoBehaviour
                             restPosition = (Vector3) probePosition + new Vector3(0.5f, 0.5f, 0f);
 
                             if (col.type == CollectibleType.Key)
-                                Level.hiveMind.RegisterKey();
+                                mySquad.RegisterKey();
 
                             col.Collected(transform);
                             break;

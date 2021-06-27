@@ -80,13 +80,9 @@ public class Level : MonoBehaviour
 
     void Start()
     {
-        if (!sectionsEnabled)
-        {
-            _hiveMind.Init();
-            return;
-        }
-
+        _hiveMind.Init();
         StartSection();
+        _hiveMind.TeleportEveryone(_groundTilemap.WorldToCell(_sectionStarts[_currentSectionIndex].position));
     }
 
     public static void AddDoorTile(LevelEndDoor door)
@@ -111,13 +107,23 @@ public class Level : MonoBehaviour
         instance.StartSection();
     }
 
+    public static void SendSquadToNextSection(MonkeSquad squad)
+    {
+        instance._SendSquadToNextSection(squad);
+    }
+
+    public void _SendSquadToNextSection(MonkeSquad squad)
+    {
+        int nextSectionIndex = (_currentSectionIndex + 1) % _sectionStarts.Count;
+        _hiveMind.SendSquadToPosition(squad, _groundTilemap.WorldToCell(_sectionStarts[nextSectionIndex].position));
+    }
+
     public void StartSection()
     {
         if (!sectionsEnabled)
             return;
         
         _sectionTriggers[_currentSectionIndex].Enable();
-        _hiveMind.TeleportEveryone(_groundTilemap.WorldToCell(_sectionStarts[_currentSectionIndex].position));
 
         float maskX = (float) (_groundTilemap.size.x + 1);
         Vector3 maskScale =  new Vector3(maskX, _sectionHeights[_currentSectionIndex], 1f);
@@ -127,10 +133,10 @@ public class Level : MonoBehaviour
         _sectionBottom = _groundTilemap.WorldToCell(_cameraPositions[_currentSectionIndex].position + new Vector3(0f, -_sectionHeights[_currentSectionIndex] / 2f, 0f)).y;
     }
 
-    public static void UnlockDoor()
+    public static void UnlockDoor(MonkeSquad squad)
     {
         foreach(LevelEndDoor door in instance._levelEndDoorTiles)
-            door.Open(instance._hiveMind.collectedKey);
+            door.Open(squad.collectedKey);
     }
 
     public static Tilemap groundTilemap {

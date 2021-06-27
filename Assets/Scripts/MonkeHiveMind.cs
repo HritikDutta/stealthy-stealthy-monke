@@ -22,10 +22,10 @@ public class MonkeHiveMind : MonoBehaviour
 
     private int selectedSquadIndex = 0;
 
-    [HideInInspector]
-    public bool collectedKey;
-
     private float lastSwitchTime = 0f;
+
+    private int numSquadsLeftInSection;
+    private int numActiveSquads;
 
     void Awake()
     {
@@ -41,19 +41,21 @@ public class MonkeHiveMind : MonoBehaviour
 
     void Start()
     {
-        int monkeCount = 0;
-        for (int i = 0; i < squads.Count; i++)
-            monkeCount += squads[i].monkes.Count;
+        // int monkeCount = 0;
+        // for (int i = 0; i < squads.Count; i++)
+        //     monkeCount += squads[i].monkes.Count;
 
         // monkeyCountText.text = monkeCount.ToString();
         // selectedSquadText.text = selectedSquadIndex.ToString();
         Level.mouseOver.SetColor(squads[selectedSquadIndex].color);
-        
-        collectedKey = false;
     }
 
     void Update()
     {
+        // No one left to control :/
+        if (numActiveSquads <= 0)
+            return;
+
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 screenPosition = Input.mousePosition;
@@ -71,6 +73,9 @@ public class MonkeHiveMind : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E) || Input.GetAxis("Mouse ScrollWheel") > 0f)
             {
                 selectedSquadIndex = (selectedSquadIndex + 1) % squads.Count;
+                while (squads[selectedSquadIndex].Eliminated || squads[selectedSquadIndex].finished)
+                    selectedSquadIndex = (selectedSquadIndex + 1) % squads.Count;
+
                 // selectedSquadText.text = selectedSquadIndex.ToString();
                 Level.mouseOver.SetColor(squads[selectedSquadIndex].color);
                 lastSwitchTime = Time.time;
@@ -79,6 +84,9 @@ public class MonkeHiveMind : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Q) || Input.GetAxis("Mouse ScrollWheel") < 0f)
             {
                 selectedSquadIndex = (selectedSquadIndex + squads.Count - 1) % squads.Count;
+                while (squads[selectedSquadIndex].Eliminated || squads[selectedSquadIndex].finished)
+                    selectedSquadIndex = (selectedSquadIndex + squads.Count - 1) % squads.Count;
+
                 // selectedSquadText.text = selectedSquadIndex.ToString();
                 Level.mouseOver.SetColor(squads[selectedSquadIndex].color);
                 lastSwitchTime = Time.time;
@@ -91,15 +99,12 @@ public class MonkeHiveMind : MonoBehaviour
         return position.y < Level.sectionTop && position.y >= Level.sectionBottom;
     }
 
-    public void RegisterKey()
-    {
-        collectedKey = true;
-    }
-
     public void Init()
     {
         foreach (MonkeSquad squad in squads)
             squad.Init();
+        
+        numActiveSquads = numSquadsLeftInSection = squads.Count;
     }
 
     public void TeleportEveryone(Vector3Int gridPosition)
@@ -109,6 +114,33 @@ public class MonkeHiveMind : MonoBehaviour
 
         // Just to be safe
         Level.mouseOver.SetColor(squads[selectedSquadIndex].color);
+    }
+
+    public void SendSquadToPosition(MonkeSquad squad, Vector3Int gridPosition)
+    {
+        if (squad.Eliminated || squad.finished)
+            return;
+
+        squad.finished = true;
+        squad.TeleportEveryone(gridPosition);
+        numSquadsLeftInSection--;
+
+        if (numSquadsLeftInSection <= 0)
+        {
+            foreach (MonkeSquad s in squads)
+                s.finished = false;
+                
+            Level.GoToNextSection();
+            numSquadsLeftInSection = numActiveSquads;
+        }
+        else
+        {
+            selectedSquadIndex = (selectedSquadIndex + 1) % squads.Count;
+            while (squads[selectedSquadIndex].Eliminated || squads[selectedSquadIndex].finished)
+                selectedSquadIndex = (selectedSquadIndex + 1) % squads.Count;
+
+            Level.mouseOver.SetColor(squads[selectedSquadIndex].color);
+        }
     }
 
     public void DemonStartedChasing(MonkeSquad squad, Transform guardTransform)
@@ -126,6 +158,21 @@ public class MonkeHiveMind : MonoBehaviour
     public void Captured(MonkeBehaviour monke)
     {
         monke.GetCaptured();
+
+        if (monke.mySquad.Eliminated)
+        {
+            numSquadsLeftInSection--;
+            numActiveSquads--;
+            
+            if (numActiveSquads <= 0)
+            {
+                // @Todo: Failure condition
+                // return;
+            }
+
+            if (numSquadsLeftInSection <= 0)
+                Level.GoToNextSection();
+        }
 
         // int monkeCount = 0;
         // for (int i = 0; i < squads.Count; i++)
