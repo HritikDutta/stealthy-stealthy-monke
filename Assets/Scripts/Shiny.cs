@@ -11,11 +11,16 @@ public class Shiny : MonoBehaviour
     private bool broken = false;
 
     private Vector3Int gridPosition;
+
+    private ParticleSystem breakRipple;
     
     void Start()
     {
         gridPosition = Level.interactableTilemap.WorldToCell(transform.position);
         Level.interactableTilemap.SetTile(gridPosition, settings.intactSprite);
+
+        breakRipple = transform.GetChild(0).GetComponent<ParticleSystem>();
+        breakRipple.startSize = settings.soundRadius * 2f;
     }
 
     public void Break()
@@ -34,6 +39,8 @@ public class Shiny : MonoBehaviour
 
     private void MakeSound()
     {        
+        breakRipple.Play();
+
         DemonBehaviour closestDemon = null;
         float minSqrDistanceSoFar = float.MaxValue;
 
@@ -52,9 +59,15 @@ public class Shiny : MonoBehaviour
             }
         }
 
-        Debug.Log("Making Sound! " + closestDemon + " should investigate...");
-
         if (minSqrDistanceSoFar <= settings.soundRadius * settings.soundRadius)
+        {
+            Debug.Log("Making Sound! " + closestDemon + " should investigate...");
             closestDemon.Investigate(gridPosition);
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, settings.soundRadius);
     }
 }
