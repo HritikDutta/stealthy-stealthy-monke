@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioClipName: Breaking Sword
   soundRadius: 5
+  ripple: {fileID: 1445305863629389754, guid: c95ab88d03d7acd499afb3e719ed4feb, type: 3}
   intactSprite: {fileID: 11400000, guid: bcbadec41b7fa754db0ba2812fecd275, type: 2}
   brokenSprite: {fileID: 11400000, guid: 00d81fd153e528b4497dcb3b1e055d4d, type: 2}

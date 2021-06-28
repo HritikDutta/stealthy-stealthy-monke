@@ -13,6 +13,7 @@ public class ShinySettings : ScriptableObject
     public float soundRadius = 5.0f;
 
     [Header("Visual")]
+    public GameObject ripple;
     public Tile intactSprite;
     public Tile brokenSprite;
 }

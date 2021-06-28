@@ -5,25 +5,24 @@ using UnityEngine.Tilemaps;
 
 public class HidingSpot : MonoBehaviour
 {
-    public Tile openTile;
-    public Tile closedTile;
+    public Sprite openTile;
+    public Sprite closedTile;
 
     private Vector3Int gridPosition;
     public int numMonkeysHiding = 0;
 
+    private SpriteRenderer renderer;
+
     void Start()
     {
         gridPosition = Level.interactableTilemap.WorldToCell(transform.position);
-        Level.interactableTilemap.SetTile(gridPosition, openTile);
+        renderer = GetComponent<SpriteRenderer>();
     }
 
     public void HideMonkey()
     {
         if (numMonkeysHiding == 0)
-        {
-            Level.interactableTilemap.SetTile(gridPosition, closedTile);
-            Level.interactableTilemap.RefreshTile(gridPosition);
-        }
+            renderer.sprite = closedTile;
 
         numMonkeysHiding++;
     }
@@ -33,9 +32,6 @@ public class HidingSpot : MonoBehaviour
         numMonkeysHiding--;
 
         if (numMonkeysHiding == 0)
-        {
-            Level.interactableTilemap.SetTile(gridPosition, openTile);
-            Level.interactableTilemap.RefreshTile(gridPosition);
-        }
+            renderer.sprite = openTile;
     }
 }

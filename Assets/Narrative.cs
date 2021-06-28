@@ -13,6 +13,12 @@ public class Narrative : MonoBehaviour
         index = 0;
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+            Next();
+    }
+
     public void Next()
     {
         index++;

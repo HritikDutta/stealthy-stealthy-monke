@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioClipName: Breaking Armour
   soundRadius: 5
+  ripple: {fileID: 1445305863629389754, guid: c95ab88d03d7acd499afb3e719ed4feb, type: 3}
   intactSprite: {fileID: 11400000, guid: 877966796334ba942b780637d8b61057, type: 2}
   brokenSprite: {fileID: 11400000, guid: 799685627bc7a3946b0718caf6900a03, type: 2}

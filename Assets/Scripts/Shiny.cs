@@ -12,37 +12,39 @@ public class Shiny : MonoBehaviour
 
     private Vector3Int gridPosition;
 
-    private ParticleSystem breakRipple;
-    
     void Start()
     {
         gridPosition = Level.interactableTilemap.WorldToCell(transform.position);
         Level.interactableTilemap.SetTile(gridPosition, settings.intactSprite);
 
-        breakRipple = transform.GetChild(0).GetComponent<ParticleSystem>();
-        breakRipple.startSize = settings.soundRadius * 2f;
-
         broken = false;
     }
 
-    public void Break()
+    public bool Break()
     {
         if (broken)
-            return;
+            return false;
+
+        broken = true;
 
         gameObject.layer = 0;
         MakeSound();
 
+        gridPosition = Level.interactableTilemap.WorldToCell(transform.position);
         Level.interactableTilemap.SetTile(gridPosition, settings.brokenSprite);
         Level.interactableTilemap.RefreshTile(gridPosition);
 
-        broken = true;
+        return true;
     }
 
     private void MakeSound()
     {        
-        breakRipple.Play();
         Level.audio.Play(settings.audioClipName);
+
+        GameObject ripple = Instantiate(settings.ripple, transform.position, Quaternion.identity);
+        ParticleSystem ps = ripple.GetComponent<ParticleSystem>();
+        ps.startSize = settings.soundRadius * 2.0f;
+        ps.Play();
 
         DemonBehaviour closestDemon = null;
         float minSqrDistanceSoFar = float.MaxValue;
@@ -51,7 +53,8 @@ public class Shiny : MonoBehaviour
 
         foreach (DemonBehaviour demon in Level.demons)
         {
-            if (demon.state == DemonState.Investigating)
+            if (demon.state == DemonState.Investigating ||
+                demon.state == DemonState.Chasing)
                 continue;
             
             float sqrDistance = (demon.transform.position - myPosition).sqrMagnitude;
@@ -67,6 +70,8 @@ public class Shiny : MonoBehaviour
             Debug.Log("Making Sound! " + closestDemon + " should investigate...");
             closestDemon.Investigate(gridPosition);
         }
+
+        gameObject.SetActive(false);
     }
 
     void OnDrawGizmosSelected()

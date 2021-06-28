@@ -79,7 +79,9 @@ public class MonkeBehaviour : MonoBehaviour
                     if (Level.interactableTilemap.HasTile(probePosition))
                     {
                         GameObject item = Level.interactableTilemap.GetInstantiatedObject(probePosition);
-
+                        if (item == null)
+                            continue;
+                            
                         int layer = 1 << item.layer;
                         if (layer == LayerMask.GetMask("HidingSpot"))
                         {
@@ -102,14 +104,22 @@ public class MonkeBehaviour : MonoBehaviour
                     if (Level.interactableTilemap.HasTile(probePosition))
                     {
                         GameObject item = Level.interactableTilemap.GetInstantiatedObject(probePosition);
+                        if (item == null)
+                            continue;
+
                         int layer = 1 << item.layer;
 
                         // @Todo: Decide if monkeys should break stuff on the way or not                        
                         if (layer == LayerMask.GetMask("Shiny"))
                         {
                             Shiny shiny = item.GetComponent<Shiny>();
-                            gridPath[currentPathIndex] = (Vector3) probePosition + new Vector3(0.5f, 0.5f, 0f);
-                            shiny.Break();
+                            if (shiny.Break())
+                            {
+                                if (currentPathIndex <= gridPath.Count)
+                                    gridPath[currentPathIndex] = (Vector3) probePosition + new Vector3(0.5f, 0.5f, 0f);
+                                else
+                                    restPosition = (Vector3) probePosition + new Vector3(0.5f, 0.5f, 0f);
+                            }
                             break;
                         }
 
@@ -140,13 +150,16 @@ public class MonkeBehaviour : MonoBehaviour
                     if (Level.interactableTilemap.HasTile(probePosition))
                     {
                         GameObject item = Level.interactableTilemap.GetInstantiatedObject(probePosition);
+                        if (item == null)
+                            continue;
+                            
                         int layer = 1 << item.layer;
 
                         if (layer == LayerMask.GetMask("Shiny"))
                         {
                             Shiny shiny = item.GetComponent<Shiny>();
-                            restPosition = (Vector3) probePosition + new Vector3(0.5f, 0.5f, 0f);
-                            shiny.Break();
+                            if (shiny.Break())
+                                restPosition = (Vector3) probePosition + new Vector3(0.5f, 0.5f, 0f);
                             break;
                         }
 

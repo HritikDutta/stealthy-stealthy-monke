@@ -48,7 +48,7 @@ public class TutorialManager : MonoBehaviour
         if (skipTutorial)
             return;
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) && promptPanels[currentStageIndex].activeSelf)
         {
             Level.mouseOver.Enable();
             promptPanels[currentStageIndex].SetActive(false);

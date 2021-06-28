@@ -49,7 +49,6 @@ public class Collectible : MonoBehaviour
         hasBeenCollected = true;
 
         Level.interactableTilemap.SetColor(gridPosition, new Color(0f, 0f, 0f, 0f));
-        Level.interactableTilemap.RefreshTile(gridPosition);
 
         if (type == CollectibleType.Letter)
             Level.LetterCollected();

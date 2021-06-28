@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc73d0b6381ed6444a90b9ab7b3f0c1d, type: 3}
   m_Name: DefaultShinySettings
   m_EditorClassIdentifier: 
+  audioClipName: 
   soundRadius: 15
+  ripple: {fileID: 1445305863629389754, guid: c95ab88d03d7acd499afb3e719ed4feb, type: 3}
+  intactSprite: {fileID: 0}
+  brokenSprite: {fileID: 0}

@@ -13,7 +13,6 @@ public class LevelEndDoor : MonoBehaviour
     {
         gridPosition = Level.interactableTilemap.WorldToCell(transform.position);
         Level.interactableTilemap.SetTile(gridPosition, settings.closedTile);
-        Level.interactableTilemap.RefreshTile(gridPosition);
         isOpen = false;
 
         Level.AddDoorTile(this);
@@ -34,7 +33,6 @@ public class LevelEndDoor : MonoBehaviour
         Level.audio.Play("Door Open");
 
         Level.interactableTilemap.SetTile(gridPosition, settings.openTile);
-        Level.interactableTilemap.RefreshTile(gridPosition);
         isOpen = true;
 
         return true;
